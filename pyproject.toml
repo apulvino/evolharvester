@@ -3,9 +3,9 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "EvolHarvest"
+name = "Evolharvester"
 version = "0.1.0"
-description = """Evolharvest pulls contents from structured HyPhy JSONs and restructures to CSV
+description = """Evolharvester pulls contents from structured HyPhy JSONs and restructures to CSV
 for later downstream parsing (e.g. with R/python) for subsequent statistical analysis/visualization."""
 readme = "README.md"
 requires-python = ">=3.10.19"
@@ -15,7 +15,7 @@ license = {text = "MIT"}
 dependencies = [
 	"numpy>=1.24",
 	"pandas>=2.0",
-]
+	]
 
 [tool.setuptools]
 package-dir = {"" = "src"}
@@ -23,6 +23,6 @@ package-dir = {"" = "src"}
 [tool.setuptools.packages.find]
 where = ["src"]
 
-####`evolharvest` exec on cli calling, EvolHarvest.cli:main
+####`eh` exec on cli calling, EvolHarvest.cli:main
 [project.scripts]
-evolharvest = "EvolHarvest.cli:main"
+eh = "Evolharvester.cli:main"
