@@ -25,4 +25,4 @@ where = ["src"]
 
 ####`eh` exec on cli calling, EvolHarvest.cli:main
 [project.scripts]
-eh = "Evolharvester.cli:main"
+eh = "evolharvester.cli:main"

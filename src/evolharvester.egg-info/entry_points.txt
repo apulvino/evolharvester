@@ -1,2 +1,2 @@
 [console_scripts]
-eh = EvolHarvest.cli:main
+eh = evolharvester.cli:main

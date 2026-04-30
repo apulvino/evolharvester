@@ -41,11 +41,11 @@ def main(argv=None) -> int:
     Command-line entry point for EvolHarvest.
 
     Usage examples:
-      evolharvest --tool fel --input /path/to/jsons --output /path/to/outdir --verbose
-      evolharvest fel --input /path/to/jsons --output /path/to/outdir --verbose
-      evolharvest --list-tools
+      eh --tool fel --input /path/to/jsons --output /path/to/outdir --verbose
+      eh fel --input /path/to/jsons --output /path/to/outdir --verbose
+      eh --list-tools
     """
-    parser = argparse.ArgumentParser(prog="evolharvest", description="Run JSON harvesters for evolutionary analysis outputs.")
+    parser = argparse.ArgumentParser(prog="eh", description="Run JSON harvesters for evolutionary analysis outputs.")
     # positional (optional) tool name
     parser.add_argument("tool_pos", nargs="?", default=None, help="Tool name to run (positional, alternative to --tool).")
     # named tool (backwards compatible)
