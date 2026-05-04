@@ -1,5 +1,5 @@
 Metadata-Version: 2.4
-Name: Evolharvester
+Name: evolharvester
 Version: 0.1.0
 Summary: Evolharvester pulls contents from structured HyPhy JSONs and restructures to CSV
 Author: Anthony T. Pulvino
@@ -9,4 +9,5 @@ Description-Content-Type: text/markdown
 License-File: LICENSE
 Requires-Dist: numpy>=1.24
 Requires-Dist: pandas>=2.0
+Requires-Dist: biopython>=1.85
 Dynamic: license-file

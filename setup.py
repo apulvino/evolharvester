@@ -2,14 +2,14 @@
 from setuptools import setup, find_packages
 
 setup(
-	name="EvolHarvest",
+	name="evolharvester",
 	version="0.1.0",
 	packages=find_packages(where="src"),
 	package_dir={"": "src"},
 	install_requires=["pandas"],
 	entry_points={
 		"console_scripts": [
-			"evolharvest = EvolHarvest.cli:main",
+			"evolharvester = evolharvester.cli:main",
 		],
 	},
 )

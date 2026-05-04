@@ -6,14 +6,18 @@ import glob
 from pathlib import Path
 from typing import Dict, List
 
-# Map user-friendly tool names to package module paths
+####connect tool names key to module path value
 TOOLS: Dict[str, str] = {
-    "gard": "EvolHarvest.gard",
-    "busted": "EvolHarvest.busted",
-    "fubar": "EvolHarvest.fubar",
-    "fel": "EvolHarvest.fel",
-    "meme": "EvolHarvest.meme",
-    "absrel": "EvolHarvest.absrel",
+    "gard": "evolharvester.hyphy_harvesters.gard",
+    "busted": "evolharvester.hyphy_harvesters.busted",
+    "fubar": "evolharvester.hyphy_harvesters.fubar",
+    "fel": "evolharvester.hyphy_harvesters.fel",
+    "meme": "evolharvester.hyphy_harvesters.meme",
+    "absrel": "evolharvester.hyphy_harvesters.absrel",
+    ####PAML additions!
+    "baseml": "evolharvester.paml_harvesters.baseml",
+    ###codeml ones will eventually be here
+    "yn00": "evolharvester.paml_harvesters.yn00"
 }
 
 
@@ -92,7 +96,7 @@ def main(argv=None) -> int:
             inp_path = Path(inp)
             out_file = out_path / f"{inp_path.stem}_{tool}.csv"
             if args.verbose:
-                print(f"[evolharvest] {tool}: {inp} -> {out_file}")
+                print(f"[eh] {tool}: {inp} -> {out_file}")
             # call harvester
             run_tool(TOOLS[tool], inp, str(out_file), verbose=args.verbose)
 
@@ -104,11 +108,11 @@ def main(argv=None) -> int:
         else:
             out_file = out_path
         if args.verbose:
-            print(f"[evolharvest] {tool}: {input_paths[0]} -> {out_file}")
+            print(f"[eh] {tool}: {input_paths[0]} -> {out_file}")
         run_tool(TOOLS[tool], input_paths[0], str(out_file), verbose=args.verbose)
 
     if args.verbose:
-        print(f"[evolharvest] Completed {tool} on {len(input_paths)} input file(s).")
+        print(f"[eh] Completed {tool} on {len(input_paths)} input file(s).")
 
     return 0
 

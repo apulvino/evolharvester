@@ -1,0 +1,1294 @@
+
+ 16         verbose | verbose                1.00
+  8         runmode | runmode                0.00
+  4         seqtype | seqtype                1.00
+ 14       CodonFreq | CodonFreq              2.00
+ 10           clock | clock                  0.00
+ 25       fix_kappa | fix_kappa              0.00
+ 26           kappa | kappa                  2.00
+ 27       fix_omega | fix_omega              0.00
+ 28           omega | omega                  1.00
+ 17           model | model                  0.00
+ 21         NSsites | NSsites                1.00
+ 13    RateAncestor | RateAncestor           0.00
+CODONML in paml version 4.10.9, 7 May 2025
+
+----------------------------------------------
+Phe F TTT | Ser S TCT | Tyr Y TAT | Cys C TGT
+      TTC |       TCC |       TAC |       TGC
+Leu L TTA |       TCA | *** * TAA | *** * TGA
+      TTG |       TCG |       TAG | Trp W TGG
+----------------------------------------------
+Leu L CTT | Pro P CCT | His H CAT | Arg R CGT
+      CTC |       CCC |       CAC |       CGC
+      CTA |       CCA | Gln Q CAA |       CGA
+      CTG |       CCG |       CAG |       CGG
+----------------------------------------------
+Ile I ATT | Thr T ACT | Asn N AAT | Ser S AGT
+      ATC |       ACC |       AAC |       AGC
+      ATA |       ACA | Lys K AAA | Arg R AGA
+Met M ATG |       ACG |       AAG |       AGG
+----------------------------------------------
+Val V GTT | Ala A GCT | Asp D GAT | Gly G GGT
+      GTC |       GCC |       GAC |       GGC
+      GTA |       GCA | Glu E GAA |       GGA
+      GTG |       GCG |       GAG |       GGG
+----------------------------------------------
+Nice code, uuh?
+
+
+Ambiguity character definition table:
+
+T (1): T 
+C (1): C 
+A (1): A 
+G (1): G 
+U (1): T 
+Y (2): T C 
+R (2): A G 
+M (2): C A 
+K (2): T G 
+S (2): C G 
+W (2): T A 
+H (3): T C A 
+B (3): T C G 
+V (3): C A G 
+D (3): T A G 
+- (4): T C A G 
+N (4): T C A G 
+? (4): T C A G 
+ns = 44  	ls = 243
+Reading sequences, sequential format..
+Reading seq # 1: APOC1|microcebus_murinus|ENSMICT00000062060|ENSMICP00000048170|canonical       
+Reading seq # 2: APOC1|microcebus_murinus|ENSMICT00000063610|ENSMICP00000050550|alternative       
+Reading seq # 3: APOC1|microcebus_murinus|ENSMICT00000064410|ENSMICP00000043930|alternative       
+Reading seq # 4: APOC1|homo_sapiens|ENST00000876412|ENSP00000546471|alternative       
+Reading seq # 5: APOC1|homo_sapiens|ENST00000876413|ENSP00000546472|alternative       
+Reading seq # 6: APOC1|pan_troglodytes|ENSPTRT00000092823|ENSPTRP00000070626|canonical       
+Reading seq # 7: APOC1|gorilla_gorilla|ENSGGOT00000064164|ENSGGOP00000031528|alternative       
+Reading seq # 8: APOC1|pan_troglodytes|ENSPTRT00000099936|ENSPTRP00000081430|alternative       
+Reading seq # 9: APOC1|cercocebus_atys|ENSCATT00000058070|ENSCATP00000033796|alternative       
+Reading seq #10: APOC1|macaca_nemestrina|ENSMNET00000032505|ENSMNEP00000008338|alternative       
+Reading seq #11: APOC1|homo_sapiens|ENST00000589078|ENSP00000465710|alternative       
+Reading seq #12: APOC1|callithrix_jacchus|ENSCJAT00000120257|ENSCJAP00000088830|alternative       
+Reading seq #13: APOC1|callithrix_jacchus|ENSCJAT00000141421|ENSCJAP00000085976|canonical       
+Reading seq #14: APOC1|carlito_syrichta|ENSTSYT00000039174|ENSTSYP00000018192|canonical       
+Reading seq #15: APOC1|carlito_syrichta|ENSTSYT00000047383|ENSTSYP00000028829|alternative       
+Reading seq #16: APOC1|gorilla_gorilla|ENSGGOT00000054649|ENSGGOP00000044641|alternative       
+Reading seq #17: APOC1|homo_sapiens|ENST00000589781|ENSP00000467504|alternative       
+Reading seq #18: APOC1|pongo_abelii|ENSPPYT00000036767|ENSPPYP00000034265|alternative       
+Reading seq #19: APOC1|pongo_abelii|ENSPPYT00000011739|ENSPPYP00000011299|alternative       
+Reading seq #20: APOC1|cercocebus_atys|ENSCATT00000058066|ENSCATP00000033792|alternative       
+Reading seq #21: APOC1|macaca_fascicularis|ENSMFAT00000037098|ENSMFAP00000009847|alternative       
+Reading seq #22: APOC1|macaca_fascicularis|ENSMFAT00000037155|ENSMFAP00000009855|canonical       
+Reading seq #23: APOC1|macaca_mulatta|ENSMMUT00000038471|ENSMMUP00000031571|canonical       
+Reading seq #24: APOC1|macaca_nemestrina|ENSMNET00000032493|ENSMNEP00000008326|alternative       
+Reading seq #25: APOC1|chlorocebus_sabaeus|ENSCSAT00000001274|ENSCSAP00000014801|canonical       
+Reading seq #26: APOC1|pongo_abelii|ENSPPYT00000057669|ENSPPYP00000034983|alternative       
+Reading seq #27: APOC1|cercocebus_atys|ENSCATT00000058068|ENSCATP00000033794|canonical       
+Reading seq #28: APOC1|macaca_nemestrina|ENSMNET00000032501|ENSMNEP00000008334|canonical       
+Reading seq #29: APOC1|pongo_abelii|ENSPPYT00000038117|ENSPPYP00000025838|canonical       
+Reading seq #30: APOC1|gorilla_gorilla|ENSGGOT00000065702|ENSGGOP00000036491|alternative       
+Reading seq #31: APOC1|homo_sapiens|ENST00000588750|ENSP00000465356|alternative       
+Reading seq #32: APOC1|homo_sapiens|ENST00000588802|ENSP00000468029|alternative       
+Reading seq #33: APOC1|homo_sapiens|ENST00000592535|ENSP00000468276|canonical       
+Reading seq #34: APOC1|homo_sapiens|ENST00000876409|ENSP00000546468|alternative       
+Reading seq #35: APOC1|homo_sapiens|ENST00000876410|ENSP00000546469|alternative       
+Reading seq #36: APOC1|homo_sapiens|ENST00000928314|ENSP00000598373|alternative       
+Reading seq #37: APOC1|homo_sapiens|ENST00000876411|ENSP00000546470|alternative       
+Reading seq #38: APOC1|pan_troglodytes|ENSPTRT00000046577|ENSPTRP00000043051|alternative       
+Reading seq #39: APOC1|gorilla_gorilla|ENSGGOT00000025367|ENSGGOP00000023934|canonical       
+Reading seq #40: APOC1|homo_sapiens|ENST00000592885|ENSP00000467368|alternative       
+Reading seq #41: APOC1|homo_sapiens|ENST00000586638|ENSP00000466146|alternative       
+Reading seq #42: APOC1|pan_troglodytes|ENSPTRT00000092584|ENSPTRP00000091923|alternative       
+Reading seq #43: APOC1|theropithecus_gelada|ENSTGET00000028801|ENSTGEP00000024149|canonical       
+Reading seq #44: APOC1|macaca_fascicularis|ENSMFAT00000088191|ENSMFAP00000054334|alternative       
+
+Sequences read..
+Counting site patterns..  0:00
+Compressing,     78 patterns at     81 /     81 sites (100.0%),  0:00
+Collecting fpatt[] & pose[],     78 patterns at     81 /     81 sites (100.0%),  0:00
+3 ambiguous codons are seen in the data:
+ --- NNN CGN
+Counting codons..
+NG distances for seqs.:
+   1
+  2   1:Sites    55.4 +  166.6 =  222.0	Diffs     7.5 +   16.5 =   24.0   2
+  3   1:Sites    25.5 +   61.5 =   87.0	Diffs     5.0 +    9.0 =   14.0
+  3   2:Sites    25.5 +   61.5 =   87.0	Diffs     5.0 +    9.0 =   14.0   3
+  4   1:Sites    56.3 +  165.7 =  222.0	Diffs    19.3 +   39.7 =   59.0
+  4   2:Sites    55.9 +  175.1 =  231.0	Diffs    16.8 +   31.2 =   48.0
+  4   3:Sites    25.3 +   61.7 =   87.0	Diffs    12.8 +   14.2 =   27.0   4
+  5   1:Sites    56.3 +  165.7 =  222.0	Diffs    19.3 +   39.7 =   59.0
+  5   2:Sites    55.9 +  175.1 =  231.0	Diffs    16.8 +   31.2 =   48.0
+  5   3:Sites    25.3 +   61.7 =   87.0	Diffs    12.8 +   14.2 =   27.0
+  5   4:Sites    59.8 +  183.2 =  243.0	Diffs     2.0 +    0.0 =    2.0   5
+  6   1:Sites    48.2 +  137.8 =  186.0	Diffs    13.3 +   23.7 =   37.0
+  6   2:Sites    48.2 +  137.8 =  186.0	Diffs    13.3 +   23.7 =   37.0
+  6   3:Sites    25.3 +   61.7 =   87.0	Diffs    12.8 +   14.2 =   27.0
+  6   4:Sites    50.9 +  144.1 =  195.0	Diffs     1.0 +    1.0 =    2.0
+  6   5:Sites    50.8 +  144.2 =  195.0	Diffs     1.0 +    1.0 =    2.0   6
+  7   1:Sites    57.8 +  164.2 =  222.0	Diffs    22.5 +   38.5 =   61.0
+  7   2:Sites    56.2 +  168.8 =  225.0	Diffs    20.6 +   47.4 =   68.0
+  7   3:Sites    25.3 +   61.7 =   87.0	Diffs    12.8 +   14.2 =   27.0
+  7   4:Sites    60.2 +  176.8 =  237.0	Diffs     5.6 +   20.4 =   26.0
+  7   5:Sites    60.2 +  176.8 =  237.0	Diffs     6.6 +   20.4 =   27.0
+  7   6:Sites    50.6 +  144.4 =  195.0	Diffs     1.0 +    1.0 =    2.0   7
+  8   1:Sites    57.4 +  164.6 =  222.0	Diffs    22.0 +   39.0 =   61.0
+  8   2:Sites    55.7 +  169.3 =  225.0	Diffs    20.1 +   45.9 =   66.0
+  8   3:Sites    25.3 +   61.7 =   87.0	Diffs    12.8 +   14.2 =   27.0
+  8   4:Sites    59.8 +  177.2 =  237.0	Diffs     5.1 +   20.9 =   26.0
+  8   5:Sites    59.7 +  177.3 =  237.0	Diffs     6.1 +   20.9 =   27.0
+  8   6:Sites    50.6 +  144.4 =  195.0	Diffs     1.0 +    0.0 =    1.0
+  8   7:Sites    61.2 +  175.8 =  237.0	Diffs     0.0 +    2.0 =    2.0   8
+  9   1:Sites    24.3 +   62.7 =   87.0	Diffs    12.7 +   15.3 =   28.0
+  9   2:Sites    23.2 +   63.8 =   87.0	Diffs    11.2 +   11.8 =   23.0
+  9   3:Sites    20.1 +   45.9 =   66.0	Diffs     5.7 +    4.3 =   10.0
+  9   4:Sites    23.1 +   63.9 =   87.0	Diffs     7.5 +   10.5 =   18.0
+  9   5:Sites    23.1 +   63.9 =   87.0	Diffs     7.5 +   10.5 =   18.0
+  9   6:Sites    19.3 +   46.7 =   66.0	Diffs     2.0 +    2.0 =    4.0
+  9   7:Sites    24.5 +   62.5 =   87.0	Diffs     6.5 +   14.5 =   21.0
+  9   8:Sites    24.0 +   63.0 =   87.0	Diffs     6.0 +   14.0 =   20.0   9
+ 10   1:Sites    24.3 +   62.7 =   87.0	Diffs    12.7 +   15.3 =   28.0
+ 10   2:Sites    23.2 +   63.8 =   87.0	Diffs    11.2 +   11.8 =   23.0
+ 10   3:Sites    20.1 +   45.9 =   66.0	Diffs     5.7 +    4.3 =   10.0
+ 10   4:Sites    23.1 +   63.9 =   87.0	Diffs     7.5 +   10.5 =   18.0
+ 10   5:Sites    23.1 +   63.9 =   87.0	Diffs     7.5 +   10.5 =   18.0
+ 10   6:Sites    19.3 +   46.7 =   66.0	Diffs     2.0 +    2.0 =    4.0
+ 10   7:Sites    24.5 +   62.5 =   87.0	Diffs     6.5 +   14.5 =   21.0
+ 10   8:Sites    24.0 +   63.0 =   87.0	Diffs     6.0 +   14.0 =   20.0
+ 10   9:Sites    22.7 +   64.3 =   87.0	Diffs     0.0 +    0.0 =    0.0  10
+ 11   1:Sites    40.4 +  109.6 =  150.0	Diffs    11.8 +   15.2 =   27.0
+ 11   2:Sites    40.4 +  109.6 =  150.0	Diffs    11.8 +   15.2 =   27.0
+ 11   3:Sites    25.3 +   61.7 =   87.0	Diffs    12.8 +   14.2 =   27.0
+ 11   4:Sites    42.8 +  116.2 =  159.0	Diffs     0.0 +    0.0 =    0.0
+ 11   5:Sites    42.8 +  116.2 =  159.0	Diffs     1.0 +    0.0 =    1.0
+ 11   6:Sites    42.8 +  116.2 =  159.0	Diffs     0.0 +    0.0 =    0.0
+ 11   7:Sites    42.8 +  116.2 =  159.0	Diffs     0.0 +    0.0 =    0.0
+ 11   8:Sites    42.8 +  116.2 =  159.0	Diffs     0.0 +    0.0 =    0.0
+ 11   9:Sites    19.3 +   46.7 =   66.0	Diffs     2.0 +    2.0 =    4.0
+ 11  10:Sites    19.3 +   46.7 =   66.0	Diffs     2.0 +    2.0 =    4.0  11
+ 12   1:Sites    55.4 +  166.6 =  222.0	Diffs    20.5 +   44.5 =   65.0
+ 12   2:Sites    55.0 +  176.0 =  231.0	Diffs    17.2 +   35.8 =   53.0
+ 12   3:Sites    24.2 +   62.8 =   87.0	Diffs    11.8 +   18.2 =   30.0
+ 12   4:Sites    59.2 +  183.8 =  243.0	Diffs     6.0 +   26.0 =   32.0
+ 12   5:Sites    59.2 +  183.8 =  243.0	Diffs     6.0 +   26.0 =   32.0
+ 12   6:Sites    49.5 +  145.5 =  195.0	Diffs     4.0 +   22.0 =   26.0
+ 12   7:Sites    59.6 +  177.4 =  237.0	Diffs     9.1 +   42.9 =   52.0
+ 12   8:Sites    59.2 +  177.8 =  237.0	Diffs     9.6 +   43.4 =   53.0
+ 12   9:Sites    23.3 +   63.7 =   87.0	Diffs     8.0 +   13.0 =   21.0
+ 12  10:Sites    23.3 +   63.7 =   87.0	Diffs     8.0 +   13.0 =   21.0
+ 12  11:Sites    41.0 +  118.0 =  159.0	Diffs     3.5 +   14.5 =   18.0  12
+ 13   1:Sites    55.5 +  166.5 =  222.0	Diffs    21.5 +   44.5 =   66.0
+ 13   2:Sites    55.1 +  175.9 =  231.0	Diffs    18.2 +   35.8 =   54.0
+ 13   3:Sites    24.2 +   62.8 =   87.0	Diffs    11.8 +   18.2 =   30.0
+ 13   4:Sites    59.2 +  183.8 =  243.0	Diffs     5.0 +   26.0 =   31.0
+ 13   5:Sites    59.2 +  183.8 =  243.0	Diffs     7.0 +   26.0 =   33.0
+ 13   6:Sites    49.5 +  145.5 =  195.0	Diffs     5.0 +   22.0 =   27.0
+ 13   7:Sites    59.6 +  177.4 =  237.0	Diffs     9.1 +   42.9 =   52.0
+ 13   8:Sites    59.2 +  177.8 =  237.0	Diffs     9.6 +   43.4 =   53.0
+ 13   9:Sites    23.3 +   63.7 =   87.0	Diffs     8.0 +   13.0 =   21.0
+ 13  10:Sites    23.3 +   63.7 =   87.0	Diffs     8.0 +   13.0 =   21.0
+ 13  11:Sites    41.0 +  118.0 =  159.0	Diffs     3.5 +   14.5 =   18.0
+ 13  12:Sites    58.6 +  184.4 =  243.0	Diffs     1.0 +    0.0 =    1.0  13
+ 14   1:Sites    57.6 +  164.4 =  222.0	Diffs    16.0 +   41.0 =   57.0
+ 14   2:Sites    57.4 +  173.6 =  231.0	Diffs    12.7 +   32.3 =   45.0
+ 14   3:Sites    26.0 +   61.0 =   87.0	Diffs     9.7 +   10.3 =   20.0
+ 14   4:Sites    61.3 +  181.7 =  243.0	Diffs    12.5 +   19.5 =   32.0
+ 14   5:Sites    61.2 +  181.8 =  243.0	Diffs    12.5 +   19.5 =   32.0
+ 14   6:Sites    51.8 +  143.2 =  195.0	Diffs     8.5 +   17.5 =   26.0
+ 14   7:Sites    61.7 +  175.3 =  237.0	Diffs    16.6 +   36.4 =   53.0
+ 14   8:Sites    61.2 +  175.8 =  237.0	Diffs    16.2 +   37.8 =   54.0
+ 14   9:Sites    23.8 +   63.2 =   87.0	Diffs     7.5 +   10.5 =   18.0
+ 14  10:Sites    23.8 +   63.2 =   87.0	Diffs     7.5 +   10.5 =   18.0
+ 14  11:Sites    43.5 +  115.5 =  159.0	Diffs     7.0 +   13.0 =   20.0
+ 14  12:Sites    60.7 +  182.3 =  243.0	Diffs    12.5 +   25.5 =   38.0
+ 14  13:Sites    60.7 +  182.3 =  243.0	Diffs    13.5 +   25.5 =   39.0  14
+ 15   1:Sites    25.3 +   61.7 =   87.0	Diffs    14.2 +   15.8 =   30.0
+ 15   2:Sites    24.2 +   62.8 =   87.0	Diffs    11.7 +   13.3 =   25.0
+ 15   3:Sites    18.6 +   41.4 =   60.0	Diffs     5.7 +    3.3 =    9.0
+ 15   4:Sites    24.1 +   62.9 =   87.0	Diffs    10.0 +   12.0 =   22.0
+ 15   5:Sites    24.1 +   62.9 =   87.0	Diffs    10.0 +   12.0 =   22.0
+ 15   6:Sites    20.1 +   45.9 =   66.0	Diffs     4.0 +    3.0 =    7.0
+ 15   7:Sites    25.4 +   61.6 =   87.0	Diffs     9.3 +   15.7 =   25.0
+ 15   8:Sites    25.0 +   62.0 =   87.0	Diffs     9.0 +   15.0 =   24.0
+ 15   9:Sites    21.5 +   59.5 =   81.0	Diffs     3.0 +    2.0 =    5.0
+ 15  10:Sites    21.5 +   59.5 =   81.0	Diffs     3.0 +    2.0 =    5.0
+ 15  11:Sites    20.1 +   45.9 =   66.0	Diffs     4.0 +    3.0 =    7.0
+ 15  12:Sites    24.2 +   62.8 =   87.0	Diffs    10.7 +   13.3 =   24.0
+ 15  13:Sites    24.2 +   62.8 =   87.0	Diffs    10.7 +   13.3 =   24.0
+ 15  14:Sites    24.4 +   62.6 =   87.0	Diffs     8.0 +   12.0 =   20.0  15
+ 16   1:Sites    25.0 +   62.0 =   87.0	Diffs    14.2 +   16.8 =   31.0
+ 16   2:Sites    23.9 +   63.1 =   87.0	Diffs    12.7 +   13.3 =   26.0
+ 16   3:Sites    18.6 +   41.4 =   60.0	Diffs     5.7 +    4.3 =   10.0
+ 16   4:Sites    23.8 +   63.2 =   87.0	Diffs     9.0 +   10.0 =   19.0
+ 16   5:Sites    23.8 +   63.2 =   87.0	Diffs     9.0 +   10.0 =   19.0
+ 16   6:Sites    20.1 +   45.9 =   66.0	Diffs     3.0 +    2.0 =    5.0
+ 16   7:Sites    25.1 +   61.9 =   87.0	Diffs     7.0 +   15.0 =   22.0
+ 16   8:Sites    24.7 +   62.3 =   87.0	Diffs     6.5 +   14.5 =   21.0
+ 16   9:Sites    21.2 +   59.8 =   81.0	Diffs     0.0 +    2.0 =    2.0
+ 16  10:Sites    21.2 +   59.8 =   81.0	Diffs     0.0 +    2.0 =    2.0
+ 16  11:Sites    20.1 +   45.9 =   66.0	Diffs     3.0 +    2.0 =    5.0
+ 16  12:Sites    23.9 +   63.1 =   87.0	Diffs     9.5 +   13.5 =   23.0
+ 16  13:Sites    23.9 +   63.1 =   87.0	Diffs     9.5 +   13.5 =   23.0
+ 16  14:Sites    24.1 +   62.9 =   87.0	Diffs     9.0 +   12.0 =   21.0
+ 16  15:Sites    23.7 +   63.3 =   87.0	Diffs     3.0 +    2.0 =    5.0  16
+ 17   1:Sites    24.7 +   62.3 =   87.0	Diffs    14.0 +   18.0 =   32.0
+ 17   2:Sites    23.6 +   63.4 =   87.0	Diffs    12.5 +   14.5 =   27.0
+ 17   3:Sites    18.6 +   41.4 =   60.0	Diffs     5.7 +    4.3 =   10.0
+ 17   4:Sites    23.4 +   63.6 =   87.0	Diffs     8.8 +   11.2 =   20.0
+ 17   5:Sites    23.4 +   63.6 =   87.0	Diffs     8.8 +   11.2 =   20.0
+ 17   6:Sites    19.7 +   46.3 =   66.0	Diffs     2.8 +    3.2 =    6.0
+ 17   7:Sites    24.8 +   62.2 =   87.0	Diffs     6.8 +   16.2 =   23.0
+ 17   8:Sites    24.3 +   62.7 =   87.0	Diffs     6.3 +   15.7 =   22.0
+ 17   9:Sites    21.2 +   59.8 =   81.0	Diffs     0.0 +    2.0 =    2.0
+ 17  10:Sites    21.2 +   59.8 =   81.0	Diffs     0.0 +    2.0 =    2.0
+ 17  11:Sites    19.7 +   46.3 =   66.0	Diffs     2.8 +    3.2 =    6.0
+ 17  12:Sites    23.6 +   63.4 =   87.0	Diffs     9.3 +   14.7 =   24.0
+ 17  13:Sites    23.6 +   63.4 =   87.0	Diffs     9.3 +   14.7 =   24.0
+ 17  14:Sites    23.7 +   63.3 =   87.0	Diffs     8.8 +   13.2 =   22.0
+ 17  15:Sites    23.4 +   63.6 =   87.0	Diffs     3.0 +    3.0 =    6.0
+ 17  16:Sites    23.0 +   64.0 =   87.0	Diffs     0.0 +    1.0 =    1.0  17
+ 18   1:Sites    56.3 +  165.7 =  222.0	Diffs    19.2 +   45.8 =   65.0
+ 18   2:Sites    55.9 +  175.1 =  231.0	Diffs    15.7 +   39.3 =   55.0
+ 18   3:Sites    25.2 +   61.8 =   87.0	Diffs    14.8 +   12.2 =   27.0
+ 18   4:Sites    59.8 +  183.2 =  243.0	Diffs     5.3 +   21.7 =   27.0
+ 18   5:Sites    59.8 +  183.2 =  243.0	Diffs     5.3 +   21.7 =   27.0
+ 18   6:Sites    50.3 +  144.7 =  195.0	Diffs     4.3 +   19.7 =   24.0
+ 18   7:Sites    60.2 +  176.8 =  237.0	Diffs    11.3 +   36.7 =   48.0
+ 18   8:Sites    59.8 +  177.2 =  237.0	Diffs    10.8 +   37.2 =   48.0
+ 18   9:Sites    23.7 +   63.3 =   87.0	Diffs     8.0 +   10.0 =   18.0
+ 18  10:Sites    23.7 +   63.3 =   87.0	Diffs     8.0 +   10.0 =   18.0
+ 18  11:Sites    42.6 +  116.4 =  159.0	Diffs     4.3 +   15.7 =   20.0
+ 18  12:Sites    59.2 +  183.8 =  243.0	Diffs     6.3 +   33.7 =   40.0
+ 18  13:Sites    59.2 +  183.8 =  243.0	Diffs     7.3 +   33.7 =   41.0
+ 18  14:Sites    61.3 +  181.7 =  243.0	Diffs    13.8 +   29.2 =   43.0
+ 18  15:Sites    24.5 +   62.5 =   87.0	Diffs    10.5 +   10.5 =   21.0
+ 18  16:Sites    24.2 +   62.8 =   87.0	Diffs     9.5 +   10.5 =   20.0
+ 18  17:Sites    23.8 +   63.2 =   87.0	Diffs     9.2 +   11.8 =   21.0  18
+ 19   1:Sites    56.3 +  165.7 =  222.0	Diffs    19.2 +   45.8 =   65.0
+ 19   2:Sites    55.9 +  175.1 =  231.0	Diffs    15.7 +   39.3 =   55.0
+ 19   3:Sites    25.2 +   61.8 =   87.0	Diffs    14.8 +   12.2 =   27.0
+ 19   4:Sites    59.8 +  183.2 =  243.0	Diffs     5.3 +   21.7 =   27.0
+ 19   5:Sites    59.8 +  183.2 =  243.0	Diffs     5.3 +   21.7 =   27.0
+ 19   6:Sites    50.3 +  144.7 =  195.0	Diffs     4.3 +   19.7 =   24.0
+ 19   7:Sites    60.2 +  176.8 =  237.0	Diffs    11.3 +   36.7 =   48.0
+ 19   8:Sites    59.8 +  177.2 =  237.0	Diffs    10.8 +   37.2 =   48.0
+ 19   9:Sites    23.7 +   63.3 =   87.0	Diffs     8.0 +   10.0 =   18.0
+ 19  10:Sites    23.7 +   63.3 =   87.0	Diffs     8.0 +   10.0 =   18.0
+ 19  11:Sites    42.6 +  116.4 =  159.0	Diffs     4.3 +   15.7 =   20.0
+ 19  12:Sites    59.2 +  183.8 =  243.0	Diffs     6.3 +   33.7 =   40.0
+ 19  13:Sites    59.2 +  183.8 =  243.0	Diffs     7.3 +   33.7 =   41.0
+ 19  14:Sites    61.3 +  181.7 =  243.0	Diffs    13.8 +   29.2 =   43.0
+ 19  15:Sites    24.5 +   62.5 =   87.0	Diffs    10.5 +   10.5 =   21.0
+ 19  16:Sites    24.2 +   62.8 =   87.0	Diffs     9.5 +   10.5 =   20.0
+ 19  17:Sites    23.8 +   63.2 =   87.0	Diffs     9.2 +   11.8 =   21.0
+ 19  18:Sites    59.8 +  183.2 =  243.0	Diffs     0.0 +    0.0 =    0.0  19
+ 20   1:Sites    55.9 +  166.1 =  222.0	Diffs    20.2 +   35.8 =   56.0
+ 20   2:Sites    55.5 +  175.5 =  231.0	Diffs    16.7 +   27.3 =   44.0
+ 20   3:Sites    24.4 +   62.6 =   87.0	Diffs    11.8 +   14.2 =   26.0
+ 20   4:Sites    59.4 +  183.6 =  243.0	Diffs     6.5 +   10.5 =   17.0
+ 20   5:Sites    59.4 +  183.6 =  243.0	Diffs     6.5 +   10.5 =   17.0
+ 20   6:Sites    50.0 +  145.0 =  195.0	Diffs     5.5 +    9.5 =   15.0
+ 20   7:Sites    59.8 +  177.2 =  237.0	Diffs    12.4 +   27.6 =   40.0
+ 20   8:Sites    59.4 +  177.6 =  237.0	Diffs    11.9 +   28.1 =   40.0
+ 20   9:Sites    23.3 +   63.7 =   87.0	Diffs     7.5 +    8.5 =   16.0
+ 20  10:Sites    23.3 +   63.7 =   87.0	Diffs     7.5 +    8.5 =   16.0
+ 20  11:Sites    41.9 +  117.1 =  159.0	Diffs     5.0 +    5.0 =   10.0
+ 20  12:Sites    58.8 +  184.2 =  243.0	Diffs     7.0 +   22.0 =   29.0
+ 20  13:Sites    58.8 +  184.2 =  243.0	Diffs     8.0 +   22.0 =   30.0
+ 20  14:Sites    60.9 +  182.1 =  243.0	Diffs    14.0 +   16.0 =   30.0
+ 20  15:Sites    24.2 +   62.8 =   87.0	Diffs    10.5 +    9.5 =   20.0
+ 20  16:Sites    23.9 +   63.1 =   87.0	Diffs     9.5 +    9.5 =   19.0
+ 20  17:Sites    23.6 +   63.4 =   87.0	Diffs     9.3 +   10.7 =   20.0
+ 20  18:Sites    59.4 +  183.6 =  243.0	Diffs     3.3 +   19.7 =   23.0
+ 20  19:Sites    59.4 +  183.6 =  243.0	Diffs     3.3 +   19.7 =   23.0  20
+ 21   1:Sites    55.9 +  166.1 =  222.0	Diffs    20.2 +   35.8 =   56.0
+ 21   2:Sites    55.5 +  175.5 =  231.0	Diffs    16.7 +   27.3 =   44.0
+ 21   3:Sites    24.3 +   62.7 =   87.0	Diffs    11.8 +   14.2 =   26.0
+ 21   4:Sites    59.4 +  183.6 =  243.0	Diffs     7.5 +   10.5 =   18.0
+ 21   5:Sites    59.3 +  183.7 =  243.0	Diffs     7.5 +   10.5 =   18.0
+ 21   6:Sites    50.0 +  145.0 =  195.0	Diffs     6.5 +    9.5 =   16.0
+ 21   7:Sites    59.8 +  177.2 =  237.0	Diffs    13.4 +   27.6 =   41.0
+ 21   8:Sites    59.3 +  177.7 =  237.0	Diffs    12.9 +   28.1 =   41.0
+ 21   9:Sites    23.2 +   63.8 =   87.0	Diffs     8.5 +    8.5 =   17.0
+ 21  10:Sites    23.2 +   63.8 =   87.0	Diffs     8.5 +    8.5 =   17.0
+ 21  11:Sites    41.9 +  117.1 =  159.0	Diffs     6.0 +    5.0 =   11.0
+ 21  12:Sites    58.8 +  184.2 =  243.0	Diffs     7.7 +   22.3 =   30.0
+ 21  13:Sites    58.8 +  184.2 =  243.0	Diffs     8.7 +   22.3 =   31.0
+ 21  14:Sites    60.8 +  182.2 =  243.0	Diffs    15.0 +   16.0 =   31.0
+ 21  15:Sites    24.2 +   62.8 =   87.0	Diffs    11.5 +    9.5 =   21.0
+ 21  16:Sites    23.9 +   63.1 =   87.0	Diffs    10.5 +    9.5 =   20.0
+ 21  17:Sites    23.5 +   63.5 =   87.0	Diffs    10.3 +   10.7 =   21.0
+ 21  18:Sites    59.4 +  183.6 =  243.0	Diffs     4.3 +   19.7 =   24.0
+ 21  19:Sites    59.4 +  183.6 =  243.0	Diffs     4.3 +   19.7 =   24.0
+ 21  20:Sites    59.0 +  184.0 =  243.0	Diffs     1.0 +    0.0 =    1.0  21
+ 22   1:Sites    55.9 +  166.1 =  222.0	Diffs    20.2 +   35.8 =   56.0
+ 22   2:Sites    55.5 +  175.5 =  231.0	Diffs    16.7 +   27.3 =   44.0
+ 22   3:Sites    24.3 +   62.7 =   87.0	Diffs    11.8 +   14.2 =   26.0
+ 22   4:Sites    59.4 +  183.6 =  243.0	Diffs     7.5 +   10.5 =   18.0
+ 22   5:Sites    59.3 +  183.7 =  243.0	Diffs     7.5 +   10.5 =   18.0
+ 22   6:Sites    50.0 +  145.0 =  195.0	Diffs     6.5 +    9.5 =   16.0
+ 22   7:Sites    59.8 +  177.2 =  237.0	Diffs    13.4 +   27.6 =   41.0
+ 22   8:Sites    59.3 +  177.7 =  237.0	Diffs    12.9 +   28.1 =   41.0
+ 22   9:Sites    23.2 +   63.8 =   87.0	Diffs     8.5 +    8.5 =   17.0
+ 22  10:Sites    23.2 +   63.8 =   87.0	Diffs     8.5 +    8.5 =   17.0
+ 22  11:Sites    41.9 +  117.1 =  159.0	Diffs     6.0 +    5.0 =   11.0
+ 22  12:Sites    58.8 +  184.2 =  243.0	Diffs     7.7 +   22.3 =   30.0
+ 22  13:Sites    58.8 +  184.2 =  243.0	Diffs     8.7 +   22.3 =   31.0
+ 22  14:Sites    60.8 +  182.2 =  243.0	Diffs    15.0 +   16.0 =   31.0
+ 22  15:Sites    24.2 +   62.8 =   87.0	Diffs    11.5 +    9.5 =   21.0
+ 22  16:Sites    23.9 +   63.1 =   87.0	Diffs    10.5 +    9.5 =   20.0
+ 22  17:Sites    23.5 +   63.5 =   87.0	Diffs    10.3 +   10.7 =   21.0
+ 22  18:Sites    59.4 +  183.6 =  243.0	Diffs     4.3 +   19.7 =   24.0
+ 22  19:Sites    59.4 +  183.6 =  243.0	Diffs     4.3 +   19.7 =   24.0
+ 22  20:Sites    59.0 +  184.0 =  243.0	Diffs     1.0 +    0.0 =    1.0
+ 22  21:Sites    58.9 +  184.1 =  243.0	Diffs     0.0 +    0.0 =    0.0  22
+ 23   1:Sites    55.9 +  166.1 =  222.0	Diffs    20.2 +   35.8 =   56.0
+ 23   2:Sites    55.5 +  175.5 =  231.0	Diffs    16.7 +   27.3 =   44.0
+ 23   3:Sites    24.4 +   62.6 =   87.0	Diffs    11.8 +   14.2 =   26.0
+ 23   4:Sites    59.4 +  183.6 =  243.0	Diffs     6.5 +   10.5 =   17.0
+ 23   5:Sites    59.4 +  183.6 =  243.0	Diffs     6.5 +   10.5 =   17.0
+ 23   6:Sites    50.0 +  145.0 =  195.0	Diffs     5.5 +    9.5 =   15.0
+ 23   7:Sites    59.8 +  177.2 =  237.0	Diffs    12.4 +   27.6 =   40.0
+ 23   8:Sites    59.4 +  177.6 =  237.0	Diffs    11.9 +   28.1 =   40.0
+ 23   9:Sites    23.3 +   63.7 =   87.0	Diffs     7.5 +    8.5 =   16.0
+ 23  10:Sites    23.3 +   63.7 =   87.0	Diffs     7.5 +    8.5 =   16.0
+ 23  11:Sites    41.9 +  117.1 =  159.0	Diffs     5.0 +    5.0 =   10.0
+ 23  12:Sites    58.8 +  184.2 =  243.0	Diffs     7.0 +   22.0 =   29.0
+ 23  13:Sites    58.8 +  184.2 =  243.0	Diffs     8.0 +   22.0 =   30.0
+ 23  14:Sites    60.9 +  182.1 =  243.0	Diffs    14.0 +   16.0 =   30.0
+ 23  15:Sites    24.2 +   62.8 =   87.0	Diffs    10.5 +    9.5 =   20.0
+ 23  16:Sites    23.9 +   63.1 =   87.0	Diffs     9.5 +    9.5 =   19.0
+ 23  17:Sites    23.6 +   63.4 =   87.0	Diffs     9.3 +   10.7 =   20.0
+ 23  18:Sites    59.4 +  183.6 =  243.0	Diffs     3.3 +   19.7 =   23.0
+ 23  19:Sites    59.4 +  183.6 =  243.0	Diffs     3.3 +   19.7 =   23.0
+ 23  20:Sites    59.0 +  184.0 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 23  21:Sites    59.0 +  184.0 =  243.0	Diffs     1.0 +    0.0 =    1.0
+ 23  22:Sites    59.0 +  184.0 =  243.0	Diffs     1.0 +    0.0 =    1.0  23
+ 24   1:Sites    55.9 +  166.1 =  222.0	Diffs    20.2 +   35.8 =   56.0
+ 24   2:Sites    55.5 +  175.5 =  231.0	Diffs    16.7 +   27.3 =   44.0
+ 24   3:Sites    24.4 +   62.6 =   87.0	Diffs    11.8 +   14.2 =   26.0
+ 24   4:Sites    59.4 +  183.6 =  243.0	Diffs     6.5 +   10.5 =   17.0
+ 24   5:Sites    59.4 +  183.6 =  243.0	Diffs     6.5 +   10.5 =   17.0
+ 24   6:Sites    50.0 +  145.0 =  195.0	Diffs     5.5 +    9.5 =   15.0
+ 24   7:Sites    59.8 +  177.2 =  237.0	Diffs    12.4 +   27.6 =   40.0
+ 24   8:Sites    59.4 +  177.6 =  237.0	Diffs    11.9 +   28.1 =   40.0
+ 24   9:Sites    23.3 +   63.7 =   87.0	Diffs     7.5 +    8.5 =   16.0
+ 24  10:Sites    23.3 +   63.7 =   87.0	Diffs     7.5 +    8.5 =   16.0
+ 24  11:Sites    41.9 +  117.1 =  159.0	Diffs     5.0 +    5.0 =   10.0
+ 24  12:Sites    58.8 +  184.2 =  243.0	Diffs     7.0 +   22.0 =   29.0
+ 24  13:Sites    58.8 +  184.2 =  243.0	Diffs     8.0 +   22.0 =   30.0
+ 24  14:Sites    60.9 +  182.1 =  243.0	Diffs    14.0 +   16.0 =   30.0
+ 24  15:Sites    24.2 +   62.8 =   87.0	Diffs    10.5 +    9.5 =   20.0
+ 24  16:Sites    23.9 +   63.1 =   87.0	Diffs     9.5 +    9.5 =   19.0
+ 24  17:Sites    23.6 +   63.4 =   87.0	Diffs     9.3 +   10.7 =   20.0
+ 24  18:Sites    59.4 +  183.6 =  243.0	Diffs     3.3 +   19.7 =   23.0
+ 24  19:Sites    59.4 +  183.6 =  243.0	Diffs     3.3 +   19.7 =   23.0
+ 24  20:Sites    59.0 +  184.0 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 24  21:Sites    59.0 +  184.0 =  243.0	Diffs     1.0 +    0.0 =    1.0
+ 24  22:Sites    59.0 +  184.0 =  243.0	Diffs     1.0 +    0.0 =    1.0
+ 24  23:Sites    59.0 +  184.0 =  243.0	Diffs     0.0 +    0.0 =    0.0  24
+ 25   1:Sites    47.7 +  138.3 =  186.0	Diffs    15.7 +   20.3 =   36.0
+ 25   2:Sites    47.7 +  138.3 =  186.0	Diffs    15.7 +   20.3 =   36.0
+ 25   3:Sites    24.4 +   62.6 =   87.0	Diffs    11.8 +   14.2 =   26.0
+ 25   4:Sites    50.4 +  144.6 =  195.0	Diffs     7.5 +    7.5 =   15.0
+ 25   5:Sites    50.4 +  144.6 =  195.0	Diffs     7.5 +    7.5 =   15.0
+ 25   6:Sites    50.4 +  144.6 =  195.0	Diffs     6.5 +    8.5 =   15.0
+ 25   7:Sites    50.2 +  144.8 =  195.0	Diffs     7.5 +    7.5 =   15.0
+ 25   8:Sites    50.2 +  144.8 =  195.0	Diffs     7.5 +    8.5 =   16.0
+ 25   9:Sites    18.9 +   47.1 =   66.0	Diffs     2.0 +    1.0 =    3.0
+ 25  10:Sites    18.9 +   47.1 =   66.0	Diffs     2.0 +    1.0 =    3.0
+ 25  11:Sites    41.9 +  117.1 =  159.0	Diffs     6.0 +    5.0 =   11.0
+ 25  12:Sites    49.1 +  145.9 =  195.0	Diffs     4.0 +   17.0 =   21.0
+ 25  13:Sites    49.1 +  145.9 =  195.0	Diffs     5.0 +   17.0 =   22.0
+ 25  14:Sites    51.4 +  143.6 =  195.0	Diffs    10.0 +   13.0 =   23.0
+ 25  15:Sites    19.7 +   46.3 =   66.0	Diffs     4.0 +    2.0 =    6.0
+ 25  16:Sites    19.7 +   46.3 =   66.0	Diffs     3.0 +    3.0 =    6.0
+ 25  17:Sites    19.4 +   46.6 =   66.0	Diffs     2.8 +    4.2 =    7.0
+ 25  18:Sites    49.8 +  145.2 =  195.0	Diffs     3.3 +   17.7 =   21.0
+ 25  19:Sites    49.8 +  145.2 =  195.0	Diffs     3.3 +   17.7 =   21.0
+ 25  20:Sites    49.6 +  145.4 =  195.0	Diffs     1.0 +    1.0 =    2.0
+ 25  21:Sites    49.6 +  145.4 =  195.0	Diffs     2.0 +    1.0 =    3.0
+ 25  22:Sites    49.6 +  145.4 =  195.0	Diffs     2.0 +    1.0 =    3.0
+ 25  23:Sites    49.6 +  145.4 =  195.0	Diffs     1.0 +    1.0 =    2.0
+ 25  24:Sites    49.6 +  145.4 =  195.0	Diffs     1.0 +    1.0 =    2.0  25
+ 26   1:Sites    56.7 +  162.3 =  219.0	Diffs    20.2 +   32.8 =   53.0
+ 26   2:Sites    54.4 +  164.6 =  219.0	Diffs    16.7 +   25.3 =   42.0
+ 26   3:Sites    25.0 +   62.0 =   87.0	Diffs    11.8 +   13.2 =   25.0
+ 26   4:Sites    57.6 +  170.4 =  228.0	Diffs     3.0 +    8.0 =   11.0
+ 26   5:Sites    57.6 +  170.4 =  228.0	Diffs     3.0 +    8.0 =   11.0
+ 26   6:Sites    51.0 +  144.0 =  195.0	Diffs     2.0 +    6.0 =    8.0
+ 26   7:Sites    59.2 +  168.8 =  228.0	Diffs     9.4 +   21.6 =   31.0
+ 26   8:Sites    58.7 +  169.3 =  228.0	Diffs     8.9 +   22.1 =   31.0
+ 26   9:Sites    23.4 +   63.6 =   87.0	Diffs     7.5 +    9.5 =   17.0
+ 26  10:Sites    23.4 +   63.6 =   87.0	Diffs     7.5 +    9.5 =   17.0
+ 26  11:Sites    42.5 +  116.5 =  159.0	Diffs     2.0 +    4.0 =    6.0
+ 26  12:Sites    56.7 +  171.3 =  228.0	Diffs     6.0 +   21.0 =   27.0
+ 26  13:Sites    56.8 +  171.2 =  228.0	Diffs     7.0 +   21.0 =   28.0
+ 26  14:Sites    58.9 +  169.1 =  228.0	Diffs    13.0 +   15.0 =   28.0
+ 26  15:Sites    24.4 +   62.6 =   87.0	Diffs    10.5 +   10.5 =   21.0
+ 26  16:Sites    24.1 +   62.9 =   87.0	Diffs     9.5 +   10.5 =   20.0
+ 26  17:Sites    23.7 +   63.3 =   87.0	Diffs     9.3 +   11.7 =   21.0
+ 26  18:Sites    57.6 +  170.4 =  228.0	Diffs     4.3 +   16.7 =   21.0
+ 26  19:Sites    57.6 +  170.4 =  228.0	Diffs     4.3 +   16.7 =   21.0
+ 26  20:Sites    57.3 +  170.7 =  228.0	Diffs     6.0 +    4.0 =   10.0
+ 26  21:Sites    57.2 +  170.8 =  228.0	Diffs     7.0 +    4.0 =   11.0
+ 26  22:Sites    57.2 +  170.8 =  228.0	Diffs     7.0 +    4.0 =   11.0
+ 26  23:Sites    57.3 +  170.7 =  228.0	Diffs     6.0 +    4.0 =   10.0
+ 26  24:Sites    57.3 +  170.7 =  228.0	Diffs     6.0 +    4.0 =   10.0
+ 26  25:Sites    50.6 +  144.4 =  195.0	Diffs     7.0 +    2.0 =    9.0  26
+ 27   1:Sites    55.9 +  166.1 =  222.0	Diffs    20.2 +   35.8 =   56.0
+ 27   2:Sites    55.5 +  175.5 =  231.0	Diffs    16.7 +   27.3 =   44.0
+ 27   3:Sites    24.4 +   62.6 =   87.0	Diffs    11.8 +   14.2 =   26.0
+ 27   4:Sites    59.4 +  183.6 =  243.0	Diffs     6.5 +   10.5 =   17.0
+ 27   5:Sites    59.4 +  183.6 =  243.0	Diffs     6.5 +   10.5 =   17.0
+ 27   6:Sites    50.0 +  145.0 =  195.0	Diffs     5.5 +    9.5 =   15.0
+ 27   7:Sites    59.8 +  177.2 =  237.0	Diffs    12.4 +   27.6 =   40.0
+ 27   8:Sites    59.4 +  177.6 =  237.0	Diffs    11.9 +   28.1 =   40.0
+ 27   9:Sites    23.3 +   63.7 =   87.0	Diffs     7.5 +    8.5 =   16.0
+ 27  10:Sites    23.3 +   63.7 =   87.0	Diffs     7.5 +    8.5 =   16.0
+ 27  11:Sites    41.9 +  117.1 =  159.0	Diffs     5.0 +    5.0 =   10.0
+ 27  12:Sites    58.8 +  184.2 =  243.0	Diffs     7.0 +   22.0 =   29.0
+ 27  13:Sites    58.8 +  184.2 =  243.0	Diffs     8.0 +   22.0 =   30.0
+ 27  14:Sites    60.9 +  182.1 =  243.0	Diffs    14.0 +   16.0 =   30.0
+ 27  15:Sites    24.2 +   62.8 =   87.0	Diffs    10.5 +    9.5 =   20.0
+ 27  16:Sites    23.9 +   63.1 =   87.0	Diffs     9.5 +    9.5 =   19.0
+ 27  17:Sites    23.6 +   63.4 =   87.0	Diffs     9.3 +   10.7 =   20.0
+ 27  18:Sites    59.4 +  183.6 =  243.0	Diffs     3.3 +   19.7 =   23.0
+ 27  19:Sites    59.4 +  183.6 =  243.0	Diffs     3.3 +   19.7 =   23.0
+ 27  20:Sites    59.0 +  184.0 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 27  21:Sites    59.0 +  184.0 =  243.0	Diffs     1.0 +    0.0 =    1.0
+ 27  22:Sites    59.0 +  184.0 =  243.0	Diffs     1.0 +    0.0 =    1.0
+ 27  23:Sites    59.0 +  184.0 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 27  24:Sites    59.0 +  184.0 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 27  25:Sites    49.6 +  145.4 =  195.0	Diffs     1.0 +    1.0 =    2.0
+ 27  26:Sites    57.3 +  170.7 =  228.0	Diffs     6.0 +    4.0 =   10.0  27
+ 28   1:Sites    55.9 +  166.1 =  222.0	Diffs    20.2 +   35.8 =   56.0
+ 28   2:Sites    55.5 +  175.5 =  231.0	Diffs    16.7 +   27.3 =   44.0
+ 28   3:Sites    24.4 +   62.6 =   87.0	Diffs    11.8 +   14.2 =   26.0
+ 28   4:Sites    59.4 +  183.6 =  243.0	Diffs     6.5 +   10.5 =   17.0
+ 28   5:Sites    59.4 +  183.6 =  243.0	Diffs     6.5 +   10.5 =   17.0
+ 28   6:Sites    50.0 +  145.0 =  195.0	Diffs     5.5 +    9.5 =   15.0
+ 28   7:Sites    59.8 +  177.2 =  237.0	Diffs    12.4 +   27.6 =   40.0
+ 28   8:Sites    59.4 +  177.6 =  237.0	Diffs    11.9 +   28.1 =   40.0
+ 28   9:Sites    23.3 +   63.7 =   87.0	Diffs     7.5 +    8.5 =   16.0
+ 28  10:Sites    23.3 +   63.7 =   87.0	Diffs     7.5 +    8.5 =   16.0
+ 28  11:Sites    41.9 +  117.1 =  159.0	Diffs     5.0 +    5.0 =   10.0
+ 28  12:Sites    58.8 +  184.2 =  243.0	Diffs     7.0 +   22.0 =   29.0
+ 28  13:Sites    58.8 +  184.2 =  243.0	Diffs     8.0 +   22.0 =   30.0
+ 28  14:Sites    60.9 +  182.1 =  243.0	Diffs    14.0 +   16.0 =   30.0
+ 28  15:Sites    24.2 +   62.8 =   87.0	Diffs    10.5 +    9.5 =   20.0
+ 28  16:Sites    23.9 +   63.1 =   87.0	Diffs     9.5 +    9.5 =   19.0
+ 28  17:Sites    23.6 +   63.4 =   87.0	Diffs     9.3 +   10.7 =   20.0
+ 28  18:Sites    59.4 +  183.6 =  243.0	Diffs     3.3 +   19.7 =   23.0
+ 28  19:Sites    59.4 +  183.6 =  243.0	Diffs     3.3 +   19.7 =   23.0
+ 28  20:Sites    59.0 +  184.0 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 28  21:Sites    59.0 +  184.0 =  243.0	Diffs     1.0 +    0.0 =    1.0
+ 28  22:Sites    59.0 +  184.0 =  243.0	Diffs     1.0 +    0.0 =    1.0
+ 28  23:Sites    59.0 +  184.0 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 28  24:Sites    59.0 +  184.0 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 28  25:Sites    49.6 +  145.4 =  195.0	Diffs     1.0 +    1.0 =    2.0
+ 28  26:Sites    57.3 +  170.7 =  228.0	Diffs     6.0 +    4.0 =   10.0
+ 28  27:Sites    59.0 +  184.0 =  243.0	Diffs     0.0 +    0.0 =    0.0  28
+ 29   1:Sites    56.9 +  165.1 =  222.0	Diffs    20.2 +   34.8 =   55.0
+ 29   2:Sites    56.5 +  174.5 =  231.0	Diffs    16.7 +   26.3 =   43.0
+ 29   3:Sites    25.0 +   62.0 =   87.0	Diffs    11.8 +   13.2 =   25.0
+ 29   4:Sites    60.4 +  182.6 =  243.0	Diffs     3.0 +    7.0 =   10.0
+ 29   5:Sites    60.3 +  182.7 =  243.0	Diffs     3.0 +    7.0 =   10.0
+ 29   6:Sites    51.0 +  144.0 =  195.0	Diffs     2.0 +    6.0 =    8.0
+ 29   7:Sites    60.8 +  176.2 =  237.0	Diffs     8.9 +   24.1 =   33.0
+ 29   8:Sites    60.3 +  176.7 =  237.0	Diffs     8.4 +   24.6 =   33.0
+ 29   9:Sites    23.3 +   63.7 =   87.0	Diffs     7.5 +    8.5 =   16.0
+ 29  10:Sites    23.3 +   63.7 =   87.0	Diffs     7.5 +    8.5 =   16.0
+ 29  11:Sites    42.5 +  116.5 =  159.0	Diffs     2.0 +    4.0 =    6.0
+ 29  12:Sites    59.8 +  183.2 =  243.0	Diffs     6.0 +   22.0 =   28.0
+ 29  13:Sites    59.8 +  183.2 =  243.0	Diffs     7.0 +   22.0 =   29.0
+ 29  14:Sites    61.8 +  181.2 =  243.0	Diffs    15.0 +   14.0 =   29.0
+ 29  15:Sites    24.2 +   62.8 =   87.0	Diffs    10.5 +    9.5 =   20.0
+ 29  16:Sites    23.9 +   63.1 =   87.0	Diffs     9.5 +    9.5 =   19.0
+ 29  17:Sites    23.6 +   63.4 =   87.0	Diffs     9.3 +   10.7 =   20.0
+ 29  18:Sites    60.4 +  182.6 =  243.0	Diffs     4.3 +   17.7 =   22.0
+ 29  19:Sites    60.4 +  182.6 =  243.0	Diffs     4.3 +   17.7 =   22.0
+ 29  20:Sites    60.0 +  183.0 =  243.0	Diffs     6.0 +    3.0 =    9.0
+ 29  21:Sites    59.9 +  183.1 =  243.0	Diffs     7.0 +    3.0 =   10.0
+ 29  22:Sites    59.9 +  183.1 =  243.0	Diffs     7.0 +    3.0 =   10.0
+ 29  23:Sites    60.0 +  183.0 =  243.0	Diffs     6.0 +    3.0 =    9.0
+ 29  24:Sites    60.0 +  183.0 =  243.0	Diffs     6.0 +    3.0 =    9.0
+ 29  25:Sites    50.6 +  144.4 =  195.0	Diffs     7.0 +    2.0 =    9.0
+ 29  26:Sites    58.2 +  169.8 =  228.0	Diffs     0.0 +    1.0 =    1.0
+ 29  27:Sites    60.0 +  183.0 =  243.0	Diffs     6.0 +    3.0 =    9.0
+ 29  28:Sites    60.0 +  183.0 =  243.0	Diffs     6.0 +    3.0 =    9.0  29
+ 30   1:Sites    56.2 +  165.8 =  222.0	Diffs    18.8 +   40.2 =   59.0
+ 30   2:Sites    55.8 +  175.2 =  231.0	Diffs    16.3 +   30.7 =   47.0
+ 30   3:Sites    25.3 +   61.7 =   87.0	Diffs    12.8 +   14.2 =   27.0
+ 30   4:Sites    59.7 +  183.3 =  243.0	Diffs     1.0 +    1.0 =    2.0
+ 30   5:Sites    59.7 +  183.3 =  243.0	Diffs     1.0 +    1.0 =    2.0
+ 30   6:Sites    50.8 +  144.2 =  195.0	Diffs     0.0 +    1.0 =    1.0
+ 30   7:Sites    60.1 +  176.9 =  237.0	Diffs     5.6 +   19.4 =   25.0
+ 30   8:Sites    59.7 +  177.3 =  237.0	Diffs     5.1 +   19.9 =   25.0
+ 30   9:Sites    23.1 +   63.9 =   87.0	Diffs     7.5 +   10.5 =   18.0
+ 30  10:Sites    23.1 +   63.9 =   87.0	Diffs     7.5 +   10.5 =   18.0
+ 30  11:Sites    42.8 +  116.2 =  159.0	Diffs     0.0 +    0.0 =    0.0
+ 30  12:Sites    59.1 +  183.9 =  243.0	Diffs     5.0 +   25.0 =   30.0
+ 30  13:Sites    59.2 +  183.8 =  243.0	Diffs     6.0 +   25.0 =   31.0
+ 30  14:Sites    61.2 +  181.8 =  243.0	Diffs    11.5 +   18.5 =   30.0
+ 30  15:Sites    24.1 +   62.9 =   87.0	Diffs    10.0 +   12.0 =   22.0
+ 30  16:Sites    23.8 +   63.2 =   87.0	Diffs     9.0 +   10.0 =   19.0
+ 30  17:Sites    23.4 +   63.6 =   87.0	Diffs     8.8 +   11.2 =   20.0
+ 30  18:Sites    59.7 +  183.3 =  243.0	Diffs     5.3 +   20.7 =   26.0
+ 30  19:Sites    59.7 +  183.3 =  243.0	Diffs     5.3 +   20.7 =   26.0
+ 30  20:Sites    59.3 +  183.7 =  243.0	Diffs     6.5 +    9.5 =   16.0
+ 30  21:Sites    59.3 +  183.7 =  243.0	Diffs     7.5 +    9.5 =   17.0
+ 30  22:Sites    59.3 +  183.7 =  243.0	Diffs     7.5 +    9.5 =   17.0
+ 30  23:Sites    59.3 +  183.7 =  243.0	Diffs     6.5 +    9.5 =   16.0
+ 30  24:Sites    59.3 +  183.7 =  243.0	Diffs     6.5 +    9.5 =   16.0
+ 30  25:Sites    50.4 +  144.6 =  195.0	Diffs     6.5 +    7.5 =   14.0
+ 30  26:Sites    57.6 +  170.4 =  228.0	Diffs     3.0 +    7.0 =   10.0
+ 30  27:Sites    59.3 +  183.7 =  243.0	Diffs     6.5 +    9.5 =   16.0
+ 30  28:Sites    59.3 +  183.7 =  243.0	Diffs     6.5 +    9.5 =   16.0
+ 30  29:Sites    60.3 +  182.7 =  243.0	Diffs     3.0 +    6.0 =    9.0  30
+ 31   1:Sites    56.3 +  165.7 =  222.0	Diffs    18.3 +   39.7 =   58.0
+ 31   2:Sites    55.9 +  175.1 =  231.0	Diffs    15.8 +   31.2 =   47.0
+ 31   3:Sites    25.3 +   61.7 =   87.0	Diffs    12.8 +   14.2 =   27.0
+ 31   4:Sites    59.8 +  183.2 =  243.0	Diffs     1.0 +    0.0 =    1.0
+ 31   5:Sites    59.7 +  183.3 =  243.0	Diffs     1.0 +    0.0 =    1.0
+ 31   6:Sites    50.8 +  144.2 =  195.0	Diffs     0.0 +    1.0 =    1.0
+ 31   7:Sites    60.2 +  176.8 =  237.0	Diffs     5.6 +   20.4 =   26.0
+ 31   8:Sites    59.7 +  177.3 =  237.0	Diffs     5.1 +   20.9 =   26.0
+ 31   9:Sites    23.1 +   63.9 =   87.0	Diffs     7.5 +   10.5 =   18.0
+ 31  10:Sites    23.1 +   63.9 =   87.0	Diffs     7.5 +   10.5 =   18.0
+ 31  11:Sites    42.8 +  116.2 =  159.0	Diffs     0.0 +    0.0 =    0.0
+ 31  12:Sites    59.2 +  183.8 =  243.0	Diffs     5.0 +   26.0 =   31.0
+ 31  13:Sites    59.2 +  183.8 =  243.0	Diffs     6.0 +   26.0 =   32.0
+ 31  14:Sites    61.2 +  181.8 =  243.0	Diffs    11.5 +   19.5 =   31.0
+ 31  15:Sites    24.1 +   62.9 =   87.0	Diffs    10.0 +   12.0 =   22.0
+ 31  16:Sites    23.8 +   63.2 =   87.0	Diffs     9.0 +   10.0 =   19.0
+ 31  17:Sites    23.4 +   63.6 =   87.0	Diffs     8.8 +   11.2 =   20.0
+ 31  18:Sites    59.8 +  183.2 =  243.0	Diffs     4.3 +   21.7 =   26.0
+ 31  19:Sites    59.8 +  183.2 =  243.0	Diffs     4.3 +   21.7 =   26.0
+ 31  20:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 31  21:Sites    59.3 +  183.7 =  243.0	Diffs     6.5 +   10.5 =   17.0
+ 31  22:Sites    59.3 +  183.7 =  243.0	Diffs     6.5 +   10.5 =   17.0
+ 31  23:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 31  24:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 31  25:Sites    50.4 +  144.6 =  195.0	Diffs     6.5 +    7.5 =   14.0
+ 31  26:Sites    57.6 +  170.4 =  228.0	Diffs     2.0 +    8.0 =   10.0
+ 31  27:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 31  28:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 31  29:Sites    60.3 +  182.7 =  243.0	Diffs     2.0 +    7.0 =    9.0
+ 31  30:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0  31
+ 32   1:Sites    56.3 +  165.7 =  222.0	Diffs    18.3 +   39.7 =   58.0
+ 32   2:Sites    55.9 +  175.1 =  231.0	Diffs    15.8 +   31.2 =   47.0
+ 32   3:Sites    25.3 +   61.7 =   87.0	Diffs    12.8 +   14.2 =   27.0
+ 32   4:Sites    59.8 +  183.2 =  243.0	Diffs     1.0 +    0.0 =    1.0
+ 32   5:Sites    59.7 +  183.3 =  243.0	Diffs     1.0 +    0.0 =    1.0
+ 32   6:Sites    50.8 +  144.2 =  195.0	Diffs     0.0 +    1.0 =    1.0
+ 32   7:Sites    60.2 +  176.8 =  237.0	Diffs     5.6 +   20.4 =   26.0
+ 32   8:Sites    59.7 +  177.3 =  237.0	Diffs     5.1 +   20.9 =   26.0
+ 32   9:Sites    23.1 +   63.9 =   87.0	Diffs     7.5 +   10.5 =   18.0
+ 32  10:Sites    23.1 +   63.9 =   87.0	Diffs     7.5 +   10.5 =   18.0
+ 32  11:Sites    42.8 +  116.2 =  159.0	Diffs     0.0 +    0.0 =    0.0
+ 32  12:Sites    59.2 +  183.8 =  243.0	Diffs     5.0 +   26.0 =   31.0
+ 32  13:Sites    59.2 +  183.8 =  243.0	Diffs     6.0 +   26.0 =   32.0
+ 32  14:Sites    61.2 +  181.8 =  243.0	Diffs    11.5 +   19.5 =   31.0
+ 32  15:Sites    24.1 +   62.9 =   87.0	Diffs    10.0 +   12.0 =   22.0
+ 32  16:Sites    23.8 +   63.2 =   87.0	Diffs     9.0 +   10.0 =   19.0
+ 32  17:Sites    23.4 +   63.6 =   87.0	Diffs     8.8 +   11.2 =   20.0
+ 32  18:Sites    59.8 +  183.2 =  243.0	Diffs     4.3 +   21.7 =   26.0
+ 32  19:Sites    59.8 +  183.2 =  243.0	Diffs     4.3 +   21.7 =   26.0
+ 32  20:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 32  21:Sites    59.3 +  183.7 =  243.0	Diffs     6.5 +   10.5 =   17.0
+ 32  22:Sites    59.3 +  183.7 =  243.0	Diffs     6.5 +   10.5 =   17.0
+ 32  23:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 32  24:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 32  25:Sites    50.4 +  144.6 =  195.0	Diffs     6.5 +    7.5 =   14.0
+ 32  26:Sites    57.6 +  170.4 =  228.0	Diffs     2.0 +    8.0 =   10.0
+ 32  27:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 32  28:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 32  29:Sites    60.3 +  182.7 =  243.0	Diffs     2.0 +    7.0 =    9.0
+ 32  30:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0
+ 32  31:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    0.0 =    0.0  32
+ 33   1:Sites    56.3 +  165.7 =  222.0	Diffs    18.3 +   39.7 =   58.0
+ 33   2:Sites    55.9 +  175.1 =  231.0	Diffs    15.8 +   31.2 =   47.0
+ 33   3:Sites    25.3 +   61.7 =   87.0	Diffs    12.8 +   14.2 =   27.0
+ 33   4:Sites    59.8 +  183.2 =  243.0	Diffs     1.0 +    0.0 =    1.0
+ 33   5:Sites    59.7 +  183.3 =  243.0	Diffs     1.0 +    0.0 =    1.0
+ 33   6:Sites    50.8 +  144.2 =  195.0	Diffs     0.0 +    1.0 =    1.0
+ 33   7:Sites    60.2 +  176.8 =  237.0	Diffs     5.6 +   20.4 =   26.0
+ 33   8:Sites    59.7 +  177.3 =  237.0	Diffs     5.1 +   20.9 =   26.0
+ 33   9:Sites    23.1 +   63.9 =   87.0	Diffs     7.5 +   10.5 =   18.0
+ 33  10:Sites    23.1 +   63.9 =   87.0	Diffs     7.5 +   10.5 =   18.0
+ 33  11:Sites    42.8 +  116.2 =  159.0	Diffs     0.0 +    0.0 =    0.0
+ 33  12:Sites    59.2 +  183.8 =  243.0	Diffs     5.0 +   26.0 =   31.0
+ 33  13:Sites    59.2 +  183.8 =  243.0	Diffs     6.0 +   26.0 =   32.0
+ 33  14:Sites    61.2 +  181.8 =  243.0	Diffs    11.5 +   19.5 =   31.0
+ 33  15:Sites    24.1 +   62.9 =   87.0	Diffs    10.0 +   12.0 =   22.0
+ 33  16:Sites    23.8 +   63.2 =   87.0	Diffs     9.0 +   10.0 =   19.0
+ 33  17:Sites    23.4 +   63.6 =   87.0	Diffs     8.8 +   11.2 =   20.0
+ 33  18:Sites    59.8 +  183.2 =  243.0	Diffs     4.3 +   21.7 =   26.0
+ 33  19:Sites    59.8 +  183.2 =  243.0	Diffs     4.3 +   21.7 =   26.0
+ 33  20:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 33  21:Sites    59.3 +  183.7 =  243.0	Diffs     6.5 +   10.5 =   17.0
+ 33  22:Sites    59.3 +  183.7 =  243.0	Diffs     6.5 +   10.5 =   17.0
+ 33  23:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 33  24:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 33  25:Sites    50.4 +  144.6 =  195.0	Diffs     6.5 +    7.5 =   14.0
+ 33  26:Sites    57.6 +  170.4 =  228.0	Diffs     2.0 +    8.0 =   10.0
+ 33  27:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 33  28:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 33  29:Sites    60.3 +  182.7 =  243.0	Diffs     2.0 +    7.0 =    9.0
+ 33  30:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0
+ 33  31:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 33  32:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    0.0 =    0.0  33
+ 34   1:Sites    56.3 +  165.7 =  222.0	Diffs    18.3 +   39.7 =   58.0
+ 34   2:Sites    55.9 +  175.1 =  231.0	Diffs    15.8 +   31.2 =   47.0
+ 34   3:Sites    25.3 +   61.7 =   87.0	Diffs    12.8 +   14.2 =   27.0
+ 34   4:Sites    59.8 +  183.2 =  243.0	Diffs     1.0 +    0.0 =    1.0
+ 34   5:Sites    59.7 +  183.3 =  243.0	Diffs     1.0 +    0.0 =    1.0
+ 34   6:Sites    50.8 +  144.2 =  195.0	Diffs     0.0 +    1.0 =    1.0
+ 34   7:Sites    60.2 +  176.8 =  237.0	Diffs     5.6 +   20.4 =   26.0
+ 34   8:Sites    59.7 +  177.3 =  237.0	Diffs     5.1 +   20.9 =   26.0
+ 34   9:Sites    23.1 +   63.9 =   87.0	Diffs     7.5 +   10.5 =   18.0
+ 34  10:Sites    23.1 +   63.9 =   87.0	Diffs     7.5 +   10.5 =   18.0
+ 34  11:Sites    42.8 +  116.2 =  159.0	Diffs     0.0 +    0.0 =    0.0
+ 34  12:Sites    59.2 +  183.8 =  243.0	Diffs     5.0 +   26.0 =   31.0
+ 34  13:Sites    59.2 +  183.8 =  243.0	Diffs     6.0 +   26.0 =   32.0
+ 34  14:Sites    61.2 +  181.8 =  243.0	Diffs    11.5 +   19.5 =   31.0
+ 34  15:Sites    24.1 +   62.9 =   87.0	Diffs    10.0 +   12.0 =   22.0
+ 34  16:Sites    23.8 +   63.2 =   87.0	Diffs     9.0 +   10.0 =   19.0
+ 34  17:Sites    23.4 +   63.6 =   87.0	Diffs     8.8 +   11.2 =   20.0
+ 34  18:Sites    59.8 +  183.2 =  243.0	Diffs     4.3 +   21.7 =   26.0
+ 34  19:Sites    59.8 +  183.2 =  243.0	Diffs     4.3 +   21.7 =   26.0
+ 34  20:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 34  21:Sites    59.3 +  183.7 =  243.0	Diffs     6.5 +   10.5 =   17.0
+ 34  22:Sites    59.3 +  183.7 =  243.0	Diffs     6.5 +   10.5 =   17.0
+ 34  23:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 34  24:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 34  25:Sites    50.4 +  144.6 =  195.0	Diffs     6.5 +    7.5 =   14.0
+ 34  26:Sites    57.6 +  170.4 =  228.0	Diffs     2.0 +    8.0 =   10.0
+ 34  27:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 34  28:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 34  29:Sites    60.3 +  182.7 =  243.0	Diffs     2.0 +    7.0 =    9.0
+ 34  30:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0
+ 34  31:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 34  32:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 34  33:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    0.0 =    0.0  34
+ 35   1:Sites    56.3 +  165.7 =  222.0	Diffs    18.3 +   39.7 =   58.0
+ 35   2:Sites    55.9 +  175.1 =  231.0	Diffs    15.8 +   31.2 =   47.0
+ 35   3:Sites    25.3 +   61.7 =   87.0	Diffs    12.8 +   14.2 =   27.0
+ 35   4:Sites    59.8 +  183.2 =  243.0	Diffs     1.0 +    0.0 =    1.0
+ 35   5:Sites    59.7 +  183.3 =  243.0	Diffs     1.0 +    0.0 =    1.0
+ 35   6:Sites    50.8 +  144.2 =  195.0	Diffs     0.0 +    1.0 =    1.0
+ 35   7:Sites    60.2 +  176.8 =  237.0	Diffs     5.6 +   20.4 =   26.0
+ 35   8:Sites    59.7 +  177.3 =  237.0	Diffs     5.1 +   20.9 =   26.0
+ 35   9:Sites    23.1 +   63.9 =   87.0	Diffs     7.5 +   10.5 =   18.0
+ 35  10:Sites    23.1 +   63.9 =   87.0	Diffs     7.5 +   10.5 =   18.0
+ 35  11:Sites    42.8 +  116.2 =  159.0	Diffs     0.0 +    0.0 =    0.0
+ 35  12:Sites    59.2 +  183.8 =  243.0	Diffs     5.0 +   26.0 =   31.0
+ 35  13:Sites    59.2 +  183.8 =  243.0	Diffs     6.0 +   26.0 =   32.0
+ 35  14:Sites    61.2 +  181.8 =  243.0	Diffs    11.5 +   19.5 =   31.0
+ 35  15:Sites    24.1 +   62.9 =   87.0	Diffs    10.0 +   12.0 =   22.0
+ 35  16:Sites    23.8 +   63.2 =   87.0	Diffs     9.0 +   10.0 =   19.0
+ 35  17:Sites    23.4 +   63.6 =   87.0	Diffs     8.8 +   11.2 =   20.0
+ 35  18:Sites    59.8 +  183.2 =  243.0	Diffs     4.3 +   21.7 =   26.0
+ 35  19:Sites    59.8 +  183.2 =  243.0	Diffs     4.3 +   21.7 =   26.0
+ 35  20:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 35  21:Sites    59.3 +  183.7 =  243.0	Diffs     6.5 +   10.5 =   17.0
+ 35  22:Sites    59.3 +  183.7 =  243.0	Diffs     6.5 +   10.5 =   17.0
+ 35  23:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 35  24:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 35  25:Sites    50.4 +  144.6 =  195.0	Diffs     6.5 +    7.5 =   14.0
+ 35  26:Sites    57.6 +  170.4 =  228.0	Diffs     2.0 +    8.0 =   10.0
+ 35  27:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 35  28:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 35  29:Sites    60.3 +  182.7 =  243.0	Diffs     2.0 +    7.0 =    9.0
+ 35  30:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0
+ 35  31:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 35  32:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 35  33:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 35  34:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    0.0 =    0.0  35
+ 36   1:Sites    56.3 +  165.7 =  222.0	Diffs    18.3 +   39.7 =   58.0
+ 36   2:Sites    55.9 +  175.1 =  231.0	Diffs    15.8 +   31.2 =   47.0
+ 36   3:Sites    25.3 +   61.7 =   87.0	Diffs    12.8 +   14.2 =   27.0
+ 36   4:Sites    59.8 +  183.2 =  243.0	Diffs     1.0 +    0.0 =    1.0
+ 36   5:Sites    59.7 +  183.3 =  243.0	Diffs     1.0 +    0.0 =    1.0
+ 36   6:Sites    50.8 +  144.2 =  195.0	Diffs     0.0 +    1.0 =    1.0
+ 36   7:Sites    60.2 +  176.8 =  237.0	Diffs     5.6 +   20.4 =   26.0
+ 36   8:Sites    59.7 +  177.3 =  237.0	Diffs     5.1 +   20.9 =   26.0
+ 36   9:Sites    23.1 +   63.9 =   87.0	Diffs     7.5 +   10.5 =   18.0
+ 36  10:Sites    23.1 +   63.9 =   87.0	Diffs     7.5 +   10.5 =   18.0
+ 36  11:Sites    42.8 +  116.2 =  159.0	Diffs     0.0 +    0.0 =    0.0
+ 36  12:Sites    59.2 +  183.8 =  243.0	Diffs     5.0 +   26.0 =   31.0
+ 36  13:Sites    59.2 +  183.8 =  243.0	Diffs     6.0 +   26.0 =   32.0
+ 36  14:Sites    61.2 +  181.8 =  243.0	Diffs    11.5 +   19.5 =   31.0
+ 36  15:Sites    24.1 +   62.9 =   87.0	Diffs    10.0 +   12.0 =   22.0
+ 36  16:Sites    23.8 +   63.2 =   87.0	Diffs     9.0 +   10.0 =   19.0
+ 36  17:Sites    23.4 +   63.6 =   87.0	Diffs     8.8 +   11.2 =   20.0
+ 36  18:Sites    59.8 +  183.2 =  243.0	Diffs     4.3 +   21.7 =   26.0
+ 36  19:Sites    59.8 +  183.2 =  243.0	Diffs     4.3 +   21.7 =   26.0
+ 36  20:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 36  21:Sites    59.3 +  183.7 =  243.0	Diffs     6.5 +   10.5 =   17.0
+ 36  22:Sites    59.3 +  183.7 =  243.0	Diffs     6.5 +   10.5 =   17.0
+ 36  23:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 36  24:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 36  25:Sites    50.4 +  144.6 =  195.0	Diffs     6.5 +    7.5 =   14.0
+ 36  26:Sites    57.6 +  170.4 =  228.0	Diffs     2.0 +    8.0 =   10.0
+ 36  27:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 36  28:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 36  29:Sites    60.3 +  182.7 =  243.0	Diffs     2.0 +    7.0 =    9.0
+ 36  30:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0
+ 36  31:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 36  32:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 36  33:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 36  34:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 36  35:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    0.0 =    0.0  36
+ 37   1:Sites    54.3 +  161.7 =  216.0	Diffs    18.3 +   39.7 =   58.0
+ 37   2:Sites    53.9 +  171.1 =  225.0	Diffs    15.8 +   31.2 =   47.0
+ 37   3:Sites    24.3 +   59.7 =   84.0	Diffs    11.8 +   14.2 =   26.0
+ 37   4:Sites    57.7 +  179.3 =  237.0	Diffs     1.0 +    0.0 =    1.0
+ 37   5:Sites    57.7 +  179.3 =  237.0	Diffs     0.0 +    0.0 =    0.0
+ 37   6:Sites    48.8 +  140.2 =  189.0	Diffs     0.0 +    1.0 =    1.0
+ 37   7:Sites    58.1 +  172.9 =  231.0	Diffs     5.6 +   20.4 =   26.0
+ 37   8:Sites    57.7 +  173.3 =  231.0	Diffs     5.1 +   20.9 =   26.0
+ 37   9:Sites    22.1 +   61.9 =   84.0	Diffs     6.5 +   10.5 =   17.0
+ 37  10:Sites    22.1 +   61.9 =   84.0	Diffs     6.5 +   10.5 =   17.0
+ 37  11:Sites    40.8 +  112.2 =  153.0	Diffs     0.0 +    0.0 =    0.0
+ 37  12:Sites    57.1 +  179.9 =  237.0	Diffs     5.0 +   26.0 =   31.0
+ 37  13:Sites    57.2 +  179.8 =  237.0	Diffs     6.0 +   26.0 =   32.0
+ 37  14:Sites    59.2 +  177.8 =  237.0	Diffs    11.5 +   19.5 =   31.0
+ 37  15:Sites    22.1 +   58.9 =   81.0	Diffs     8.0 +   11.0 =   19.0
+ 37  16:Sites    21.8 +   59.2 =   81.0	Diffs     7.0 +    9.0 =   16.0
+ 37  17:Sites    21.8 +   59.2 =   81.0	Diffs     7.0 +    9.0 =   16.0
+ 37  18:Sites    57.6 +  179.4 =  237.0	Diffs     4.3 +   20.7 =   25.0
+ 37  19:Sites    57.6 +  179.4 =  237.0	Diffs     4.3 +   20.7 =   25.0
+ 37  20:Sites    57.3 +  179.7 =  237.0	Diffs     5.5 +   10.5 =   16.0
+ 37  21:Sites    57.3 +  179.7 =  237.0	Diffs     6.5 +   10.5 =   17.0
+ 37  22:Sites    57.3 +  179.7 =  237.0	Diffs     6.5 +   10.5 =   17.0
+ 37  23:Sites    57.3 +  179.7 =  237.0	Diffs     5.5 +   10.5 =   16.0
+ 37  24:Sites    57.3 +  179.7 =  237.0	Diffs     5.5 +   10.5 =   16.0
+ 37  25:Sites    48.4 +  140.6 =  189.0	Diffs     6.5 +    7.5 =   14.0
+ 37  26:Sites    55.6 +  166.4 =  222.0	Diffs     2.0 +    8.0 =   10.0
+ 37  27:Sites    57.3 +  179.7 =  237.0	Diffs     5.5 +   10.5 =   16.0
+ 37  28:Sites    57.3 +  179.7 =  237.0	Diffs     5.5 +   10.5 =   16.0
+ 37  29:Sites    58.3 +  178.7 =  237.0	Diffs     2.0 +    7.0 =    9.0
+ 37  30:Sites    57.6 +  179.4 =  237.0	Diffs     0.0 +    1.0 =    1.0
+ 37  31:Sites    57.7 +  179.3 =  237.0	Diffs     0.0 +    0.0 =    0.0
+ 37  32:Sites    57.7 +  179.3 =  237.0	Diffs     0.0 +    0.0 =    0.0
+ 37  33:Sites    57.7 +  179.3 =  237.0	Diffs     0.0 +    0.0 =    0.0
+ 37  34:Sites    57.7 +  179.3 =  237.0	Diffs     0.0 +    0.0 =    0.0
+ 37  35:Sites    57.7 +  179.3 =  237.0	Diffs     0.0 +    0.0 =    0.0
+ 37  36:Sites    57.7 +  179.3 =  237.0	Diffs     0.0 +    0.0 =    0.0  37
+ 38   1:Sites    56.3 +  165.7 =  222.0	Diffs    18.3 +   38.7 =   57.0
+ 38   2:Sites    55.9 +  175.1 =  231.0	Diffs    15.8 +   30.2 =   46.0
+ 38   3:Sites    25.3 +   61.7 =   87.0	Diffs    12.8 +   14.2 =   27.0
+ 38   4:Sites    59.8 +  183.2 =  243.0	Diffs     1.0 +    1.0 =    2.0
+ 38   5:Sites    59.7 +  183.3 =  243.0	Diffs     1.0 +    1.0 =    2.0
+ 38   6:Sites    50.8 +  144.2 =  195.0	Diffs     0.0 +    0.0 =    0.0
+ 38   7:Sites    60.2 +  176.8 =  237.0	Diffs     5.6 +   21.4 =   27.0
+ 38   8:Sites    59.7 +  177.3 =  237.0	Diffs     5.1 +   19.9 =   25.0
+ 38   9:Sites    23.1 +   63.9 =   87.0	Diffs     7.5 +   10.5 =   18.0
+ 38  10:Sites    23.1 +   63.9 =   87.0	Diffs     7.5 +   10.5 =   18.0
+ 38  11:Sites    42.8 +  116.2 =  159.0	Diffs     0.0 +    0.0 =    0.0
+ 38  12:Sites    59.2 +  183.8 =  243.0	Diffs     5.0 +   27.0 =   32.0
+ 38  13:Sites    59.2 +  183.8 =  243.0	Diffs     6.0 +   27.0 =   33.0
+ 38  14:Sites    61.2 +  181.8 =  243.0	Diffs    11.5 +   20.5 =   32.0
+ 38  15:Sites    24.1 +   62.9 =   87.0	Diffs    10.0 +   12.0 =   22.0
+ 38  16:Sites    23.8 +   63.2 =   87.0	Diffs     9.0 +   10.0 =   19.0
+ 38  17:Sites    23.4 +   63.6 =   87.0	Diffs     8.8 +   11.2 =   20.0
+ 38  18:Sites    59.8 +  183.2 =  243.0	Diffs     4.3 +   22.7 =   27.0
+ 38  19:Sites    59.8 +  183.2 =  243.0	Diffs     4.3 +   22.7 =   27.0
+ 38  20:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   11.5 =   17.0
+ 38  21:Sites    59.3 +  183.7 =  243.0	Diffs     6.5 +   11.5 =   18.0
+ 38  22:Sites    59.3 +  183.7 =  243.0	Diffs     6.5 +   11.5 =   18.0
+ 38  23:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   11.5 =   17.0
+ 38  24:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   11.5 =   17.0
+ 38  25:Sites    50.4 +  144.6 =  195.0	Diffs     6.5 +    8.5 =   15.0
+ 38  26:Sites    57.6 +  170.4 =  228.0	Diffs     2.0 +    9.0 =   11.0
+ 38  27:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   11.5 =   17.0
+ 38  28:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   11.5 =   17.0
+ 38  29:Sites    60.3 +  182.7 =  243.0	Diffs     2.0 +    8.0 =   10.0
+ 38  30:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    2.0 =    2.0
+ 38  31:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0
+ 38  32:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0
+ 38  33:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0
+ 38  34:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0
+ 38  35:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0
+ 38  36:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0
+ 38  37:Sites    57.7 +  179.3 =  237.0	Diffs     0.0 +    1.0 =    1.0  38
+ 39   1:Sites    56.2 +  165.8 =  222.0	Diffs    18.8 +   40.2 =   59.0
+ 39   2:Sites    55.8 +  175.2 =  231.0	Diffs    16.3 +   30.7 =   47.0
+ 39   3:Sites    25.3 +   61.7 =   87.0	Diffs    12.8 +   14.2 =   27.0
+ 39   4:Sites    59.7 +  183.3 =  243.0	Diffs     1.0 +    1.0 =    2.0
+ 39   5:Sites    59.7 +  183.3 =  243.0	Diffs     1.0 +    1.0 =    2.0
+ 39   6:Sites    50.8 +  144.2 =  195.0	Diffs     0.0 +    1.0 =    1.0
+ 39   7:Sites    60.1 +  176.9 =  237.0	Diffs     5.6 +   19.4 =   25.0
+ 39   8:Sites    59.7 +  177.3 =  237.0	Diffs     5.1 +   19.9 =   25.0
+ 39   9:Sites    23.1 +   63.9 =   87.0	Diffs     7.5 +   10.5 =   18.0
+ 39  10:Sites    23.1 +   63.9 =   87.0	Diffs     7.5 +   10.5 =   18.0
+ 39  11:Sites    42.8 +  116.2 =  159.0	Diffs     0.0 +    0.0 =    0.0
+ 39  12:Sites    59.1 +  183.9 =  243.0	Diffs     5.0 +   25.0 =   30.0
+ 39  13:Sites    59.2 +  183.8 =  243.0	Diffs     6.0 +   25.0 =   31.0
+ 39  14:Sites    61.2 +  181.8 =  243.0	Diffs    11.5 +   18.5 =   30.0
+ 39  15:Sites    24.1 +   62.9 =   87.0	Diffs    10.0 +   12.0 =   22.0
+ 39  16:Sites    23.8 +   63.2 =   87.0	Diffs     9.0 +   10.0 =   19.0
+ 39  17:Sites    23.4 +   63.6 =   87.0	Diffs     8.8 +   11.2 =   20.0
+ 39  18:Sites    59.7 +  183.3 =  243.0	Diffs     5.3 +   20.7 =   26.0
+ 39  19:Sites    59.7 +  183.3 =  243.0	Diffs     5.3 +   20.7 =   26.0
+ 39  20:Sites    59.3 +  183.7 =  243.0	Diffs     6.5 +    9.5 =   16.0
+ 39  21:Sites    59.3 +  183.7 =  243.0	Diffs     7.5 +    9.5 =   17.0
+ 39  22:Sites    59.3 +  183.7 =  243.0	Diffs     7.5 +    9.5 =   17.0
+ 39  23:Sites    59.3 +  183.7 =  243.0	Diffs     6.5 +    9.5 =   16.0
+ 39  24:Sites    59.3 +  183.7 =  243.0	Diffs     6.5 +    9.5 =   16.0
+ 39  25:Sites    50.4 +  144.6 =  195.0	Diffs     6.5 +    7.5 =   14.0
+ 39  26:Sites    57.6 +  170.4 =  228.0	Diffs     3.0 +    7.0 =   10.0
+ 39  27:Sites    59.3 +  183.7 =  243.0	Diffs     6.5 +    9.5 =   16.0
+ 39  28:Sites    59.3 +  183.7 =  243.0	Diffs     6.5 +    9.5 =   16.0
+ 39  29:Sites    60.3 +  182.7 =  243.0	Diffs     3.0 +    6.0 =    9.0
+ 39  30:Sites    59.6 +  183.4 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 39  31:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0
+ 39  32:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0
+ 39  33:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0
+ 39  34:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0
+ 39  35:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0
+ 39  36:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0
+ 39  37:Sites    57.6 +  179.4 =  237.0	Diffs     0.0 +    1.0 =    1.0
+ 39  38:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    2.0 =    2.0  39
+ 40   1:Sites    56.3 +  165.7 =  222.0	Diffs    18.3 +   39.7 =   58.0
+ 40   2:Sites    55.9 +  175.1 =  231.0	Diffs    15.8 +   31.2 =   47.0
+ 40   3:Sites    25.3 +   61.7 =   87.0	Diffs    12.8 +   14.2 =   27.0
+ 40   4:Sites    59.8 +  183.2 =  243.0	Diffs     1.0 +    0.0 =    1.0
+ 40   5:Sites    59.7 +  183.3 =  243.0	Diffs     1.0 +    0.0 =    1.0
+ 40   6:Sites    50.8 +  144.2 =  195.0	Diffs     0.0 +    1.0 =    1.0
+ 40   7:Sites    60.2 +  176.8 =  237.0	Diffs     5.6 +   20.4 =   26.0
+ 40   8:Sites    59.7 +  177.3 =  237.0	Diffs     5.1 +   20.9 =   26.0
+ 40   9:Sites    23.1 +   63.9 =   87.0	Diffs     7.5 +   10.5 =   18.0
+ 40  10:Sites    23.1 +   63.9 =   87.0	Diffs     7.5 +   10.5 =   18.0
+ 40  11:Sites    42.8 +  116.2 =  159.0	Diffs     0.0 +    0.0 =    0.0
+ 40  12:Sites    59.2 +  183.8 =  243.0	Diffs     5.0 +   26.0 =   31.0
+ 40  13:Sites    59.2 +  183.8 =  243.0	Diffs     6.0 +   26.0 =   32.0
+ 40  14:Sites    61.2 +  181.8 =  243.0	Diffs    11.5 +   19.5 =   31.0
+ 40  15:Sites    24.1 +   62.9 =   87.0	Diffs    10.0 +   12.0 =   22.0
+ 40  16:Sites    23.8 +   63.2 =   87.0	Diffs     9.0 +   10.0 =   19.0
+ 40  17:Sites    23.4 +   63.6 =   87.0	Diffs     8.8 +   11.2 =   20.0
+ 40  18:Sites    59.8 +  183.2 =  243.0	Diffs     4.3 +   21.7 =   26.0
+ 40  19:Sites    59.8 +  183.2 =  243.0	Diffs     4.3 +   21.7 =   26.0
+ 40  20:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 40  21:Sites    59.3 +  183.7 =  243.0	Diffs     6.5 +   10.5 =   17.0
+ 40  22:Sites    59.3 +  183.7 =  243.0	Diffs     6.5 +   10.5 =   17.0
+ 40  23:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 40  24:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 40  25:Sites    50.4 +  144.6 =  195.0	Diffs     6.5 +    7.5 =   14.0
+ 40  26:Sites    57.6 +  170.4 =  228.0	Diffs     2.0 +    8.0 =   10.0
+ 40  27:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 40  28:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 40  29:Sites    60.3 +  182.7 =  243.0	Diffs     2.0 +    7.0 =    9.0
+ 40  30:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0
+ 40  31:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 40  32:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 40  33:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 40  34:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 40  35:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 40  36:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 40  37:Sites    57.7 +  179.3 =  237.0	Diffs     0.0 +    0.0 =    0.0
+ 40  38:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0
+ 40  39:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0  40
+ 41   1:Sites    56.3 +  165.7 =  222.0	Diffs    18.3 +   39.7 =   58.0
+ 41   2:Sites    55.9 +  175.1 =  231.0	Diffs    15.8 +   31.2 =   47.0
+ 41   3:Sites    25.3 +   61.7 =   87.0	Diffs    12.8 +   14.2 =   27.0
+ 41   4:Sites    59.8 +  183.2 =  243.0	Diffs     1.0 +    0.0 =    1.0
+ 41   5:Sites    59.7 +  183.3 =  243.0	Diffs     1.0 +    0.0 =    1.0
+ 41   6:Sites    50.8 +  144.2 =  195.0	Diffs     0.0 +    1.0 =    1.0
+ 41   7:Sites    60.2 +  176.8 =  237.0	Diffs     5.6 +   20.4 =   26.0
+ 41   8:Sites    59.7 +  177.3 =  237.0	Diffs     5.1 +   20.9 =   26.0
+ 41   9:Sites    23.1 +   63.9 =   87.0	Diffs     7.5 +   10.5 =   18.0
+ 41  10:Sites    23.1 +   63.9 =   87.0	Diffs     7.5 +   10.5 =   18.0
+ 41  11:Sites    42.8 +  116.2 =  159.0	Diffs     0.0 +    0.0 =    0.0
+ 41  12:Sites    59.2 +  183.8 =  243.0	Diffs     5.0 +   26.0 =   31.0
+ 41  13:Sites    59.2 +  183.8 =  243.0	Diffs     6.0 +   26.0 =   32.0
+ 41  14:Sites    61.2 +  181.8 =  243.0	Diffs    11.5 +   19.5 =   31.0
+ 41  15:Sites    24.1 +   62.9 =   87.0	Diffs    10.0 +   12.0 =   22.0
+ 41  16:Sites    23.8 +   63.2 =   87.0	Diffs     9.0 +   10.0 =   19.0
+ 41  17:Sites    23.4 +   63.6 =   87.0	Diffs     8.8 +   11.2 =   20.0
+ 41  18:Sites    59.8 +  183.2 =  243.0	Diffs     4.3 +   21.7 =   26.0
+ 41  19:Sites    59.8 +  183.2 =  243.0	Diffs     4.3 +   21.7 =   26.0
+ 41  20:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 41  21:Sites    59.3 +  183.7 =  243.0	Diffs     6.5 +   10.5 =   17.0
+ 41  22:Sites    59.3 +  183.7 =  243.0	Diffs     6.5 +   10.5 =   17.0
+ 41  23:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 41  24:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 41  25:Sites    50.4 +  144.6 =  195.0	Diffs     6.5 +    7.5 =   14.0
+ 41  26:Sites    57.6 +  170.4 =  228.0	Diffs     2.0 +    8.0 =   10.0
+ 41  27:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 41  28:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   10.5 =   16.0
+ 41  29:Sites    60.3 +  182.7 =  243.0	Diffs     2.0 +    7.0 =    9.0
+ 41  30:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0
+ 41  31:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 41  32:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 41  33:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 41  34:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 41  35:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 41  36:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 41  37:Sites    57.7 +  179.3 =  237.0	Diffs     0.0 +    0.0 =    0.0
+ 41  38:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0
+ 41  39:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0
+ 41  40:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    0.0 =    0.0  41
+ 42   1:Sites    56.3 +  165.7 =  222.0	Diffs    18.3 +   38.7 =   57.0
+ 42   2:Sites    55.9 +  175.1 =  231.0	Diffs    15.8 +   30.2 =   46.0
+ 42   3:Sites    25.3 +   61.7 =   87.0	Diffs    12.8 +   14.2 =   27.0
+ 42   4:Sites    59.8 +  183.2 =  243.0	Diffs     1.0 +    1.0 =    2.0
+ 42   5:Sites    59.7 +  183.3 =  243.0	Diffs     1.0 +    1.0 =    2.0
+ 42   6:Sites    50.8 +  144.2 =  195.0	Diffs     0.0 +    0.0 =    0.0
+ 42   7:Sites    60.2 +  176.8 =  237.0	Diffs     5.6 +   21.4 =   27.0
+ 42   8:Sites    59.7 +  177.3 =  237.0	Diffs     5.1 +   19.9 =   25.0
+ 42   9:Sites    23.1 +   63.9 =   87.0	Diffs     7.5 +   10.5 =   18.0
+ 42  10:Sites    23.1 +   63.9 =   87.0	Diffs     7.5 +   10.5 =   18.0
+ 42  11:Sites    42.8 +  116.2 =  159.0	Diffs     0.0 +    0.0 =    0.0
+ 42  12:Sites    59.2 +  183.8 =  243.0	Diffs     5.0 +   27.0 =   32.0
+ 42  13:Sites    59.2 +  183.8 =  243.0	Diffs     6.0 +   27.0 =   33.0
+ 42  14:Sites    61.2 +  181.8 =  243.0	Diffs    11.5 +   20.5 =   32.0
+ 42  15:Sites    24.1 +   62.9 =   87.0	Diffs    10.0 +   12.0 =   22.0
+ 42  16:Sites    23.8 +   63.2 =   87.0	Diffs     9.0 +   10.0 =   19.0
+ 42  17:Sites    23.4 +   63.6 =   87.0	Diffs     8.8 +   11.2 =   20.0
+ 42  18:Sites    59.8 +  183.2 =  243.0	Diffs     4.3 +   22.7 =   27.0
+ 42  19:Sites    59.8 +  183.2 =  243.0	Diffs     4.3 +   22.7 =   27.0
+ 42  20:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   11.5 =   17.0
+ 42  21:Sites    59.3 +  183.7 =  243.0	Diffs     6.5 +   11.5 =   18.0
+ 42  22:Sites    59.3 +  183.7 =  243.0	Diffs     6.5 +   11.5 =   18.0
+ 42  23:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   11.5 =   17.0
+ 42  24:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   11.5 =   17.0
+ 42  25:Sites    50.4 +  144.6 =  195.0	Diffs     6.5 +    8.5 =   15.0
+ 42  26:Sites    57.6 +  170.4 =  228.0	Diffs     2.0 +    9.0 =   11.0
+ 42  27:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   11.5 =   17.0
+ 42  28:Sites    59.4 +  183.6 =  243.0	Diffs     5.5 +   11.5 =   17.0
+ 42  29:Sites    60.3 +  182.7 =  243.0	Diffs     2.0 +    8.0 =   10.0
+ 42  30:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    2.0 =    2.0
+ 42  31:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0
+ 42  32:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0
+ 42  33:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0
+ 42  34:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0
+ 42  35:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0
+ 42  36:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0
+ 42  37:Sites    57.7 +  179.3 =  237.0	Diffs     0.0 +    1.0 =    1.0
+ 42  38:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    0.0 =    0.0
+ 42  39:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    2.0 =    2.0
+ 42  40:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0
+ 42  41:Sites    59.7 +  183.3 =  243.0	Diffs     0.0 +    1.0 =    1.0  42
+ 43   1:Sites    55.6 +  160.4 =  216.0	Diffs    19.7 +   46.3 =   66.0
+ 43   2:Sites    55.2 +  169.8 =  225.0	Diffs    16.2 +   37.8 =   54.0
+ 43   3:Sites    23.3 +   57.7 =   81.0	Diffs    12.8 +   14.2 =   27.0
+ 43   4:Sites    59.0 +  178.0 =  237.0	Diffs     6.8 +   22.2 =   29.0
+ 43   5:Sites    59.0 +  178.0 =  237.0	Diffs     6.8 +   22.2 =   29.0
+ 43   6:Sites    49.6 +  139.4 =  189.0	Diffs     5.8 +   21.2 =   27.0
+ 43   7:Sites    59.4 +  171.6 =  231.0	Diffs    12.8 +   39.2 =   52.0
+ 43   8:Sites    59.0 +  172.0 =  231.0	Diffs    12.3 +   39.7 =   52.0
+ 43   9:Sites    21.6 +   59.4 =   81.0	Diffs     7.5 +    9.5 =   17.0
+ 43  10:Sites    21.6 +   59.4 =   81.0	Diffs     7.5 +    9.5 =   17.0
+ 43  11:Sites    40.9 +  112.1 =  153.0	Diffs     5.3 +   15.7 =   21.0
+ 43  12:Sites    58.4 +  178.6 =  237.0	Diffs     8.8 +   31.2 =   40.0
+ 43  13:Sites    58.5 +  178.5 =  237.0	Diffs     9.8 +   31.2 =   41.0
+ 43  14:Sites    60.5 +  176.5 =  237.0	Diffs    13.8 +   29.2 =   43.0
+ 43  15:Sites    22.6 +   58.4 =   81.0	Diffs    10.5 +   11.5 =   22.0
+ 43  16:Sites    22.2 +   58.8 =   81.0	Diffs    10.5 +    9.5 =   20.0
+ 43  17:Sites    21.9 +   59.1 =   81.0	Diffs    10.3 +   10.7 =   21.0
+ 43  18:Sites    59.0 +  178.0 =  237.0	Diffs     3.5 +   14.5 =   18.0
+ 43  19:Sites    59.0 +  178.0 =  237.0	Diffs     3.5 +   14.5 =   18.0
+ 43  20:Sites    58.6 +  178.4 =  237.0	Diffs     4.8 +   19.2 =   24.0
+ 43  21:Sites    58.6 +  178.4 =  237.0	Diffs     5.8 +   19.2 =   25.0
+ 43  22:Sites    58.6 +  178.4 =  237.0	Diffs     5.8 +   19.2 =   25.0
+ 43  23:Sites    58.6 +  178.4 =  237.0	Diffs     4.8 +   19.2 =   24.0
+ 43  24:Sites    58.6 +  178.4 =  237.0	Diffs     4.8 +   19.2 =   24.0
+ 43  25:Sites    49.2 +  139.8 =  189.0	Diffs     4.8 +   18.2 =   23.0
+ 43  26:Sites    56.9 +  165.1 =  222.0	Diffs     7.3 +   18.7 =   26.0
+ 43  27:Sites    58.6 +  178.4 =  237.0	Diffs     4.8 +   19.2 =   24.0
+ 43  28:Sites    58.6 +  178.4 =  237.0	Diffs     4.8 +   19.2 =   24.0
+ 43  29:Sites    59.6 +  177.4 =  237.0	Diffs     7.3 +   17.7 =   25.0
+ 43  30:Sites    58.9 +  178.1 =  237.0	Diffs     6.8 +   21.2 =   28.0
+ 43  31:Sites    59.0 +  178.0 =  237.0	Diffs     5.8 +   22.2 =   28.0
+ 43  32:Sites    59.0 +  178.0 =  237.0	Diffs     5.8 +   22.2 =   28.0
+ 43  33:Sites    59.0 +  178.0 =  237.0	Diffs     5.8 +   22.2 =   28.0
+ 43  34:Sites    59.0 +  178.0 =  237.0	Diffs     5.8 +   22.2 =   28.0
+ 43  35:Sites    59.0 +  178.0 =  237.0	Diffs     5.8 +   22.2 =   28.0
+ 43  36:Sites    59.0 +  178.0 =  237.0	Diffs     5.8 +   22.2 =   28.0
+ 43  37:Sites    57.0 +  174.0 =  231.0	Diffs     5.8 +   22.2 =   28.0
+ 43  38:Sites    59.0 +  178.0 =  237.0	Diffs     5.8 +   23.2 =   29.0
+ 43  39:Sites    58.9 +  178.1 =  237.0	Diffs     6.8 +   21.2 =   28.0
+ 43  40:Sites    59.0 +  178.0 =  237.0	Diffs     5.8 +   22.2 =   28.0
+ 43  41:Sites    59.0 +  178.0 =  237.0	Diffs     5.8 +   22.2 =   28.0
+ 43  42:Sites    59.0 +  178.0 =  237.0	Diffs     5.8 +   23.2 =   29.0  43
+ 44   1:Sites    54.7 +  161.3 =  216.0	Diffs    19.7 +   45.3 =   65.0
+ 44   2:Sites    54.3 +  170.7 =  225.0	Diffs    16.2 +   36.8 =   53.0
+ 44   3:Sites    22.7 +   58.3 =   81.0	Diffs    11.8 +   14.2 =   26.0
+ 44   4:Sites    58.2 +  178.8 =  237.0	Diffs     4.8 +   23.2 =   28.0
+ 44   5:Sites    58.2 +  178.8 =  237.0	Diffs     4.8 +   23.2 =   28.0
+ 44   6:Sites    48.8 +  140.2 =  189.0	Diffs     3.8 +   22.2 =   26.0
+ 44   7:Sites    58.6 +  172.4 =  231.0	Diffs    10.8 +   40.2 =   51.0
+ 44   8:Sites    58.2 +  172.8 =  231.0	Diffs    10.3 +   40.7 =   51.0
+ 44   9:Sites    21.2 +   59.8 =   81.0	Diffs     7.5 +    8.5 =   16.0
+ 44  10:Sites    21.2 +   59.8 =   81.0	Diffs     7.5 +    8.5 =   16.0
+ 44  11:Sites    40.0 +  113.0 =  153.0	Diffs     3.3 +   16.7 =   20.0
+ 44  12:Sites    57.6 +  179.4 =  237.0	Diffs     7.8 +   30.2 =   38.0
+ 44  13:Sites    57.7 +  179.3 =  237.0	Diffs     8.8 +   30.2 =   39.0
+ 44  14:Sites    59.7 +  177.3 =  237.0	Diffs    12.3 +   28.7 =   41.0
+ 44  15:Sites    22.2 +   58.8 =   81.0	Diffs    10.5 +   10.5 =   21.0
+ 44  16:Sites    21.9 +   59.1 =   81.0	Diffs     9.5 +   10.5 =   20.0
+ 44  17:Sites    21.5 +   59.5 =   81.0	Diffs     9.3 +   11.7 =   21.0
+ 44  18:Sites    58.2 +  178.8 =  237.0	Diffs     2.5 +   12.5 =   15.0
+ 44  19:Sites    58.2 +  178.8 =  237.0	Diffs     2.5 +   12.5 =   15.0
+ 44  20:Sites    57.8 +  179.2 =  237.0	Diffs     3.8 +   17.2 =   21.0
+ 44  21:Sites    57.8 +  179.2 =  237.0	Diffs     4.8 +   17.2 =   22.0
+ 44  22:Sites    57.8 +  179.2 =  237.0	Diffs     4.8 +   17.2 =   22.0
+ 44  23:Sites    57.8 +  179.2 =  237.0	Diffs     3.8 +   17.2 =   21.0
+ 44  24:Sites    57.8 +  179.2 =  237.0	Diffs     3.8 +   17.2 =   21.0
+ 44  25:Sites    48.4 +  140.6 =  189.0	Diffs     3.8 +   16.2 =   20.0
+ 44  26:Sites    56.1 +  165.9 =  222.0	Diffs     6.3 +   17.7 =   24.0
+ 44  27:Sites    57.8 +  179.2 =  237.0	Diffs     3.8 +   17.2 =   21.0
+ 44  28:Sites    57.8 +  179.2 =  237.0	Diffs     3.8 +   17.2 =   21.0
+ 44  29:Sites    58.8 +  178.2 =  237.0	Diffs     6.3 +   16.7 =   23.0
+ 44  30:Sites    58.1 +  178.9 =  237.0	Diffs     4.8 +   22.2 =   27.0
+ 44  31:Sites    58.2 +  178.8 =  237.0	Diffs     3.8 +   23.2 =   27.0
+ 44  32:Sites    58.2 +  178.8 =  237.0	Diffs     3.8 +   23.2 =   27.0
+ 44  33:Sites    58.2 +  178.8 =  237.0	Diffs     3.8 +   23.2 =   27.0
+ 44  34:Sites    58.2 +  178.8 =  237.0	Diffs     3.8 +   23.2 =   27.0
+ 44  35:Sites    58.2 +  178.8 =  237.0	Diffs     3.8 +   23.2 =   27.0
+ 44  36:Sites    58.2 +  178.8 =  237.0	Diffs     3.8 +   23.2 =   27.0
+ 44  37:Sites    56.1 +  174.9 =  231.0	Diffs     3.8 +   23.2 =   27.0
+ 44  38:Sites    58.2 +  178.8 =  237.0	Diffs     3.8 +   24.2 =   28.0
+ 44  39:Sites    58.1 +  178.9 =  237.0	Diffs     4.8 +   22.2 =   27.0
+ 44  40:Sites    58.2 +  178.8 =  237.0	Diffs     3.8 +   23.2 =   27.0
+ 44  41:Sites    58.2 +  178.8 =  237.0	Diffs     3.8 +   23.2 =   27.0
+ 44  42:Sites    58.2 +  178.8 =  237.0	Diffs     3.8 +   24.2 =   28.0
+ 44  43:Sites    59.5 +  177.5 =  237.0	Diffs     1.0 +    4.0 =    5.0  44
+
+     7568 bytes for distance
+    76128 bytes for conP
+     1248 bytes for fhK
+  5000000 bytes for space
+
+TREE #  1
+
+   1  116.576805
+   2  106.763437
+   3  103.899890
+   4  103.781709
+   5  103.753692
+   6  103.753318
+   7  103.753229
+  1598688 bytes for conP, adjusted
+
+2 node(s) used for scaling (Yang 2000 J Mol Evol 51:423-432):
+ 51 71
+
+    0.109319    0.043166    0.027872    0.170470    0.086970    0.066934    0.055310    0.097584    0.018590    0.066025    0.023412    0.085198    0.000000    0.055716    0.044982    0.039243    0.047625    0.029389    0.026219    0.053791    0.071074    0.054770    0.024113    0.073421    0.034825    0.050941    0.042416    0.010523    0.069063    0.058084    0.019518    0.022567    0.061399    0.043813    0.019631    0.026009    0.014962    0.058629    0.165477    0.015742    0.017229    0.064791    0.055693    0.030057    0.053767    0.015293    0.063818    0.119136    0.031457    0.017074    0.016225    0.009626    0.130391    0.168298    0.031586    0.032103    0.066769    0.055423    0.090153    0.071442    0.011650    0.048257    0.003856    0.094006    0.020431    0.045222    0.050793    0.043382    0.013944    0.071876    0.028885    0.071198    0.023749    0.050459    0.021818    0.034670    0.083336    0.097641    0.049684    0.021790    0.059734    0.024810    0.041120    0.069483    0.187406    1.756909    0.615007    0.400221
+
+ntime & nrate & np:    85     2    88
+
+Bounds (np=88):
+   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000004   0.000100   0.000010   0.000001
+  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000  50.000000 999.000000   0.999990   1.000000
+Qfactor_NS = 6.429049
+
+np =    88
+lnL0 = -1632.802949
+
+Iterating by ming2
+Initial: fx=  1632.802949
+x=  0.10932  0.04317  0.02787  0.17047  0.08697  0.06693  0.05531  0.09758  0.01859  0.06602  0.02341  0.08520  0.00000  0.05572  0.04498  0.03924  0.04762  0.02939  0.02622  0.05379  0.07107  0.05477  0.02411  0.07342  0.03482  0.05094  0.04242  0.01052  0.06906  0.05808  0.01952  0.02257  0.06140  0.04381  0.01963  0.02601  0.01496  0.05863  0.16548  0.01574  0.01723  0.06479  0.05569  0.03006  0.05377  0.01529  0.06382  0.11914  0.03146  0.01707  0.01622  0.00963  0.13039  0.16830  0.03159  0.03210  0.06677  0.05542  0.09015  0.07144  0.01165  0.04826  0.00386  0.09401  0.02043  0.04522  0.05079  0.04338  0.01394  0.07188  0.02888  0.07120  0.02375  0.05046  0.02182  0.03467  0.08334  0.09764  0.04968  0.02179  0.05973  0.02481  0.04112  0.06948  0.18741  1.75691  0.61501  0.40022
+
+  1 h-m-p  0.0000 0.0000 615.8900 ++     1632.797512  m 0.0000    93 | 1/88
+  2 h-m-p  0.0000 0.0000 4332.9710 ++     1607.793716  m 0.0000   184 | 2/88
+  3 h-m-p  0.0000 0.0000 5449.2488 ++     1590.108365  m 0.0000   275 | 3/88
+  4 h-m-p  0.0000 0.0000 137757.9068 ++     1577.179043  m 0.0000   366 | 4/88
+  5 h-m-p  0.0000 0.0000 1833.3958 ++     1572.122791  m 0.0000   457 | 5/88
+  6 h-m-p  0.0000 0.0000 1117.5714 ++     1556.188284  m 0.0000   548 | 6/88
+  7 h-m-p  0.0000 0.0000 4211.7020 ++     1552.345938  m 0.0000   639 | 7/88
+  8 h-m-p  0.0000 0.0000 8565.6067 ++     1547.678324  m 0.0000   730 | 8/88
+  9 h-m-p  0.0000 0.0000 787431.3578 ++     1545.431423  m 0.0000   821 | 9/88
+ 10 h-m-p  0.0000 0.0000 150116.1496 ++     1544.440059  m 0.0000   912 | 10/88
+ 11 h-m-p  0.0000 0.0000 19602.1459 ++     1542.298948  m 0.0000  1003 | 11/88
+ 12 h-m-p  0.0000 0.0000 17085.9323 ++     1541.374712  m 0.0000  1094 | 12/88
+ 13 h-m-p  0.0000 0.0000 9353.8270 ++     1540.358371  m 0.0000  1185 | 13/88
+ 14 h-m-p  0.0000 0.0000 29599.4722 ++     1531.297173  m 0.0000  1276 | 14/88
+ 15 h-m-p  0.0000 0.0000 8130149.5131 ++     1526.100018  m 0.0000  1367 | 15/88
+ 16 h-m-p  0.0000 0.0000 70301.8562 ++     1525.205179  m 0.0000  1458 | 16/88
+ 17 h-m-p  0.0000 0.0000 17404.1527 ++     1522.456337  m 0.0000  1549 | 17/88
+ 18 h-m-p  0.0000 0.0000 4828.3697 ++     1516.812838  m 0.0000  1640 | 18/88
+ 19 h-m-p  0.0000 0.0000 2506967.8714 ++     1510.741156  m 0.0000  1731 | 19/88
+ 20 h-m-p  0.0000 0.0000 11749.3389 ++     1510.281439  m 0.0000  1822 | 20/88
+ 21 h-m-p  0.0000 0.0000 57816.4789 ++     1500.828829  m 0.0000  1913 | 21/88
+ 22 h-m-p  0.0000 0.0000 19207.0617 ++     1499.762497  m 0.0000  2004 | 22/88
+ 23 h-m-p  0.0000 0.0000 10322.4647 ++     1497.475861  m 0.0000  2095 | 23/88
+ 24 h-m-p  0.0000 0.0000 11653.0692 ++     1492.609788  m 0.0000  2186 | 24/88
+ 25 h-m-p  0.0000 0.0000 14769.7995 ++     1490.421741  m 0.0000  2277 | 25/88
+ 26 h-m-p  0.0000 0.0000 10362.2558 ++     1489.660640  m 0.0000  2368 | 26/88
+ 27 h-m-p  0.0000 0.0000 11212.2424 ++     1486.846795  m 0.0000  2459 | 27/88
+ 28 h-m-p  0.0000 0.0000 7042.5757 ++     1483.031815  m 0.0000  2550 | 28/88
+ 29 h-m-p  0.0000 0.0000 13587.7140 ++     1476.872210  m 0.0000  2641 | 29/88
+ 30 h-m-p  0.0000 0.0000 3675.3656 ++     1476.609466  m 0.0000  2732 | 30/88
+ 31 h-m-p  0.0000 0.0000 4792.3590 ++     1472.142729  m 0.0000  2823 | 31/88
+ 32 h-m-p  0.0000 0.0000 4358.7896 ++     1472.024851  m 0.0000  2914 | 32/88
+ 33 h-m-p  0.0000 0.0000 4726.9646 ++     1470.894896  m 0.0000  3005 | 33/88
+ 34 h-m-p  0.0000 0.0000 10519.9129 ++     1469.542954  m 0.0000  3096 | 34/88
+ 35 h-m-p  0.0000 0.0000 5277.5391 ++     1469.447418  m 0.0000  3187 | 35/88
+ 36 h-m-p  0.0000 0.0000 6233.7832 ++     1467.109743  m 0.0000  3278 | 36/88
+ 37 h-m-p  0.0000 0.0000 3758.2556 ++     1463.804804  m 0.0000  3369 | 37/88
+ 38 h-m-p  0.0000 0.0000 2666.1498 ++     1461.208367  m 0.0000  3460 | 38/88
+ 39 h-m-p  0.0000 0.0000 1655.9750 ++     1458.741688  m 0.0000  3551 | 39/88
+ 40 h-m-p  0.0000 0.0000 2802.1701 ++     1458.095182  m 0.0000  3642 | 40/88
+ 41 h-m-p  0.0000 0.0000 2555.5826 ++     1457.679161  m 0.0000  3733 | 41/88
+ 42 h-m-p  0.0000 0.0000 1365.0994 ++     1456.704653  m 0.0000  3824 | 42/88
+ 43 h-m-p  0.0000 0.0000 1158.2639 ++     1456.636363  m 0.0000  3915 | 43/88
+ 44 h-m-p  0.0000 0.0000 882.1419 ++     1456.506696  m 0.0000  4006 | 44/88
+ 45 h-m-p  0.0000 0.0000 560.2225 ++     1456.453422  m 0.0000  4097 | 45/88
+ 46 h-m-p  0.0000 0.0000 791.0782 ++     1456.207556  m 0.0000  4188 | 46/88
+ 47 h-m-p  0.0000 0.0004 174.4519 +++    1448.124678  m 0.0004  4280 | 47/88
+ 48 h-m-p  0.0000 0.0000 112.2872 ++     1447.656573  m 0.0000  4371 | 48/88
+ 49 h-m-p  0.0000 0.0004 257.4713 ++CYYCYCCC  1441.518354  7 0.0004  4475 | 48/88
+ 50 h-m-p  0.0000 0.0002 148.6075 ++     1439.118072  m 0.0002  4566 | 49/88
+ 51 h-m-p  0.0005 0.0026  29.2992 +YYCYC  1437.397711  4 0.0018  4663 | 48/88
+ 52 h-m-p  0.0001 0.0006  72.7876 +CCC   1436.936974  2 0.0005  4759 | 48/88
+ 53 h-m-p  0.0007 0.0035  35.2249 +CYCCC  1433.725411  4 0.0030  4858 | 48/88
+ 54 h-m-p  0.0003 0.0015  37.8922 ++     1431.892359  m 0.0015  4949 | 49/88
+ 55 h-m-p  0.0019 0.0096  21.3827 +YCCCC  1429.423205  4 0.0056  5048 | 48/88
+ 56 h-m-p  0.0002 0.0009 158.8391 YCCCC  1429.210708  4 0.0001  5146 | 48/88
+ 57 h-m-p  0.0003 0.0016  18.8580 ++     1428.038676  m 0.0016  5237 | 48/88
+ 58 h-m-p -0.0000 -0.0000  68.7569 
+h-m-p:     -0.00000000e+00     -0.00000000e+00      6.87569449e+01  1428.038676
+..  | 48/88
+ 59 h-m-p  0.0000 0.0002 315.0851 ++YCCCC  1421.726505  4 0.0002  5425 | 48/88
+ 60 h-m-p  0.0000 0.0001 278.9678 ++     1419.682640  m 0.0001  5516 | 48/88
+ 61 h-m-p  0.0001 0.0005 223.2533 +YYYYCYCCC  1413.057734  8 0.0004  5619 | 47/88
+ 62 h-m-p  0.0000 0.0001 836.5286 +YYCCCC  1411.608881  5 0.0000  5719 | 47/88
+ 63 h-m-p  0.0000 0.0001 180.7404 ++     1410.727888  m 0.0001  5810 | 47/88
+ 64 h-m-p  0.0000 0.0000 240.1687 ++     1410.109683  m 0.0000  5901 | 48/88
+ 65 h-m-p  0.0000 0.0001 118.3916 ++     1409.598626  m 0.0001  5992 | 48/88
+ 66 h-m-p  0.0001 0.0007 173.5788 +CCCC  1408.333937  3 0.0004  6090 | 48/88
+ 67 h-m-p  0.0001 0.0007 264.8519 CYC    1407.627243  2 0.0002  6184 | 48/88
+ 68 h-m-p  0.0002 0.0011  89.4818 YCCC   1407.100716  3 0.0004  6280 | 48/88
+ 69 h-m-p  0.0001 0.0007 104.8892 +YCYCCC  1406.303984  5 0.0004  6380 | 48/88
+ 70 h-m-p  0.0005 0.0031  84.7337 YCCC   1405.152871  3 0.0011  6476 | 48/88
+ 71 h-m-p  0.0002 0.0009  76.1913 CCCC   1404.888649  3 0.0003  6573 | 48/88
+ 72 h-m-p  0.0003 0.0022  83.7550 +YCC   1404.102724  2 0.0010  6668 | 48/88
+ 73 h-m-p  0.0002 0.0012 108.4626 YCCCC  1403.629336  4 0.0005  6766 | 48/88
+ 74 h-m-p  0.0003 0.0014 107.0246 YC     1403.248477  1 0.0005  6858 | 48/88
+ 75 h-m-p  0.0004 0.0021  63.2181 CCCC   1402.970282  3 0.0006  6955 | 48/88
+ 76 h-m-p  0.0002 0.0012  56.9826 +YC    1402.626569  1 0.0010  7048 | 48/88
+ 77 h-m-p  0.0000 0.0001  77.1233 ++     1402.534124  m 0.0001  7139 | 49/88
+ 78 h-m-p  0.0002 0.0026  42.0337 +YYCCCC  1402.281114  5 0.0010  7239 | 48/88
+ 79 h-m-p  0.0002 0.0018 171.6117 YCCC   1402.176119  3 0.0002  7335 | 48/88
+ 80 h-m-p  0.0005 0.0024  21.6368 CCCC   1402.125982  3 0.0005  7432 | 48/88
+ 81 h-m-p  0.0005 0.0060  21.3852 YCCC   1402.041809  3 0.0011  7528 | 48/88
+ 82 h-m-p  0.0012 0.0070  19.9653 CCC    1401.938757  2 0.0016  7623 | 48/88
+ 83 h-m-p  0.0009 0.0044  29.7805 CCC    1401.834310  2 0.0012  7718 | 48/88
+ 84 h-m-p  0.0011 0.0057  18.3474 +YC    1401.679870  1 0.0030  7811 | 48/88
+ 85 h-m-p  0.0006 0.0031  18.0555 ++     1401.547820  m 0.0031  7902 | 49/88
+ 86 h-m-p  0.0037 0.0186  12.8378 CCCC   1401.336300  3 0.0060  7999 | 48/88
+ 87 h-m-p  0.0002 0.0013 377.0779 YCCC   1401.234171  3 0.0001  8095 | 48/88
+ 88 h-m-p  0.0021 0.0103  19.5205 YCC    1401.057804  2 0.0036  8189 | 48/88
+ 89 h-m-p  0.0012 0.0060  20.7955 YC     1400.902735  1 0.0029  8281 | 48/88
+ 90 h-m-p  0.0007 0.0034  16.5594 ++     1400.768800  m 0.0034  8372 | 49/88
+ 91 h-m-p  0.0007 0.0034   6.3261 ++     1400.670172  m 0.0034  8463 | 50/88
+ 92 h-m-p  0.0002 0.0012  17.8857 YCYCCC  1400.469420  5 0.0005  8562 | 50/88
+ 93 h-m-p  0.0007 0.0125  13.5640 +CYCCC  1400.253557  4 0.0051  8661 | 49/88
+ 94 h-m-p  0.0000 0.0002 725.8472 ++     1399.775869  m 0.0002  8752 | 49/88
+ 95 h-m-p -0.0000 -0.0000  16.4064 
+h-m-p:     -6.41135733e-20     -3.20567867e-19      1.64063781e+01  1399.775869
+..  | 49/88
+ 96 h-m-p  0.0000 0.0007  72.6359 ++CCC  1399.340488  2 0.0002  8937 | 49/88
+ 97 h-m-p  0.0000 0.0002  44.6036 ++     1399.157227  m 0.0002  9028 | 49/88
+ 98 h-m-p  0.0001 0.0013  77.1321 +YYC   1398.872657  2 0.0003  9122 | 49/88
+ 99 h-m-p  0.0001 0.0007  67.4487 +YC    1398.607178  1 0.0004  9215 | 49/88
+100 h-m-p  0.0005 0.0059  47.8900 YCCC   1398.220353  3 0.0010  9311 | 49/88
+101 h-m-p  0.0006 0.0030  37.8891 YCCC   1398.116241  3 0.0004  9407 | 49/88
+102 h-m-p  0.0005 0.0027  30.3766 CCCC   1398.008438  3 0.0006  9504 | 49/88
+103 h-m-p  0.0006 0.0039  29.9577 CYC    1397.923508  2 0.0006  9598 | 49/88
+104 h-m-p  0.0005 0.0074  39.2309 CCC    1397.825689  2 0.0006  9693 | 49/88
+105 h-m-p  0.0007 0.0035  23.1286 YCC    1397.784848  2 0.0005  9787 | 49/88
+106 h-m-p  0.0004 0.0029  29.9326 YC     1397.704308  1 0.0009  9879 | 49/88
+107 h-m-p  0.0005 0.0023  33.4446 CC     1397.659183  1 0.0005  9972 | 49/88
+108 h-m-p  0.0002 0.0012  34.5830 ++     1397.564274  m 0.0012 10063 | 50/88
+109 h-m-p  0.0005 0.0023  27.9242 CCCC   1397.506404  3 0.0005 10160 | 50/88
+110 h-m-p  0.0007 0.0065  19.6720 CC     1397.465732  1 0.0007 10253 | 49/88
+111 h-m-p  0.0002 0.0053  83.4842 CCC    1397.417770  2 0.0003 10348 | 49/88
+112 h-m-p  0.0003 0.0014  44.8606 CCC    1397.380377  2 0.0004 10443 | 49/88
+113 h-m-p  0.0002 0.0008  45.3094 ++     1397.302891  m 0.0008 10534 | 50/88
+114 h-m-p  0.0019 0.0327  18.0578 YCC    1397.261427  2 0.0013 10628 | 50/88
+115 h-m-p  0.0004 0.0031  55.2699 CCC    1397.202516  2 0.0006 10723 | 50/88
+116 h-m-p  0.0010 0.0098  30.5109 CCC    1397.148114  2 0.0011 10818 | 50/88
+117 h-m-p  0.0008 0.0053  43.0709 YC     1397.122472  1 0.0004 10910 | 50/88
+118 h-m-p  0.0007 0.0178  25.7793 YC     1397.069188  1 0.0015 11002 | 50/88
+119 h-m-p  0.0026 0.0131   8.0969 CC     1397.057227  1 0.0010 11095 | 49/88
+120 h-m-p  0.0006 0.0100  14.3127 YC     1397.053243  1 0.0002 11187 | 49/88
+121 h-m-p  0.0009 0.0045   3.4188 CC     1397.050116  1 0.0011 11280 | 49/88
+122 h-m-p  0.0004 0.0018  10.5418 CC     1397.045872  1 0.0006 11373 | 49/88
+123 h-m-p  0.0026 0.0321   2.2895 YC     1397.043867  1 0.0015 11465 | 49/88
+124 h-m-p  0.0003 0.0435  11.9170 +YC    1397.038959  1 0.0007 11558 | 49/88
+125 h-m-p  0.0019 0.0185   4.7293 YC     1397.028500  1 0.0044 11650 | 49/88
+126 h-m-p  0.0045 0.1257   4.5901 CC     1397.016649  1 0.0055 11743 | 49/88
+127 h-m-p  0.0032 0.0267   8.0087 CC     1397.002363  1 0.0040 11836 | 49/88
+128 h-m-p  0.0111 0.0555   2.7550 C      1396.999230  0 0.0029 11927 | 49/88
+129 h-m-p  0.0275 0.2496   0.2917 YC     1396.997583  1 0.0176 12019 | 49/88
+130 h-m-p  0.0044 0.0441   1.1619 +CC    1396.990862  1 0.0162 12152 | 49/88
+131 h-m-p  0.0031 0.0154   1.9880 ++     1396.978039  m 0.0154 12243 | 50/88
+132 h-m-p  0.0090 0.1073   3.3983 YC     1396.970970  1 0.0056 12335 | 50/88
+133 h-m-p  0.0274 0.7474   0.6909 C      1396.969465  0 0.0065 12426 | 50/88
+134 h-m-p  0.0074 0.2872   0.6042 CC     1396.967742  1 0.0090 12557 | 50/88
+135 h-m-p  0.0056 0.3948   0.9707 +YC    1396.952213  1 0.0536 12688 | 50/88
+136 h-m-p  0.0357 0.2386   1.4565 CC     1396.947499  1 0.0129 12819 | 50/88
+137 h-m-p  0.1561 1.4933   0.1201 +C     1396.938221  0 0.6274 12911 | 49/88
+138 h-m-p  0.0002 0.0008 129.7255 +C     1396.934710  0 0.0006 13041 | 49/88
+139 h-m-p  0.0123 0.0613   0.4154 ++     1396.932006  m 0.0613 13132 | 50/88
+140 h-m-p  0.0818 0.6295   0.2204 -Y     1396.931965  0 0.0033 13263 | 50/88
+141 h-m-p  0.0354 0.9111   0.0208 +++    1396.923704  m 0.9111 13393 | 49/88
+142 h-m-p  0.0000 0.0000   0.1906 
+h-m-p:      1.84293590e-18      9.21467952e-18      1.90636400e-01  1396.923704
+..  | 50/88
+143 h-m-p  0.0000 0.0107   3.0933 ++YC   1396.922628  1 0.0002 13652 | 50/88
+144 h-m-p  0.0000 0.0001   1.7783 ++     1396.922491  m 0.0001 13743 | 51/88
+145 h-m-p  0.0000 0.0245   3.2467 +C     1396.922190  0 0.0002 13835 | 51/88
+146 h-m-p  0.0007 0.1202   0.8596 YC     1396.922085  1 0.0004 13927 | 51/88
+147 h-m-p  0.0006 0.1309   0.5655 C      1396.922008  0 0.0008 14055 | 51/88
+148 h-m-p  0.0005 0.0803   0.8926 C      1396.921953  0 0.0004 14183 | 51/88
+149 h-m-p  0.0010 0.3794   0.3580 C      1396.921916  0 0.0010 14311 | 51/88
+150 h-m-p  0.0008 0.3549   0.4280 Y      1396.921899  0 0.0005 14439 | 51/88
+151 h-m-p  0.0005 0.2095   0.3992 C      1396.921878  0 0.0008 14567 | 51/88
+152 h-m-p  0.0005 0.2114   0.6036 C      1396.921856  0 0.0006 14695 | 51/88
+153 h-m-p  0.0007 0.2959   0.5062 Y      1396.921844  0 0.0004 14823 | 51/88
+154 h-m-p  0.0008 0.3058   0.2873 C      1396.921834  0 0.0008 14951 | 51/88
+155 h-m-p  0.0008 0.4112   0.5989 C      1396.921812  0 0.0009 15079 | 51/88
+156 h-m-p  0.0011 0.5657   0.4910 C      1396.921790  0 0.0012 15207 | 51/88
+157 h-m-p  0.0006 0.1314   0.9268 Y      1396.921778  0 0.0003 15335 | 51/88
+158 h-m-p  0.0017 0.8707   0.4074 C      1396.921750  0 0.0021 15463 | 51/88
+159 h-m-p  0.0005 0.1980   1.5703 Y      1396.921730  0 0.0004 15591 | 51/88
+160 h-m-p  0.0011 0.5724   0.8554 C      1396.921689  0 0.0015 15682 | 51/88
+161 h-m-p  0.0012 0.1582   1.0534 C      1396.921676  0 0.0004 15810 | 51/88
+162 h-m-p  0.0005 0.2579   0.8540 Y      1396.921648  0 0.0011 15901 | 51/88
+163 h-m-p  0.0020 0.7098   0.4636 C      1396.921642  0 0.0005 16029 | 51/88
+164 h-m-p  0.0018 0.9181   0.7721 C      1396.921607  0 0.0016 16157 | 51/88
+165 h-m-p  0.0041 0.8464   0.3020 Y      1396.921583  0 0.0030 16285 | 51/88
+166 h-m-p  0.0019 0.3239   0.4953 Y      1396.921581  0 0.0002 16413 | 51/88
+167 h-m-p  0.0034 1.7038   0.1261 Y      1396.921576  0 0.0019 16541 | 51/88
+168 h-m-p  0.0007 0.2424   0.3553 Y      1396.921574  0 0.0003 16669 | 51/88
+169 h-m-p  0.0152 7.6173   0.0333 Y      1396.921570  0 0.0071 16797 | 51/88
+170 h-m-p  0.0125 6.2684   0.0476 C      1396.921567  0 0.0048 16925 | 51/88
+171 h-m-p  0.0160 8.0000   0.0590 Y      1396.921560  0 0.0082 17053 | 51/88
+172 h-m-p  0.0113 5.6703   0.1179 C      1396.921544  0 0.0096 17181 | 51/88
+173 h-m-p  0.0234 8.0000   0.0484 C      1396.921540  0 0.0066 17309 | 51/88
+174 h-m-p  0.0160 8.0000   0.0375 Y      1396.921533  0 0.0099 17437 | 51/88
+175 h-m-p  0.0278 8.0000   0.0134 Y      1396.921524  0 0.0193 17565 | 51/88
+176 h-m-p  0.0086 4.3097   0.0540 YC     1396.921469  1 0.0208 17694 | 51/88
+177 h-m-p  0.0127 2.5385   0.0887 C      1396.921424  0 0.0115 17822 | 51/88
+178 h-m-p  0.0422 7.0491   0.0242 -C     1396.921423  0 0.0031 17951 | 51/88
+179 h-m-p  0.0160 8.0000   0.0114 Y      1396.921421  0 0.0256 18079 | 51/88
+180 h-m-p  0.0160 8.0000   0.0351 Y      1396.921416  0 0.0320 18207 | 51/88
+181 h-m-p  0.8011 8.0000   0.0014 --Y    1396.921416  0 0.0097 18337 | 51/88
+182 h-m-p  1.2450 8.0000   0.0000 C      1396.921416  0 1.0563 18465 | 51/88
+183 h-m-p  1.6000 8.0000   0.0000 Y      1396.921416  0 0.9564 18593 | 51/88
+184 h-m-p  1.6000 8.0000   0.0000 Y      1396.921416  0 0.7457 18721 | 51/88
+185 h-m-p  1.6000 8.0000   0.0000 Y      1396.921416  0 1.6000 18849 | 51/88
+186 h-m-p  1.6000 8.0000   0.0000 ----C  1396.921416  0 0.0016 18981
+Out..
+lnL  = -1396.921416
+18982 lfun, 56946 eigenQcodon, 3226940 P(t)
+
+Time used:  5:39
