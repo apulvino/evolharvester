@@ -25,5 +25,11 @@ src/evolharvester/hyphy_harvesters/gard.py
 src/evolharvester/hyphy_harvesters/meme.py
 src/evolharvester/paml_harvesters/__init__.py
 src/evolharvester/paml_harvesters/baseml.py
+src/evolharvester/paml_harvesters/codemlFreeRatio.py
+src/evolharvester/paml_harvesters/codemlM0.py
+src/evolharvester/paml_harvesters/codemlM1a.py
+src/evolharvester/paml_harvesters/codemlM2a.py
+src/evolharvester/paml_harvesters/codemlM7.py
+src/evolharvester/paml_harvesters/codemlM8.py
+src/evolharvester/paml_harvesters/codemlOneRatio.py
 src/evolharvester/paml_harvesters/yn00.py
-tests/test_basic.py

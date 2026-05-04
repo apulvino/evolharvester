@@ -16,7 +16,13 @@ TOOLS: Dict[str, str] = {
     "absrel": "evolharvester.hyphy_harvesters.absrel",
     ####PAML additions!
     "baseml": "evolharvester.paml_harvesters.baseml",
-    ###codeml ones will eventually be here
+    "codemlm0": "evolharvester.paml_harvesters.codemlM0",
+    "codemlm1a": "evolharvester.paml_harvesters.codemlM1a",
+    "codemlm2a": "evolharvester.paml_harvesters.codemlM2a",
+    "codemlm7": "evolharvester.paml_harvesters.codemlM7",
+    "codemlm8": "evolharvester.paml_harvesters.codemlM8",
+    "codemloneratio": "evolharvester.paml_harvesters.codemlOneRatio",
+    "codemlfreeratio": "evolharvester.paml_harvesters.codemlFreeRatio",
     "yn00": "evolharvester.paml_harvesters.yn00"
 }
 
