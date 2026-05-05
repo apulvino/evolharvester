@@ -1,0 +1,288 @@
+<h1>evolharvester</h1>
+<p><a href="https://github.com/apulvino/evolharvester/actions/workflows/tests.yml" rel="nofollow"><img src="https://github.com/apulvino/evolharvester/actions/workflows/tests.yml/badge.svg" alt="Tests"></a>
+<a href="https://opensource.org/licenses/MIT" rel="nofollow"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a>
+<a href="https://www.python.org/" rel="nofollow"><img src="https://img.shields.io/badge/python-%E2%89%A53.10-blue.svg" alt="Python"></a>
+<a href="https://pypi.org/project/evolharvester/" rel="nofollow"><img src="https://img.shields.io/pypi/v/evolharvester.svg" alt="PyPI"></a>
+<a href="https://doi.org/PLACEHOLDER" rel="nofollow"><img src="https://zenodo.org/badge/DOI/PLACEHOLDER.svg" alt="DOI"></a></p>
+<p>evolharvester is a command-line utility for parsing HyPhy JSONs and PAML report files for further analysis/custom visualization of selection modeling results.</p>
+<p>It reformats JSONs and report text files (whether from Datamonkey, local pipelines, archived results, etc.) into standardized, CSV files for downstream analysis in the user's preferred development environment.</p>
+<p>Original data are exported as long-format CSVs, capturing multi-resolution results per output CSV (e.g. sequence-/branch-keyed rows and vectorized codon-/site-level columns).</p>
+<h2>Installation</h2>
+<h3>From PyPI</h3>
+<pre lang="bash">pip<span class="w"> </span>install<span class="w"> </span>evolharvester
+</pre>
+<h3>From source (development)</h3>
+<pre lang="bash">git<span class="w"> </span>clone<span class="w"> </span>https://github.com/apulvino/evolharvester.git
+<span class="nb">cd</span><span class="w"> </span>evolharvester
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+</pre>
+<h3>Requirements</h3>
+<p>evolharvester requires Python ≥ 3.10. Dependencies (numpy ≥ 1.24, pandas ≥ 2.0, biopython ) are installed during setup from PyPI/source.≥ 1</p>
+<h2>Supported analyses</h2>
+<p>evolharvester parses outputs from HyPhy and PAML substitution-based selection analyses, with individual harvesters for each method/model variant, invokable from a single command-line interface.</p>
+<h3>Supported HyPhy methods</h3>
+<ul>
+<li><strong>GARD</strong>: Genetic Algorithm for Recombination Detection — identifies recombination breakpoints in coding sequence alignments</li>
+<li><strong>BUSTED</strong>: Branch-Site Unrestricted Statistical Test for Episodic Diversification — tests for gene-wide positive selection</li>
+<li><strong>FUBAR</strong>: Fast Unconstrained Bayesian AppRoximation — site-level posterior probabilities of pervasive selection</li>
+<li><strong>FEL</strong>: Fixed Effects Likelihood — site-level tests for pervasive selection</li>
+<li><strong>MEME</strong>: Mixed Effects Model of Evolution — site-level tests for episodic positive selection</li>
+<li><strong>aBSREL</strong>: adaptive Branch-Site Random Effects Likelihood — branch-level tests for episodic selection</li>
+</ul>
+<h3>PAML programs</h3>
+<ul>
+<li><strong>codeml</strong>: codon-substitution likelihood models. Site-model variants (M0, M1a, M2a, M7, M8) for inferring positively selected sites. Branch-model variants (OneRatio, FreeRatio) for inferring lineage-specific selection. Each model variant is invoked as its own harvester (e.g. <code>eh codemlM2a</code>, <code>eh codemlOneRatio</code>).</li>
+<li><strong>baseml</strong>: nucleotide-substitution likelihood models for tree-wide rate inference</li>
+<li><strong>yn00</strong>: pairwise dN/dS estimation via Yang &amp; Nielsen (2000)</li>
+</ul>
+<h3>codeml model coverage</h3>
+<p>evolharvester provides individual harvesters for each codeml model variant:</p>
+<ul>
+<li><strong>M0</strong> (one-ratio across the tree)</li>
+<li><strong>M1a</strong> (NearlyNeutral)</li>
+<li><strong>M2a</strong> (PositiveSelection)</li>
+<li><strong>M7</strong> (beta)</li>
+<li><strong>M8</strong> (beta &amp; ω &gt; 1)</li>
+<li><strong>OneRatio</strong> (alternative single-ω fit)</li>
+<li><strong>FreeRatio</strong> (per-branch ω)</li>
+</ul>
+<h2>Quickstart</h2>
+<p>evolharvester called with <code>eh</code>. Each parser takes one input file (or a directory containing matching outputs) and writes an output CSV.</p>
+<h3>Parse a HyPhy FEL output</h3>
+<pre lang="bash">eh<span class="w"> </span>fel<span class="w"> </span>--input<span class="w"> </span>my_FEL_results.json<span class="w"> </span>--output<span class="w"> </span>./FEL_HARVEST/
+</pre>
+<p>This reads <code>my_FEL_results.json</code> (a HyPhy FEL JSON, whether from Datamonkey or a local run) and writes <code>./parsed/fel_filtered_stats.csv</code> with one row per site, gene-level summary fields broadcast across rows.</p>
+<h3>Parse a PAML codeml M2a output</h3>
+<pre lang="bash">eh<span class="w"> </span>codemlM2a<span class="w"> </span>--input<span class="w"> </span>my_M2a_run/M2a.out<span class="w"> </span>--output<span class="w"> </span>./M2A_HARVEST/
+</pre>
+<p>This reads <code>M2a.out</code> (the codeml report file) and writes <code>./parsed/codeml_M2a_filtered_stats.csv</code> with one row per branch, gene-level summary fields broadcast across rows, including site-level NEB/BEB posterior probabilities as vectorized columns.</p>
+<h3>List all supported parsers</h3>
+<pre lang="bash">eh<span class="w"> </span>--list-tools
+</pre>
+<p>Prints the names of all available HyPhy methods, PAML programs, and codeml model variants.</p>
+<h2>Usage</h2>
+<h3>General syntax</h3>
+<pre lang="bash">eh<span class="w"> </span>&lt;selection_analysis_name&gt;<span class="w"> </span>--input<span class="w"> </span>&lt;input_path&gt;<span class="w"> </span>--output<span class="w"> </span>&lt;output_path&gt;<span class="w"> </span><span class="o">[</span>--verbose<span class="o">]</span>
+</pre>
+<ul>
+<li><code>&lt;selection_analysis_name&gt;</code> — any of the harvesters listed via <code>eh --list-tools</code>. Names are case-insensitive (e.g. <code>codemlM2a</code> and <code>codemlm2a</code> resolve to the same parser).</li>
+<li><code>&lt;input_path&gt;</code> — a single file, a directory, or a glob pattern. See <a href="#input-handling-modes" rel="nofollow">Input handling</a> below.</li>
+<li><code>&lt;output_path&gt;</code> — either a target CSV file or a directory. If a directory, the parser writes to a default filename inside it (e.g. <code>fel_filtered_stats.csv</code>, <code>codeml_M2a_filtered_stats.csv</code>).</li>
+<li><code>--verbose</code> — print per-file progress information to stderr.</li>
+</ul>
+<h3>Worked examples</h3>
+<h4>HyPhy site-level method (FEL)</h4>
+<pre lang="bash">eh<span class="w"> </span>fel<span class="w"> </span>--input<span class="w"> </span>results/MyGene_FEL.json<span class="w"> </span>--output<span class="w"> </span>parsed_results/
+</pre>
+<p>Produces <code>parsed_results/fel_filtered_stats.csv</code> with one row per codon site.</p>
+<h4>HyPhy branch-level method (aBSREL)</h4>
+<pre lang="bash">eh<span class="w"> </span>absrel<span class="w"> </span>--input<span class="w"> </span>results/MyGene_aBSREL.json<span class="w"> </span>--output<span class="w"> </span>parsed_results/
+</pre>
+<p>Produces <code>parsed_results/absrel_filtered_stats.csv</code> with one row per branch.</p>
+<h4>PAML codeml site model (M2a)</h4>
+<pre lang="bash">eh<span class="w"> </span>codemlM2a<span class="w"> </span>--input<span class="w"> </span>results/MyGene/codeml/M2a.out<span class="w"> </span>--output<span class="w"> </span>parsed_results/
+</pre>
+<p>Produces <code>parsed_results/codeml_M2a_filtered_stats.csv</code> with one row per branch and site-level NEB/BEB posterior probabilities as vectorized columns.</p>
+<h4>PAML codeml branch model (FreeRatio)</h4>
+<pre lang="bash">eh<span class="w"> </span>codemlFreeRatio<span class="w"> </span>--input<span class="w"> </span>results/MyGene/codeml/FreeRatio.out<span class="w"> </span>--output<span class="w"> </span>parsed_results/
+</pre>
+<p>Produces <code>parsed_results/codeml_FreeRatio_filtered_stats.csv</code> with one row per branch and per-branch dN/dS estimates as the primary fields.</p>
+<h3>Input handling modes</h3>
+<p>Every evolharvester parser accepts input in three forms:</p>
+<p><strong>Single file:</strong></p>
+<pre lang="bash">eh<span class="w"> </span>fel<span class="w"> </span>--input<span class="w"> </span>MyGene_FEL.json<span class="w"> </span>--output<span class="w"> </span>parsed/
+</pre>
+<p><strong>Gene-centric directory layout</strong> (one subdirectory per gene, with parser outputs nested inside):</p>
+<pre lang="bash">eh<span class="w"> </span>codemlM2a<span class="w"> </span>--input<span class="w"> </span>my_results/<span class="w"> </span>--output<span class="w"> </span>parsed/
+<span class="c1"># discovers my_results/&lt;gene&gt;/codeml/M2a.out for each gene</span>
+</pre>
+<p><strong>Flat directory containing direct outputs:</strong></p>
+<pre lang="bash">eh<span class="w"> </span>codemlM2a<span class="w"> </span>--input<span class="w"> </span>flat_codeml_dir/<span class="w"> </span>--output<span class="w"> </span>parsed/
+<span class="c1"># discovers flat_codeml_dir/M2a.out</span>
+</pre>
+<p><strong>Glob pattern:</strong></p>
+<pre lang="bash">eh<span class="w"> </span>fel<span class="w"> </span>--input<span class="w"> </span><span class="s2">"results/*_FEL.json"</span><span class="w"> </span>--output<span class="w"> </span>parsed/
+<span class="c1"># quotes are required to prevent shell expansion before evolharvester sees the pattern</span>
+</pre>
+<p>When a directory is passed, evolharvester searches for the appropriate output filename for the parser invoked (<code>M2a.out</code> for <code>codemlM2a</code>, <code>FEL.json</code> matches for <code>fel</code>, etc.). Files from multiple genes are combined into a single output CSV with the gene name preserved as a column.</p>
+<h2>Output format</h2>
+<p>evolharvester produces tidy long-format CSVs designed for downstream analysis in pandas, R, or other tabular environments. Each parser produces its own CSV; column schemas vary by method but follow consistent design principles.</p>
+<h3>Design principles</h3>
+<p><strong>Branch-keyed long format.</strong> Most evolharvester parsers produce one row per branch (<code>branch_id</code> column), with all method-specific statistics for that branch as additional columns. This applies to all PAML codeml parsers (M0, M1a, M2a, M7, M8, OneRatio, FreeRatio), PAML baseml, and HyPhy aBSREL, FEL, MEME, and FUBAR.</p>
+<p><strong>Method-level summary fields broadcast across branch rows.</strong> For multi-gene runs, gene-level metadata (sequence count, alignment length, log-likelihood, model identity, AIC/BIC, etc.) is written into every branch row of the corresponding gene's results, allowing easy grouping, filtering, and joining in downstream analysis.</p>
+<p><strong>Vectorized site- or codon-level columns.</strong> Where a parser captures granular site- or codon-level data (e.g. site-level posterior probabilities in M2a/M8, per-site p-values in FEL/MEME, codon usage tables in codeml), these are encoded as bracketed Python-list strings in dedicated columns. Each branch row carries the full vector, allowing site-level analysis to be reconstructed via <code>ast.literal_eval</code> or equivalent.</p>
+<p><strong>Exceptions where branch-keying does not apply.</strong> Three parsers depart from the branch-keyed pattern because their underlying methods don't produce branch-level results:</p>
+<ul>
+<li><strong>HyPhy BUSTED</strong> (gene-level test) produces one row per gene</li>
+<li><strong>HyPhy GARD</strong> (recombination breakpoint detection) produces one row per partition</li>
+<li><strong>PAML yn00</strong> (pairwise dN/dS estimation) produces one row per sequence pair</li>
+</ul>
+<h3>HyPhy parsers</h3>
+<table>
+<thead>
+<tr>
+<th>Parser</th>
+<th>Row identity</th>
+<th>Key fields</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>aBSREL</strong></td>
+<td>One row per branch</td>
+<td><code>branch_id</code>, <code>species</code>, <code>aBSREL_LRT</code>, <code>aBSREL_pvalue</code>, <code>aBSREL_pvalue_corrected</code>, <code>aBSREL_branch_dN/dS/omega</code>, <code>aBSREL_omega_classes</code>, <code>aBSREL_omega_weights</code>, <code>aBSREL_max_omega</code></td>
+</tr>
+<tr>
+<td><strong>BUSTED</strong></td>
+<td>One row per gene</td>
+<td><code>gene</code>, <code>branches</code>, <code>pval</code>, <code>lrt</code>, <code>omega_purifying/neutral/positive</code>, <code>proportion_purifying/neutral/positive</code>, partition info</td>
+</tr>
+<tr>
+<td><strong>FEL</strong></td>
+<td>One row per gene with site data vectorized</td>
+<td><code>gene_id</code>, <code>FEL_n_sites</code>, <code>FEL_n_significant</code>, <code>FEL_n_positive</code>, <code>FEL_n_negative</code>, <code>FEL_sig_sites</code> (vector), <code>FEL_site_pvalues</code> (vector), <code>FEL_site_omegas</code> (vector), <code>FEL_site_LRTs</code> (vector)</td>
+</tr>
+<tr>
+<td><strong>FUBAR</strong></td>
+<td>One row per branch with site data vectorized</td>
+<td><code>gene</code>, <code>branch</code>, <code>sites</code>, <code>alpha</code>, <code>beta</code>, <code>Prob[alpha&gt;beta]</code>, <code>Prob[alpha&lt;beta]</code>, <code>BayesFactor[alpha&lt;beta]</code></td>
+</tr>
+<tr>
+<td><strong>GARD</strong></td>
+<td>One row per partition</td>
+<td><code>gene</code>, <code>number_of_sequences</code>, <code>number_of_sites</code>, breakpoint detection columns (<code>potentialBreakpoints</code>, <code>partition_bps</code>, <code>improvements_breakpoints</code>, <code>improvements_deltaAICc</code>, <code>site_positions</code> vector, <code>site_supports</code> vector)</td>
+</tr>
+<tr>
+<td><strong>MEME</strong></td>
+<td>One row per branch with site data vectorized</td>
+<td><code>gene</code>, <code>branch</code>, <code>site_positions</code> (vector), <code>site_pval</code> (vector), <code>site_LRT</code> (vector), <code>site_alpha</code>, <code>site_beta_plus</code>, <code>site_MEMElogl</code>, <code>site_substitution</code></td>
+</tr>
+</tbody>
+</table>
+<h3>PAML parsers</h3>
+<h4>Common columns: PAML codeml parsers</h4>
+<p>The seven PAML codeml parsers (M0, M1a, M2a, M7, M8, OneRatio, FreeRatio) share a core schema with model-specific extensions:</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>seq</code></td>
+<td>Gene identifier (taken from input file or directory name)</td>
+</tr>
+<tr>
+<td><code>branch_id</code></td>
+<td>PAML branch identifier (e.g. <code>1..2</code>, <code>5</code>)</td>
+</tr>
+<tr>
+<td><code>from_node</code>, <code>to_node</code></td>
+<td>Name of branch or internal branch number</td>
+</tr>
+<tr>
+<td><code>from_name</code>, <code>to_name</code></td>
+<td>Resolved sequence/node names</td>
+</tr>
+<tr>
+<td><code>t</code></td>
+<td>Branch length (substitutions per codon)</td>
+</tr>
+<tr>
+<td><code>N</code>, <code>S</code></td>
+<td>Nonsynonymous and synonymous site counts</td>
+</tr>
+<tr>
+<td><code>branch_omega</code></td>
+<td>dN/dS for this branch</td>
+</tr>
+<tr>
+<td><code>dN</code>, <code>dS</code></td>
+<td>dN and dS values for this branch</td>
+</tr>
+<tr>
+<td><code>N_dN</code>, <code>S_dS</code></td>
+<td>Counts of nonsynonymous and synonymous changes</td>
+</tr>
+<tr>
+<td><code>ns</code>, <code>ls</code></td>
+<td>Number of sequences and alignment length</td>
+</tr>
+<tr>
+<td><code>lnL</code></td>
+<td>Log-likelihood of the model fit</td>
+</tr>
+<tr>
+<td><code>kappa</code></td>
+<td>Transition/transversion rate ratio</td>
+</tr>
+<tr>
+<td><code>tree_length</code></td>
+<td>Total tree length under the model</td>
+</tr>
+<tr>
+<td><code>model</code></td>
+<td>Model name as reported by codeml</td>
+</tr>
+<tr>
+<td><code>codon_freq_model</code></td>
+<td>Codon frequency model used (e.g. <code>F3X4</code>)</td>
+</tr>
+<tr>
+<td><code>codon_pos_base_seq</code></td>
+<td>Per-sequence codon-position × base composition table (vectorized)</td>
+</tr>
+<tr>
+<td><code>codon_usage_counts</code></td>
+<td>Per-sequence codon usage counts (vectorized)</td>
+</tr>
+<tr>
+<td><code>np</code></td>
+<td>Number of free parameters</td>
+</tr>
+<tr>
+<td><code>AIC</code>, <code>BIC</code></td>
+<td>Information criteria</td>
+</tr>
+</tbody>
+</table>
+<h4>Model-specific extensions</h4>
+<ul>
+<li><strong>codemlM0 / codemlM1a / codemlM2a / codemlOneRatio</strong>: Add <code>omega_global</code> (the single tree-wide ω value reported for single-rate fits)</li>
+<li><strong>codemlM0 / codemlOneRatio / codemlFreeRatio</strong>: Add <code>tree_length_dN</code> and <code>tree_length_dS</code> (separate dN and dS tree lengths reported by codeml for one-ratio and branch-model fits)</li>
+<li><strong>codemlM1a / codemlM2a / codemlM8</strong>: Add <code>p_siteclasses</code>, <code>w_siteclasses</code> (site-class proportions and ω values from site-model fits)</li>
+<li><strong>codemlM2a / codemlM8</strong>: Add Bayes Empirical Bayes and Naive Empirical Bayes site-level posteriors (<code>BEB_Pr_w_gt1</code>, <code>BEB_post_mean</code>, <code>BEB_post_SE</code>, <code>BEB_signif</code>, <code>NEB_*</code> equivalents), site coordinates (<code>site_coords</code>), BEB reference sequence (<code>BEB_ref_seq</code>), grid posteriors, and diagnostic counts (<code>num_BEB_sites</code>, <code>num_BEB_ge95</code>, <code>num_BEB_ge99</code>, <code>num_NEB_sites</code>, <code>num_NEB_ge95</code>, <code>num_NEB_ge99</code>)</li>
+<li><strong>codemlM7 / codemlM8</strong>: Add beta distribution parameters (<code>beta_p</code>, <code>beta_q</code>), site-class MLE vectors (<code>MLE_p</code>, <code>MLE_w</code>), Newick tree with branch lengths (<code>tree_newick_with_lengths</code>), additional log-likelihood diagnostics (<code>lnL_ntime</code>, <code>lnL_np</code>), and Bayesian inference status (<code>bayes_flags</code>)</li>
+<li><strong>codemlM8</strong>: Adds two additional beta-distribution parameters specific to M8's selection-class extension (<code>beta_p0</code>, <code>beta_w</code>)</li>
+<li><strong>codemlFreeRatio</strong>: Adds <code>free_w_branch_values</code> (per-branch ω vector), <code>dS_tree_newick</code>, <code>dN_tree_newick</code>, <code>w_node_label_newick</code> (Newick tree with branch labels), and <code>w_node_label_map</code> (parsed mapping of branch labels to ω values)</li>
+<li><strong>codemlM2a / codemlM7 / codemlM8 / codemlFreeRatio</strong>: Add <code>conv_msg</code> (track any notes in report on convergence failure)</li>
+<li><strong>codemlM2a / codemlM7 / codemlM8</strong>: Add <code>notes</code> (empty issue tracker column)</li>
+</ul>
+<h4>baseml</h4>
+<p>The PAML <code>baseml</code> parser produces one row per branch under nucleotide-substitution models. Output includes branch-level fields (<code>Branch_ID</code>, <code>Branch_Length_t</code>, <code>parent</code>, <code>is_internal</code>, <code>n_descendants</code>, <code>root_to_tip</code>, <code>branch_support</code>), per-gene model parameters (GTR rate matrix elements <code>GTR_a</code> through <code>GTR_e</code>, nucleotide stationary frequencies <code>piA</code>/<code>piC</code>/<code>piG</code>/<code>piT</code>, transition/transversion ratio <code>kappa</code> with source attribution), pairwise sequence diagnostics (<code>pairwise_kappa_*</code>, <code>pairwise_distance_*</code> mean/min/max), compositional homogeneity tests (<code>hom_X2</code>, <code>hom_G</code>), and information criteria (<code>AIC</code>, <code>AICc</code>, <code>BIC</code>).</p>
+<h4>yn00</h4>
+<p>The PAML <code>yn00</code> parser produces one row per sequence pair from pairwise dN/dS estimation. Each row includes the primary Yang-Nielsen 2000 estimates (<code>S</code>, <code>N</code>, <code>t</code>, <code>kappa</code>, <code>omega</code>, <code>dN</code>, <code>dN_SE</code>, <code>dS</code>, <code>dS_SE</code>), plus alternative method estimates: Li-Wu-Luo 1985 (<code>LWL85_*</code>), Li-Wu-Luo 1985 modified (<code>LWL85m_*</code>), and Li-Pamilo-Bianchi 1993 (<code>LPB93_*</code>). Pairwise diagnostics (<code>pair_n_identical_codons</code>, <code>pair_pct_identity</code>, etc.), per-position GC content (<code>GC_pos1</code> through <code>GC_total</code>), data-quality flags (<code>dS_is_zero</code>, <code>any_nan_inf</code>, <code>omega_placeholder_flag</code>), and codon-level vector columns (<code>codon_usage_counts</code>, <code>codon_pos_base_seq</code>, <code>codon_pos_base_avg</code>) are also captured.</p>
+<h3>Notes on schema consistency</h3>
+<p>evolharvester is in active development, and column naming conventions vary across parsers reflecting differences in formatting convention.
+The gene identifier column appears as <code>seq</code> in codeml parsers, <code>Gene_ID</code> in baseml, <code>gene_id</code> in yn00 and some HyPhy parsers (FEL, aBSREL), and <code>gene</code> in others (BUSTED, FUBAR, MEME, GARD).
+Branch identifiers similarly differ (<code>branch_id</code> in codeml, <code>Branch_ID</code> in baseml, <code>branch</code> in MEME and FUBAR).
+Careful adjustments will be made in future releases to advance maximum schema unification across parsers.
+Users should be aware of joining outputs from multiple and account for these differences.
+Generated CSV headers are the authoritative schema reference for v0.1.0.</p>
+<h2>Citation</h2>
+<p>If you use evolharvester in published work, please cite via:</p>
+<blockquote>
+<p>Pulvino, A.T. (2026). <em>evolharvester</em> (v0.1.0). GitHub repository. <a href="https://github.com/apulvino/evolharvester" rel="nofollow">https://github.com/apulvino/evolharvester</a></p>
+</blockquote>
+<p>A peer-reviewed Application Note describing evolharvester is in preparation. Citation details will be updated upon acceptance.</p>
+<p>A Zenodo archive with a citable DOI is forthcoming and will be linked in the badges above.</p>
+<h2>License</h2>
+<p>evolharvester is released under the MIT License. See <a href="LICENSE" rel="nofollow">LICENSE</a> for details.</p>
+<h2>Author</h2>
+<p><strong>Anthony T. Pulvino</strong> — Northwestern University, Interdisciplinary Biological Sciences (IBiS) Graduate Program</p>
+<p>evolharvester was developed in support of comparative genomics research enabling integration of HyPhy and PAML selection analysis insights.</p>
+<h2>Contact</h2>
+<p>For bug reports, feature requests, or questions about evolharvester, please open an issue on the <a href="https://github.com/apulvino/evolharvester/issues" rel="nofollow">GitHub issue tracker</a>.</p>
+

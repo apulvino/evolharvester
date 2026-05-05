@@ -2,12 +2,6 @@ LICENSE
 README.md
 pyproject.toml
 setup.py
-src/Evolharvester.egg-info/PKG-INFO
-src/Evolharvester.egg-info/SOURCES.txt
-src/Evolharvester.egg-info/dependency_links.txt
-src/Evolharvester.egg-info/entry_points.txt
-src/Evolharvester.egg-info/requires.txt
-src/Evolharvester.egg-info/top_level.txt
 src/evolharvester/cli.py
 src/evolharvester.egg-info/PKG-INFO
 src/evolharvester.egg-info/SOURCES.txt

@@ -1,13 +1,39 @@
 Metadata-Version: 2.4
 Name: evolharvester
-Version: 0.1.0
-Summary: Evolharvester pulls contents from structured HyPhy JSONs and restructures to CSV
-Author: Anthony T. Pulvino
+Version: 0.1.0.dev1
+Summary: Parse HyPhy and PAML codon-selection analysis outputs into tidy CSVs for downstream, user-defined analyses.
+Author-email: "Anthony T. Pulvino" <anthonypulvino2025@u.northwestern.edu>
 License: MIT
-Requires-Python: >=3.10.19
+Project-URL: Homepage, https://github.com/apulvino/evolharvester
+Project-URL: Repository, https://github.com/apulvino/evolharvester
+Project-URL: Bug Tracker, https://github.com/apulvino/evolharvester/issues
+Project-URL: Source Code, https://github.com/apulvino/evolharvester
+Keywords: bioinformatics,phylogenetics,molecular evolution,positive selection,codon model,HyPhy,PAML,comparative genomics,dN/dS
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Requires-Python: >=3.10
 Description-Content-Type: text/markdown
 License-File: LICENSE
 Requires-Dist: numpy>=1.24
 Requires-Dist: pandas>=2.0
 Requires-Dist: biopython>=1.85
 Dynamic: license-file
+
+# evolharvester
+
+[![Tests](https://github.com/apulvino/evolharvester/actions/workflows/tests.yml/badge.svg)](https://github.com/apulvino/evolharvester/actions/workflows/tests.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Python](https://img.shields.io/badge/python-≥3.10-blue.svg)](https://www.python.org/)
+[![PyPI](https://img.shields.io/pypi/v/evolharvester.svg)](https://pypi.org/project/evolharvester/)
+[![DOI](https://zenodo.org/badge/DOI/PLACEHOLDER.svg)](https://doi.org/PLACEHOLDER)
+
+evolharvester is a command-line utility for parsing HyPhy and PAML codon-selection analysis outputs. It reformats JSONs and report text files into standardized, tidy CSV files for downstream analysis in the user's preferred development environment.
+
+evolharvester takes native HyPhy JSONs and PAML report files source-agnostically (e.g. Datamonkey, local pipelines, archived results, etc).
+
+Results are exported as long-format CSVs with the goal of capturing multi-resolution results per output CSV (e.g. sequence-/branch-keyed rows and vectorized codon-/site-level columns).
