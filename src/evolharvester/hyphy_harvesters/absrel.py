@@ -75,7 +75,7 @@ def evolharvest_absrel(path):
 
     rows = []
 
-    for branch_id, branch_stats in branches_attr.items():
+    for branch_id, branch_stats in branches.items():
         ###pulling out those core absrel test stats
         lrt = branch_stats.get("LRT")
         pval_corr = branch_stats.get("Corrected P-value")
@@ -124,7 +124,7 @@ def evolharvest_absrel(path):
         pos_omegas = []
         pos_weights = []
         for w, wts in zip(omegas, weights):
-            if o is not None and o > 1:
+            if w is not None and w > 1:
                 pos_omegas.append(w)
                 pos_weights.append(wts)
 
