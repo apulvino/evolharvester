@@ -75,20 +75,20 @@ def evolharvest_absrel(path):
 
     rows = []
 
-    for branch_id, stats in branches.items():
+    for branch_id, branch_stats in branches_attr.items():
         ###pulling out those core absrel test stats
-        lrt = stats.get("LRT")
-        pval_corr = stats.get("Corrected P-value")
-        pval_uncorr = stats.get("Uncorrected P-value")
+        lrt = branch_stats.get("LRT")
+        pval_corr = branch_stats.get("Corrected P-value")
+        pval_uncorr = branch_stats.get("Uncorrected P-value")
         pval = pval_corr if pval_corr is not None else pval_uncorr
 
         ##### pulling omega dn/ds rate dist
-        rates = stats.get("Rate Distributions", [])
-        if not rates:
+        rates_distr = branch_stats.get("Rate Distributions", [])
+        if not rates_distr:
             continue
 
-        omegas = [r[0] for r in rates if isinstance(r, list) and len(r) >= 2]
-        weights = [r[1] for r in rates if isinstance(r, list) and len(r) >= 2]
+        omegas = [r[0] for r in rates_distr if isinstance(r, list) and len(r) >= 2]
+        weights = [r[1] for r in rates_distr if isinstance(r, list) and len(r) >= 2]
 
         max_omega = max(omegas) if omegas else None
 
@@ -105,28 +105,28 @@ def evolharvest_absrel(path):
         ):
             continue
 
-        ##### stats.get for the pulling of dn and ds so we can summarize rate variation branch-wide
+        ##### branch_stats.get for the pulling of dn and ds so we can summarize rate variation branch-wide
 	##### also skip divide by 0/very small ds to help reduce any massive outlying omegas
-        dN = stats.get("Full adaptive model (non-synonymous subs/site)")
-        dS = stats.get("Full adaptive model (synonymous subs/site)")
+        dN = branch_stats.get("Full adaptive model (non-synonymous subs/site)")
+        dS = branch_stats.get("Full adaptive model (synonymous subs/site)")
         
         branch_omega = None
         if dN is not None and dS not in (None, 0):
             branch_omega = dN / dS
         
         ##### pulling out relevant per-model mg94/nucleoGTR stats from run
-        baseline_omega = stats.get("Baseline MG94xREV omega ratio")
-        baseline_lnL = stats.get("Baseline MG94xREV")
-        gtr_rate = stats.get("Nucleotide GTR")
-        rate_classes = stats.get("Rate classes")
+        baseline_omega = branch_stats.get("Baseline MG94xREV omega ratio")
+        baseline_lnL = branch_stats.get("Baseline MG94xREV")
+        gtr_rate = branch_stats.get("Nucleotide GTR")
+        rate_classes = branch_stats.get("Rate classes")
 
         ##### pull positive selection classes
         pos_omegas = []
         pos_weights = []
-        for o, w in zip(omegas, weights):
+        for w, wts in zip(omegas, weights):
             if o is not None and o > 1:
-                pos_omegas.append(o)
-                pos_weights.append(w)
+                pos_omegas.append(w)
+                pos_weights.append(wts)
 
         row = {
             "gene_id": gene_id,
