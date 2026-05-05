@@ -1,4 +1,3 @@
-# src/evolharvest/gard.py
 from __future__ import annotations
 import json
 import csv
@@ -11,7 +10,7 @@ import sys
 
 
 #####3 helping hand utils functions
-def _safe_open_json(path: Path) -> Optional[Dict[str, Any]]:
+def safe_open_json(path):
     try:
         if path.stat().st_size == 0:
             if path.exists():
@@ -35,7 +34,7 @@ def _safe_open_json(path: Path) -> Optional[Dict[str, Any]]:
         return None
 
 
-def _safe_output_path(path: Path) -> Path:
+def safe_output_path(path):
     """Increment filename to avoid overwriting any existing files!"""
     if not path.exists():
         return path
@@ -47,12 +46,12 @@ def _safe_output_path(path: Path) -> Path:
         i += 1
 
 
-def safe_get(d: Any, key: Any, default: Any = None) -> Any:
+def safe_get(d, key, default = None):
     return d.get(key, default) if isinstance(d, dict) else default
 
 
 #####3 extraction helpers for GARD JSONs
-def _flatten_bp_list(bp_entries: Any) -> List[int]:
+def flatten_bp_list(bp_entries):
     out: List[int] = []
     if bp_entries is None:
         return out
@@ -78,11 +77,11 @@ def _flatten_bp_list(bp_entries: Any) -> List[int]:
     return out
 
 
-def flatten_improvements(improvements: Any) -> Tuple[List[Any], List[Any]]:
+def flatten_improvements(improvements):
     if not improvements:
         return [], []
-    bps_list: List[Any] = []
-    delta_list: List[Any] = []
+    bps_list= []
+    delta_list = []
     try:
         keys = sorted(improvements.keys(), key=lambda x: int(x))
     except Exception:
@@ -104,7 +103,7 @@ def flatten_improvements(improvements: Any) -> Tuple[List[Any], List[Any]]:
     return bps_list, delta_list
 
 
-def extract_partition_bps(breakpointData: Any) -> List[Any]:
+def extract_partition_bps(breakpointData):
     if not breakpointData:
         return []
     try:
@@ -122,7 +121,7 @@ def extract_partition_bps(breakpointData: Any) -> List[Any]:
     return out
 
 
-def extract_site_vectors(siteBreakPointSupport: Any) -> Tuple[List[int], List[Any]]:
+def extract_site_vectors(siteBreakPointSupport):
     if not siteBreakPointSupport:
         return [], []
     items = []
@@ -141,7 +140,7 @@ def extract_site_vectors(siteBreakPointSupport: Any) -> Tuple[List[int], List[An
     return sites, supports
 
 
-def extract_sequence_names_from_trees(trees: Any) -> List[str]:
+def extract_sequence_names_from_trees(trees):
     if not trees:
         return []
     labels = set()
@@ -164,7 +163,7 @@ def extract_sequence_names_from_trees(trees: Any) -> List[str]:
     return sorted(labels)
 
 
-def get_partition_keys_from_breakpointdata(data: Dict[str, Any]) -> List[str]:
+def get_partition_keys_from_breakpointdata(data):
     bp = safe_get(data, "breakpointData") or {}
     if not isinstance(bp, dict) or not bp:
         inp_trees = safe_get(data, "input", {}).get("trees")
@@ -182,7 +181,7 @@ def get_partition_keys_from_breakpointdata(data: Dict[str, Any]) -> List[str]:
     return [str(k) for k in keys]
 
 
-def get_partition_range_from_breakpointdata(data: Dict[str, Any], pk: str) -> str:
+def get_partition_range_from_breakpointdata(data, pk):
     bp = safe_get(data, "breakpointData") or {}
     if not isinstance(bp, dict):
         return "NA"
@@ -201,9 +200,9 @@ def get_partition_range_from_breakpointdata(data: Dict[str, Any], pk: str) -> st
         return "NA"
 
 ########function for core file proc
-def _process_file(path: Path) -> List[Dict[str, Any]]:
+def process_file(path):
     fname = path.name
-    data = _safe_open_json(path)
+    data = safe_open_json(path)
     if data is None:
         return []
 
@@ -229,7 +228,7 @@ def _process_file(path: Path) -> List[Dict[str, Any]]:
     gene = fname.replace("_GARD.json", "") if fname.endswith("_GARD.json") else fname
 
     partition_keys = get_partition_keys_from_breakpointdata(data)
-    records: List[Dict[str, Any]] = []
+    records = []
     for pk in partition_keys:
         partition_nt_range = get_partition_range_from_breakpointdata(data, pk)
         record: Dict[str, Any] = {
@@ -256,7 +255,7 @@ def _process_file(path: Path) -> List[Dict[str, Any]]:
 
 
 ###### public api function; package readiness
-def run(input_path: str, output_path: str, *, verbose: bool = False) -> int:
+def run(input_path, output_path, *, verbose = True):
     """
     Process either:
       - a single GARD JSON file
@@ -272,7 +271,7 @@ def run(input_path: str, output_path: str, *, verbose: bool = False) -> int:
     out_path = Path(output_path)
 
     #### allowing expansion inputs:very inclusive see doc string above
-    files: List[str] = []
+    files= []
     in_p = Path(in_arg)
     if in_p.is_dir():
         files = sorted([str(p) for p in in_p.glob("*_GARD.json")])
@@ -282,7 +281,7 @@ def run(input_path: str, output_path: str, *, verbose: bool = False) -> int:
         files = [in_arg]
 
     ####filt to existing files
-    file_paths: List[Path] = []
+    file_paths = []
     for f in files:
         p = Path(f)
         if p.exists() and p.is_file():
@@ -320,7 +319,7 @@ def run(input_path: str, output_path: str, *, verbose: bool = False) -> int:
         writer = csv.DictWriter(csvf, fieldnames=fieldnames)
         writer.writeheader()
         for path in file_paths:
-            recs = _process_file(path)
+            recs = process_file(path)
             if not recs:
                 if verbose:
                     print(f"[gard] skipped {path.name} (no partitions or read error)", file=sys.stderr)
