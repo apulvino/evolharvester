@@ -3,67 +3,77 @@ import sys
 import re
 import html
 from pathlib import Path
-
 import pandas as pd
 import numpy as np
 
-
-# ---------------- Header candidates ----------------
+######### I found meme pretty tricky to match against and found helpful to have big list of  lookups for downstream functions (find_header_idx(), see below) to match.
+######## Not all harvesters got this same treatment in the future, this could be a useful strategy to build into other harvesters. Esp. when, for ex,
+########## if their respective jsons undergo major transformations in newer hyphy releases for eex./hyphy ditches json format altogether, etc.
 PVAL_CANDS = ["p-value", "p value", "pvalue", "p-value (asymptotic)"]
 LRT_CANDS = ["lrt", "likelihood ratio test", "likelihood ratio"]
 ALPHA_CANDS = ["alpha", "α", "synonymous substitution rate", "fel alpha", "fel α"]
 BETA_PLUS_CANDS = ["beta+", "β+", "beta +", "positive selection component", "beta plus"]
 MEMELOGL_CANDS = ["meme logl", "meme log", "site loglik under the meme model"]
 
-
-# ---------------- Small helpers ----------------
+######3helper wings for meme-harvester
 def find_header_idx(headers, candidates):
     """
-    Match candidate header strings against MEME's column header list.
-    MEME headers may contain HTML entities or list wrappers; we normalize
-    (strip HTML, lowercase, trim) before comparing. Tries exact match first,
-    then substring match. Returns None if no match.
+    match candidate json keys against meme column headers, options defined in above vars.
+    meme jsons text is normalize strip/case/trim for comparison from origin MLE.headers
+     we acct for tricky hyml entity/math syms/markup/whitespace which i found esp tricky on close inspection
+       tries exact match first, then substring match. 
+       takes meme json mle.headers list
+       returns None if no match, indexes otherwise.
     """
+    #### as in other harvesters, blank if no present header in list
     norm = []
     for h in headers:
         if h is None:
             norm.append("")
             continue
+        #### if header in list, take first ele, otherwise treat as str
         name = str(h[0]) if isinstance(h, (list, tuple)) and h else str(h)
+        #### acct for the tricky entities/beta symb/html tag/whitespace/etc. Maximizing reliability for header string comparison!
         name = html.unescape(name)
         name = re.sub(r"<[^>]+>", "", name)
         name = re.sub(r"[\r\n]+", " ", name).strip().lower()
         norm.append(name)
+    #### (1) try exact match against the colleciton of candidate string matches
     for cand in candidates:
         for i, h in enumerate(norm):
             if h == cand:
                 return i
+    #### (2) try substring match in case hyphy using longer string we can catch/debug accordingly
     for cand in candidates:
         for i, h in enumerate(norm):
             if cand in h:
                 return i
     return None
 
-
 def is_sentinel_row(row):
     """
-    HyPhy MLE.content sometimes interleaves filler rows of all 0/1 between
-    real data rows. Detect them by: all non-null values must be numeric, and
-    those numerics must round to 0 or 1, with at least half the row populated.
+    the meme json was discovered "filler" rows 0s or 1s between data-of-harvest interest.
+    detection is called when non-null value as numeric padding; numerics round to 0/1; 3 vals populated, half of row is nonnull
+    return true if row is sentinel filler; false if 'real data'
     """
+    #####non-list rowss treat as sentinels/unexpected
     if not isinstance(row, (list, tuple)):
         return True
+    
+    #### take actual values/non-None e.g. avoid any None-padded rows; maintain col alignment w/ mle.content header
     non_null = [x for x in row if x is not None]
     if len(non_null) == 0:
         return True
+    ##### cast-int of non-null vals (float/round)
     uniq = set()
     for v in non_null:
         try:
             uniq.add(int(round(float(v))))
+        ##### those non-castable is padding
         except (TypeError, ValueError):
             return False
+    #### enough vals populate &&& every val round; max thresh prevent short row (e.g.casewhen 0/1 appear by chance).
     return len(non_null) >= max(3, len(row) // 2) and uniq.issubset({0, 1})
-
 
 def lookup_partition(container, partition_key):
     """
