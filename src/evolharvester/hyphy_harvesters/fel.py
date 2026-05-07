@@ -210,7 +210,7 @@ def run(in_path, out_path, *, verbose = True):
                 rows_written += 1
 
     if verbose:
-        print(f"[evolharvester] harvested {rows_written} rows to {outfile}! :) ")
+        print(f"[evolharvester] You harvested {rows_written} rows to {outfile}! :) ")
 
     return rows_written
 
@@ -224,6 +224,4 @@ if __name__ == "__main__":
     parser.add_argument("--verbose", "-v", action="store_true")
     args = parser.parse_args()
 
-    count = run(args.input, args.output, verbose=args.verbose)
-    if args.verbose:
-        print(f"You evolharvested FEL stats into: {count} rows!")
+    run(args.input, args.output, verbose=args.verbose)
