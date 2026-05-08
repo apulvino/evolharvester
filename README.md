@@ -5,7 +5,7 @@
 [![Python](https://img.shields.io/badge/python-≥3.10-blue.svg)](https://www.python.org/)
 [![PyPI](https://img.shields.io/pypi/v/evolharvester.svg)](https://pypi.org/project/evolharvester/)
 [![DOI](https://zenodo.org/badge/1222987576.svg)](https://doi.org/10.5281/zenodo.20090785)
-
+ 
 evolharvester is a command-line utility for parsing HyPhy JSONs and PAML report files for further analysis/custom visualization of selection modeling results. 
 
 It reformats JSONs and report text files (whether from Datamonkey, local pipelines, archived results, etc.) into standardized, CSV files for downstream analysis in the user's preferred development environment.
