@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Python](https://img.shields.io/badge/python-≥3.10-blue.svg)](https://www.python.org/)
 [![PyPI](https://img.shields.io/pypi/v/evolharvester.svg)](https://pypi.org/project/evolharvester/)
-[![DOI](https://zenodo.org/badge/1222987576.svg)](https://doi.org/10.5281/zenodo.20090785)
+[![DOI](https://zenodo.org/badge/1222987576.svg?v=1)](https://doi.org/10.5281/zenodo.20090785)
 
 evolharvester is a command-line utility for parsing HyPhy JSONs and PAML report files for further analysis/custom visualization of selection modeling results. 
 
