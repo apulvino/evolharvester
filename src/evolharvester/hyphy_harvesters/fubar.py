@@ -1,75 +1,81 @@
-# src/evolharvest/fubar.py
-from __future__ import annotations
 import json
 import csv
 import os
 import glob
-from pathlib import Path
-from typing import List, Optional, Dict, Any
+#from pathlib import Path
 import sys
 
-# Define the CSV headers, with partition columns added up front
-fieldnames = ["partition", "partition_codon_range",
-              "program", "gene", "branch", "GTR", "sites", "alpha", "beta", "beta-alpha",
-              "Prob[alpha>beta]", "Prob[alpha<beta]", "BayesFactor[alpha<beta]"]
-
-
-# ----------------- helpers (restored from original) -----------------
-def get_tree_partitions(data: Dict[str, Any]) -> List[str]:
+def harvestfubar_partitionkeys(fubar_json):
     """
-    Return partition keys strictly from input.trees if present,
-    otherwise fall back to keys found in MLE.content.
+     fubar organize result by partition(part) (1 if no recomb,else N+1 if gard found breakpoints).
+     part keys hide in input.trees (populated when fubar runs); fallback to MLE.content keys if
+             trees block missing/malform (rare but happens w/ partial outputs).
+     returns list of partition keys (str); num-sort via lambda so part-idx 0 < 1 < 2 even when keys come back as str.
+     returns empty list on malform/notfound
     """
-    trees = data.get("input", {}).get("trees", {})
-    if isinstance(trees, dict) and trees:
-        # sort numeric-like keys by numeric value
-        return sorted(trees.keys(), key=lambda x: int(x) if str(x).isdigit() else x)
-    # fallback: try to infer from MLE.content keys
-    mle = data.get("MLE", {}).get("content", {})
-    if isinstance(mle, dict):
-        return sorted([str(k) for k in mle.keys()], key=lambda x: int(x) if str(x).isdigit() else x)
+    #######share-key for sort path;lambda handlesdigi-keys/num-idx
+    sortkey = lambda partkey: int(partkey) if str(partkey).isdigit() else partkey
+    
+    ####PATH1,harvest input.trees slot. fubar-populated for every fit part.
+    intrees = fubar_json.get("input",{}).get("trees",{})
+    if isinstance(intrees, dict) and intrees:
+        return sorted(intrees.keys(), key=sortkey)
+
+    # fallback: MLE.content harvest when input.trees malform/miss. 
+      ###Holds part-indexed, persite res so mirror tree struct/help user debug if nothing else...
+    mlecontent = fubar_json.get("MLE", {}).get("content", {})
+    if isinstance(mlecontent, dict):
+        return sorted([str(k) for k in mlecontent.keys()], key=sortkey)
+    ###final fail return empty list on junk/caller skip w/warning
     return []
 
-
-def get_partition_codon_range(data: Dict[str, Any], partition_key: str) -> Optional[str]:
+def flatten_coverage_slot(cov_slot):
     """
-    Extract codon range string 'min-max' from data partitions coverage for a given partition key.
-    Returns None when missing (caller will convert to "NA").
+     flatten busted coverage/cov slot(list of list w/site-lvl info) in the json so list of integer codon pos can be returned
+     the fxn flattens,shapes into linear int list for ease of downstream parsing (&&& to compute codon range per partition).
+     IF cov-info missing/malform return empty list
     """
-    dp = data.get("data partitions", {}) or data.get("data_partitions", {})
-    if not isinstance(dp, dict) or not dp:
+    if not isinstance(cov_slot, list):
+        return []
+    #####normalize list of lists format; flat-ins get wrapped for format-unity
+    if cov_slot and not isinstance(cov_slot[0], list):
+        cov_slot = [cov_slot]
+    
+    ####flatten and int-ize for consolidate;crash on malform busted json
+    return [int(pos) for inner_block in cov_slot
+                         if isinstance(inner_block,list)
+                             for pos in inner_block]
+
+def harvest_partition_covrange(fubar_json, partkey):
+    """
+     harvest one part from fubar json data partition slot.
+       pull range,flatten to pos list
+    return min-max range of codon pos; on None missing/malform/empties,
+                   caller write NA to placehold/stability
+    NOte:per-part codon range are contiguous b/w gard-infer bps,otherwise full aln
+    """
+    #####Lookup toplvl parts;handles alt spelling
+    fubarparts = fubar_json.get("data partitions", {}) or fubar_json.get("data_partitions", {})
+    if not isinstance(fubarparts, dict):
         return None
-    part = dp.get(str(partition_key))
-    if not isinstance(part, dict):
-        # try to find matching key by string equality fallback
-        for k, v in dp.items():
-            try:
-                if str(k) == str(partition_key) and isinstance(v, dict):
-                    part = v
-                    break
-            except Exception:
-                continue
-    if not isinstance(part, dict):
+    ####partitionlookup w/str,int-fallback;defense.
+    partyrecord = fubarparts.get(str(partkey))
+    if partyrecord is None and str(partkey).isdigit():
+        partyrecord = fubarparts.get(int(partkey))
+    if not isinstance(partyrecord, dict):
         return None
-    cov = part.get("coverage") or part.get("coverageList")
-    if not isinstance(cov, list) or len(cov) == 0:
-        return None
-    # coverage is often [[0,1,2,...]]
-    try:
-        flat = []
-        for block in cov:
-            if isinstance(block, list):
-                flat.extend(int(x) for x in block)
-        if not flat:
-            return None
-        return f"{min(flat)}-{max(flat)}"
-    except Exception:
+    ####harvest covslot per part;handles alt spelling
+    covslot = partyrecord.get("coverage") or partyrecord.get("coverageList")
+    if not covslot:
         return None
 
+    codonpos = flatten_coverage_slot(covslot)
+    if not codonpos:
+        return None
+    return f"{min(codonpos)}-{max(codonpos)}"
 
 # ----------------- core run (no hard-coded paths) -----------------
-def run(input_path: str, output_path: str, *,
-        significance_threshold: float = 0.9, verbose: bool = False) -> int:
+def run(input_path, output_path, *, significance_threshold = 0.9, verbose = True):
     """
     Run the FUBAR harvester.
 
@@ -87,6 +93,10 @@ def run(input_path: str, output_path: str, *,
         raise ValueError("input_path is required (no hard-coded defaults).")
     if not output_path:
         raise ValueError("output_path is required (no hard-coded defaults).")
+
+    fieldnames = ["partition", "partition_codon_range",
+              "program", "gene", "branch", "GTR", "sites", "alpha", "beta", "beta-alpha",
+              "Prob[alpha>beta]", "Prob[alpha<beta]", "BayesFactor[alpha<beta]"]
 
     # Determine pattern to glob
     ip = str(input_path)
@@ -126,7 +136,7 @@ def run(input_path: str, output_path: str, *,
                 content_items = [("0", mle_content)]
 
             # canonical partitions from input.trees (for range extraction)
-            tree_partitions = get_tree_partitions(data)
+            tree_partitions = harvestfubar_partitionkeys(data)
 
             for branch_set_key, site_matrix in content_items:
                 # Determine partition id: prefer numeric where possible.
@@ -150,7 +160,7 @@ def run(input_path: str, output_path: str, *,
                         else:
                             partition_val = partition_key_str
 
-                partition_range = get_partition_codon_range(data, partition_key_str)
+                partition_range = harvest_partition_covrange(data, partition_key_str)
                 if partition_range is None:
                     partition_range = "NA"
 
