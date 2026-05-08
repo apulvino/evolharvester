@@ -1,8 +1,6 @@
 import json
 import csv
-import os
-import glob
-#from pathlib import Path
+from pathlib import Path
 import sys
 
 def harvestfubar_partitionkeys(fubar_json):
@@ -74,166 +72,198 @@ def harvest_partition_covrange(fubar_json, partkey):
         return None
     return f"{min(codonpos)}-{max(codonpos)}"
 
-# ----------------- core run (no hard-coded paths) -----------------
-def run(input_path, output_path, *, significance_threshold = 0.9, verbose = True):
+######### homebase/integration for fubar harvesting
+def harvest_fubarjson(fubar_path, significance_threshold=0.9):
     """
-    Run the FUBAR harvester.
-
-    - input_path: directory, glob pattern, or single file to process (no defaults hard-coded).
-      * If directory -> scans "<dir>/*_FUBAR.json"
-      * If glob (contains '*' or '?') -> uses pattern as-is
-      * If single file -> processes that file
-    - output_path: path to CSV to write (file). If you want per-file outputs, run via CLI that handles multi-input mapping.
-    - significance_threshold: threshold for Prob fields (default 0.9).
-    - verbose: print progress.
-
-    Returns number of rows written.
+     iter harvest over fubar jsons
+     fubar is Bayesian sitelvl focus. perpart/persite, you get posterior probs
+          pos.sel=(Prob[alpha<beta]) and pur.sel=(Prob[alpha>beta]),
+          point estimates of alpha (synonymous) and beta (nonsynonymous) rates and a Bayes factor.
+     Note:sig thresh is posterior prob >= 0.9, hardcoded. 
+     returns rows = partition/branch-keyed with json-like slot/vector-style site-lvl metric cols
+                tracking sig pos along given partition 
+     returns empties for missing. caller will write warning.
     """
-    if not input_path:
-        raise ValueError("input_path is required (no hard-coded defaults).")
-    if not output_path:
-        raise ValueError("output_path is required (no hard-coded defaults).")
+    ##enter fubarjson catch fail on missing/malform/i-o; bail on empties.
+    ### caller loop safeties bartch proc so dont fail on any 1file
+    try:
+        with fubar_path.open("r", encoding="utf-8") as fh:
+            fubar_json = json.load(fh)
+    except Exception as e:
+        print(f"WARNING: failed to load FUBAR JSON {fubar_path.name}: {e}", file=sys.stderr)
+        return []
 
-    fieldnames = ["partition", "partition_codon_range",
-              "program", "gene", "branch", "GTR", "sites", "alpha", "beta", "beta-alpha",
-              "Prob[alpha>beta]", "Prob[alpha<beta]", "BayesFactor[alpha<beta]"]
+    ##gene(common name),program harvest from infile (<GENE>_FUBAR.json)
+    name_parts = fubar_path.stem.split("_")
+    gene = name_parts[0]
+    ##if all filename slicing fails, fubar hardcode fallback descript
+    program = name_parts[1] if len(name_parts) > 1 else "FUBAR"
 
-    # Determine pattern to glob
-    ip = str(input_path)
-    if os.path.isdir(ip):
-        pattern = os.path.join(ip, "*_FUBAR.json")
-    elif any(ch in ip for ch in ["*", "?"]):
-        pattern = ip
+    ###MLE.content extraction for persite data
+    ##### dict for part-keyed idx with persite data val; list for <1 partition/no recomb site("0", matrix)
+    ####tuple form so loop logic robust to shape
+    mlecontent = fubar_json.get("MLE", {}).get("content", {})
+    if isinstance(mlecontent, dict):
+        content_items = list(mlecontent.items())
     else:
-        # single file (or non-existing path) -> use directly
-        pattern = ip
+        content_items = [("0", mlecontent)]
+
+    ##### canonical partkeys from input.trees for codon range lookup
+    ####input.trees still main source of branch label info
+    ###defense against MLE.content keys drift (e.g. "0" vs 0)
+    tree_partitions = harvestfubar_partitionkeys(fubar_json)
+
+    rows = []
+    for branch_set_key, site_matrix in content_items:
+        ####partid-resolution,so int-key is digit-able
+        ###fallback thru string-as-tree-key match, then
+        ## single-part instance, then str.
+        if str(branch_set_key).isdigit():
+            partition_val = int(branch_set_key)
+            partition_key_str = str(branch_set_key)
+        else:
+            partition_key_str = str(branch_set_key)
+            if partition_key_str in tree_partitions:
+                try:
+                    partition_val = int(partition_key_str)
+                except Exception:
+                    partition_val = partition_key_str
+            else:
+                if len(tree_partitions) == 1:
+                    try:
+                        partition_val = int(tree_partitions[0])
+                        partition_key_str = tree_partitions[0]
+                    except Exception:
+                        partition_val = partition_key_str
+                else:
+                    partition_val = partition_key_str
+        ###perpart codon range min-max codon position from coverage list.
+        ##### "NA" placeholder when coverage missing/malform--keeps schema stable across rows.
+        partition_range = harvest_partition_covrange(fubar_json, partition_key_str)
+        if partition_range is None:
+            partition_range = "NA"
+
+        ####branch attrs is part-keyed, w/ea branch having(modelfit/est,etc)
+         ####.get() w/"or" fallback for both str/int and empty/missing cases
+        branch_attr = fubar_json.get("branch attributes", {}).get(branch_set_key, {}) \
+                      or fubar_json.get("branch attributes", {}).get(int(branch_set_key), {}) \
+                      or {}
+        ###branchids stay in OGdict order/match in-tree topology.
+        branch_ids = list(branch_attr.keys()) if isinstance(branch_attr, dict) else []
+
+        for branch_id in branch_ids:
+            ###branch/fastaName from OGtree;"original name">branch_id key;
+            ##GTR is per-branch nucGTRmodel fit est.
+            attrs = branch_attr.get(branch_id, {}) if isinstance(branch_attr, dict) else {}
+            branch_name = attrs.get("original name", branch_id)
+            branch_gtr = attrs.get("Nucleotide GTR", None)
+
+            ##parallel list for sig sites/site stats.
+            ##4allvectors--idx/i correspond to the i-th sig site.
+            #### fubar reports values at array positions:
+            ##[0]=a,[1]=b,[2]=b-a,[3]=Prob[a>b;pur],[4]=Prob[a<b;pos],[5]=BayesFactor[a<b]
+            sig_sites = []
+            alpha_vec = []
+            beta_vec = []
+            beta_minus_alpha_vec = []
+            prob_gt_vec = []
+            prob_lt_vec = []
+            bayes_vec = []
+
+            ##malform parts where site_matrix isn't a list get skip/defensive;continue for batch proc
+            if not isinstance(site_matrix, list):
+                continue
+
+            ##prob extraction handles malform persite arrays;skip/warn
+            ###for whole part only sites passing signif Prob>0.9 are reported
+            ###saves on size of CSVs for big screen analysis/etc. hardcode but easy fix4users....
+            for site_idx, site_values in enumerate(site_matrix):
+                try:
+                    prob_gt = site_values[3]
+                    prob_lt = site_values[4]
+                except Exception:
+                    continue
+
+                ##prob_gt=P[a>b]=purifying sel posterior if pass 0.9 then signif
+                ##prob_lt=P[a<b]=positive sel posterior if pass 0.9 then signif
+                ##### isinstance defense against None/empties..
+                if (isinstance(prob_gt, (int, float)) and prob_gt >= significance_threshold) or \
+                   (isinstance(prob_lt, (int, float)) and prob_lt >= significance_threshold):
+                    sig_sites.append(site_idx + 1)  #####WE PRESERVE 1base IDXing
+                    alpha_vec.append(site_values[0] if len(site_values) > 0 else None)
+                    beta_vec.append(site_values[1] if len(site_values) > 1 else None)
+                    beta_minus_alpha_vec.append(site_values[2] if len(site_values) > 2 else None)
+                    prob_gt_vec.append(prob_gt)
+                    prob_lt_vec.append(prob_lt)
+                    bayes_vec.append(site_values[5] if len(site_values) > 5 else None)
+
+            ##organize rows based on P>0.9 thresh.
+            ## rows are partition/branch-keyed with repeat info for gene/vectorized site-info
+            if sig_sites:
+                row = {
+                    "partition": partition_val,
+                    "partition_codon_range": partition_range,
+                    "program": program,
+                    "gene": gene,
+                    "branch": branch_name,
+                    "GTR": branch_gtr,
+                    "sites": sig_sites,
+                    "alpha": alpha_vec,
+                    "beta": beta_vec,
+                    "beta-alpha": beta_minus_alpha_vec,
+                    "Prob[alpha>beta]": prob_gt_vec,
+                    "Prob[alpha<beta]": prob_lt_vec,
+                    "BayesFactor[alpha<beta]": bayes_vec
+                }
+                rows.append(row)
+
+    return rows
+
+######### public-facing api call.run
+def run(in_path, out_path, *, significance_threshold = 0.9, verbose = True):
+    """
+      entry for fubar evolharvest. routes file(or dir of *_FUBAR.json) thru harvest_fubarjson
+      agg per partition/branch-keyed with repeat gene-tree info and vectorized/json-like site info
+        these obsv included on criteria that posterior prob >= 0.9
+      returns evolharvested data to FUBAR_eharvest.csv by default
+    """
+    inpath = Path(in_path)
+    outpath = Path(out_path)
+
+    ####input arg can be single file/dir of files as ele list(searched)
+    files = sorted(inpath.glob("*_FUBAR.json")) if inpath.is_dir() else [inpath]
+
+    ###out dest is default path-filename combo
+    outfile = outpath / "FUBAR_eharvest.csv" if outpath.is_dir() else outpath
+    outfile.parent.mkdir(parents=True, exist_ok=True)
+    ####csv has fieldnames defined by data in json slots;
+    ###incls parallel sitelvl percodon-traced vectors; bayesfactor for pos-sel obsv
+    fieldnames = ["partition", "partition_codon_range",
+                  "program", "gene", "branch", "GTR", "sites", "alpha", "beta", "beta-alpha",
+                  "Prob[alpha>beta]", "Prob[alpha<beta]", "BayesFactor[alpha<beta]"]
 
     rows_written = 0
-
-    with open(output_path, "w", newline="") as csvfile:
+    with outfile.open("w", newline="", encoding="utf-8") as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        ###open for write header once
         writer.writeheader()
-
-        for json_file in glob.glob(pattern):
-            if verbose:
-                print(f"[fubar] processing {json_file}", file=sys.stderr)
-
-            base = os.path.basename(json_file)
-            name_parts = os.path.splitext(base)[0].split("_")
-            gene = name_parts[0]
-            program = name_parts[1] if len(name_parts) > 1 else "FUBAR"
-
-            with open(json_file, "r") as f:
-                data = json.load(f)
-
-            # Prefer partition keys extracted from input.trees where possible
-            mle_content = data.get("MLE", {}).get("content", {})
-            # If mle_content is a dict, iterate its keys; otherwise try a single block "0"
-            if isinstance(mle_content, dict):
-                content_items = list(mle_content.items())
-            else:
-                # fallback: single unnamed block
-                content_items = [("0", mle_content)]
-
-            # canonical partitions from input.trees (for range extraction)
-            tree_partitions = harvestfubar_partitionkeys(data)
-
-            for branch_set_key, site_matrix in content_items:
-                # Determine partition id: prefer numeric where possible.
-                if str(branch_set_key).isdigit():
-                    partition_val = int(branch_set_key)
-                    partition_key_str = str(branch_set_key)
-                else:
-                    partition_key_str = str(branch_set_key)
-                    if partition_key_str in tree_partitions:
-                        try:
-                            partition_val = int(partition_key_str)
-                        except Exception:
-                            partition_val = partition_key_str
-                    else:
-                        if len(tree_partitions) == 1:
-                            try:
-                                partition_val = int(tree_partitions[0])
-                                partition_key_str = tree_partitions[0]
-                            except Exception:
-                                partition_val = partition_key_str
-                        else:
-                            partition_val = partition_key_str
-
-                partition_range = harvest_partition_covrange(data, partition_key_str)
-                if partition_range is None:
-                    partition_range = "NA"
-
-                # Branch attributes for this content block (safely)
-                branch_attr = data.get("branch attributes", {}).get(branch_set_key, {}) \
-                              or data.get("branch attributes", {}).get(int(branch_set_key), {}) \
-                              or {}
-
-                branch_ids = list(branch_attr.keys()) if isinstance(branch_attr, dict) else []
-
-                for branch_id in branch_ids:
-                    attrs = branch_attr.get(branch_id, {}) if isinstance(branch_attr, dict) else {}
-                    branch_name = attrs.get("original name", branch_id)
-                    branch_gtr = attrs.get("Nucleotide GTR", None)
-
-                    # Collect only significant sites
-                    sig_sites = []
-                    alpha_vec = []
-                    beta_vec = []
-                    beta_minus_alpha_vec = []
-                    prob_gt_vec = []
-                    prob_lt_vec = []
-                    bayes_vec = []
-
-                    if not isinstance(site_matrix, list):
-                        continue
-
-                    for site_idx, site_values in enumerate(site_matrix):
-                        try:
-                            prob_gt = site_values[3]
-                            prob_lt = site_values[4]
-                        except Exception:
-                            continue
-
-                        if (isinstance(prob_gt, (int, float)) and prob_gt >= significance_threshold) or \
-                           (isinstance(prob_lt, (int, float)) and prob_lt >= significance_threshold):
-                            sig_sites.append(site_idx + 1)  # 1-based indexing preserved
-                            alpha_vec.append(site_values[0] if len(site_values) > 0 else None)
-                            beta_vec.append(site_values[1] if len(site_values) > 1 else None)
-                            beta_minus_alpha_vec.append(site_values[2] if len(site_values) > 2 else None)
-                            prob_gt_vec.append(prob_gt)
-                            prob_lt_vec.append(prob_lt)
-                            bayes_vec.append(site_values[5] if len(site_values) > 5 else None)
-
-                    if sig_sites:
-                        row = {
-                            "partition": partition_val,
-                            "partition_codon_range": partition_range,
-                            "program": program,
-                            "gene": gene,
-                            "branch": branch_name,
-                            "GTR": branch_gtr,
-                            "sites": sig_sites,
-                            "alpha": alpha_vec,
-                            "beta": beta_vec,
-                            "beta-alpha": beta_minus_alpha_vec,
-                            "Prob[alpha>beta]": prob_gt_vec,
-                            "Prob[alpha<beta]": prob_lt_vec,
-                            "BayesFactor[alpha<beta]": bayes_vec
-                        }
-                        writer.writerow(row)
-                        rows_written += 1
-
-            if verbose:
-                print(f"[fubar] processed {json_file}", file=sys.stderr)
+        #####stream in 0+rows as they come/mem efficient/batch proc-monitor?
+        ###also emit warning and cont for batch proc
+        for fubarpath in files:
+            rows = harvest_fubarjson(fubarpath, significance_threshold=significance_threshold)
+            if not rows:
+                if verbose: print(f"[evolharvester] no significant sites/rows from {fubarpath}... :(")
+                continue
+            for row in rows:
+                writer.writerow(row)
+                rows_written += 1
 
     if verbose:
-        print(f"[fubar] Consolidated harvest complete. CSV written to {output_path}", file=sys.stderr)
+        print(f"[evolharvester] You harvested {rows_written} rows to {outfile}! :) ")
 
     return rows_written
 
-
-# Minimal CLI wrapper for direct invocation (keeps behavior but requires explicit input/output)
+#####cli accessbilbe argparsing
 if __name__ == "__main__":
     import argparse
 
@@ -244,6 +274,4 @@ if __name__ == "__main__":
     parser.add_argument("--verbose", "-v", action="store_true", help="Verbose logging")
     args = parser.parse_args()
 
-    count = run(args.input, args.output, significance_threshold=args.threshold, verbose=args.verbose)
-    if args.verbose:
-        print(f"[fubar] Done — wrote {count} rows", file=sys.stderr)
+    run(args.input, args.output, significance_threshold=args.threshold, verbose=args.verbose)
