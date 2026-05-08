@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "evolharvester"
-version = "0.1.0.dev1"
+version = "0.5.0"
 description = "Parse HyPhy and PAML codon-selection analysis outputs into tidy CSVs for downstream, user-defined analyses."
 readme = "README.md"
 requires-python = ">=3.10"
