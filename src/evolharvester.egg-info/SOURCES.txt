@@ -1,7 +1,6 @@
 LICENSE
 README.md
 pyproject.toml
-setup.py
 src/evolharvester/cli.py
 src/evolharvester.egg-info/PKG-INFO
 src/evolharvester.egg-info/SOURCES.txt
