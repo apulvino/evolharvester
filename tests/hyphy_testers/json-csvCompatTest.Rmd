@@ -9,10 +9,10 @@ date: "2026-07-13"
 
 library(jsonlite)
 
-J <- fromJSON("evolharvester/tests/hyphy_testers/FMO1_BUSTED.json", simplifyVector = FALSE)
-csv <- read.csv("evolharvester/tests/hyphy_testers/fmo1_bustedEH.csv", stringsAsFactors = FALSE)
+J <- fromJSON("FMO1_BUSTED.json", simplifyVector = FALSE)
+csv <- read.csv("fmo1_bustedEH.csv", stringsAsFactors = FALSE)
 
-###gene-lvl numbers straight from json
+###pull 8num cols comp to csv
 U <- J$fits[["Unconstrained model"]][["Rate Distributions"]][["Test"]]
 json_vals <- c(
   lrt = J[["test results"]][["LRT"]],
@@ -23,25 +23,42 @@ json_vals <- c(
   proportion_purifying = U[["0"]]$proportion,
   proportion_neutral = U[["1"]]$proportion,
   proportion_positive = U[["2"]]$proportion
-)
+  )
 
-#####same cols from csv (identical in all row/use row 1)
 csv_vals <- unlist(csv[1, names(json_vals)])
 
-####compare with a small tolerance (csv/float rounding makes exact unsafe)
+###compare w/small tolerance, csv/float rounding unsafe for exact
 print(data.frame(json = json_vals, csv = csv_vals,
                  match = abs(json_vals - csv_vals) < 1e-8))
 
-####per-partition( branch set, codon range)
+####gene col is constant str
+cat("gene match =", all(csv$gene == "FMO1"), "\n")
+
+###the fits_* cols req parse of embedded JSON, compare omega/proportion
+##organize df of class/omega/prop
+con <- fromJSON(csv$fits_constrained_test[1])    
+unc <- fromJSON(csv$fits_unconstrained_test[1])
+C <- J$fits[["Constrained model"]][["Rate Distributions"]][["Test"]]
+cat("fits_constrained_test match =",
+    all(abs(con$omega - sapply(C, `[[`, "omega")) < 1e-8) &&
+    all(abs(con$proportion - sapply(C, `[[`, "proportion")) < 1e-8), "\n")
+cat("fits_unconstrained_test match =",
+    all(abs(unc$omega - sapply(U, `[[`, "omega")) < 1e-8) &&
+    all(abs(unc$proportion - sapply(U, `[[`, "proportion")) < 1e-8), "\n")
+
+####per-part cols incl branches/part idx/codon range
 for (i in seq_len(nrow(csv))) {
-  p   <- as.character(csv$partition[i])
-  tb  <- unlist(J$tested[[p]])
+  p <- as.character(csv$partition[i])
+  tb <- unlist(J$tested[[p]])
   cov <- unlist(J[["data partitions"]][[p]][["coverage"]])
-  cat(sprintf("partition %s: branches match = %s | codon range match = %s\n", p,
-      setequal(fromJSON(csv$branches[i]), names(tb)[tb == "test"]),
-      identical(sprintf("%d-%d", min(cov), max(cov)), csv$partition_codon_range[i])))
+  cat(sprintf("partition %s: index match = %s | branches match = %s | codon range match = %s\n",
+              p,
+              csv$partition[i] == as.integer(p),
+              setequal(fromJSON(csv$branches[i]), names(tb)[tb == "test"]),
+              identical(sprintf("%d-%d", min(cov), max(cov)), csv$partition_codon_range[i])))
 }
 
+##clear on 14 bustedeh cols
 ```
 
 
