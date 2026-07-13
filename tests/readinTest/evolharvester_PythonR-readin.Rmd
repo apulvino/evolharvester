@@ -1,0 +1,64 @@
+---
+title: "Reading evolharvester outputs into R"
+output: html_document
+date: "2026-03-20"
+---
+
+
+## readin busted evolharvester results (R)
+
+```{r}
+
+##readin busted evolharvester results
+busted_res <- read.csv("../hyphy_testers/fmo1_bustedEH.csv", stringsAsFactors = FALSE) 
+
+##readin meme evolharvester results
+meme_res <- read.csv("../hyphy_testers/fmo1_memeEH.csv", stringsAsFactors = FALSE) 
+
+##readin fel evolharvester results
+fel_res <- read.csv("../hyphy_testers/fmo1_felEH.csv", stringsAsFactors = FALSE)
+
+## readin fubar evolharvester results
+fubar_res <- read.csv("../hyphy_testers/fmo1_fubarEH.csv", stringsAsFactors = FALSE) 
+
+## readin gard evolharvester results
+gard_res <- read.csv("../hyphy_testers/fmo1_gardEH.csv", stringsAsFactors = FALSE) 
+
+## readin absrel evolharvester results 
+absrelp1_res <- read.csv("../hyphy_testers/fmo1_absrelp1EH.csv") 
+
+```
+
+## readin busted evolharvester results (as pandas df)
+
+```{python}
+
+import pandas as pd
+
+##readin fel evolharvester results as pd df
+fel_pd = pd.read_csv('../hyphy_testers/fmo1_felEH.csv')
+
+##readin gard evolharvester results as pd df
+gard_pd = pd.read_csv('../hyphy_testers/fmo1_gardEH.csv')
+
+##readin meme evolharvester results as pd df
+meme_pd = pd.read_csv('../hyphy_testers/fmo1_memeEH.csv')
+
+##readin fubar evolharvester results as pd df
+fubar_pd = pd.read_csv('../hyphy_testers/fmo1_fubarEH.csv')
+
+##readin busted evolharvester results as pd df
+busted_pd = pd.read_csv('../hyphy_testers/fmo1_bustedEH.csv')
+
+##readin absrel evolharvester results as pd df
+absrel_pd = pd.read_csv('../hyphy_testers/fmo1_absrelp1EH.csv')
+
+```
+
+
+
+
+
+
+
+

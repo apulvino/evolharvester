@@ -1,0 +1,88 @@
+---
+title: "CSV-JSONcompatTest"
+output: html_document
+date: "2026-07-13"
+---
+
+## busted checkin
+```{r, busted checkin}
+
+library(jsonlite)
+
+J <- fromJSON("evolharvester/tests/hyphy_testers/FMO1_BUSTED.json", simplifyVector = FALSE)
+csv <- read.csv("evolharvester/tests/hyphy_testers/fmo1_bustedEH.csv", stringsAsFactors = FALSE)
+
+###gene-lvl numbers straight from json
+U <- J$fits[["Unconstrained model"]][["Rate Distributions"]][["Test"]]
+json_vals <- c(
+  lrt = J[["test results"]][["LRT"]],
+  pval = J[["test results"]][["p-value"]],
+  omega_purifying = U[["0"]]$omega,
+  omega_neutral = U[["1"]]$omega,
+  omega_positive = U[["2"]]$omega,
+  proportion_purifying = U[["0"]]$proportion,
+  proportion_neutral = U[["1"]]$proportion,
+  proportion_positive = U[["2"]]$proportion
+)
+
+#####same cols from csv (identical in all row/use row 1)
+csv_vals <- unlist(csv[1, names(json_vals)])
+
+####compare with a small tolerance (csv/float rounding makes exact unsafe)
+print(data.frame(json = json_vals, csv = csv_vals,
+                 match = abs(json_vals - csv_vals) < 1e-8))
+
+####per-partition( branch set, codon range)
+for (i in seq_len(nrow(csv))) {
+  p   <- as.character(csv$partition[i])
+  tb  <- unlist(J$tested[[p]])
+  cov <- unlist(J[["data partitions"]][[p]][["coverage"]])
+  cat(sprintf("partition %s: branches match = %s | codon range match = %s\n", p,
+      setequal(fromJSON(csv$branches[i]), names(tb)[tb == "test"]),
+      identical(sprintf("%d-%d", min(cov), max(cov)), csv$partition_codon_range[i])))
+}
+
+```
+
+
+## fel checkin
+```{r, fel checkin}
+
+
+
+```
+
+
+## meme checkin
+```{r, meme checkin}
+
+
+
+```
+
+
+## fubar checkin
+```{r, fubar checkin}
+
+
+
+```
+
+
+
+
+## absrel checkin
+```{r, absrel checkin}
+
+
+
+```
+
+
+
+## gard checkin
+```{r, gard checkin}
+
+
+
+```
