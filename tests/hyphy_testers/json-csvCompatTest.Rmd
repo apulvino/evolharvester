@@ -4,61 +4,223 @@ output: html_document
 date: "2026-07-13"
 ---
 
-## busted checkin
-```{r, busted checkin}
+```{r, load packs}
 
 library(jsonlite)
 
-J <- fromJSON("FMO1_BUSTED.json", simplifyVector = FALSE)
+```
+
+
+## busted check
+goal is to test busted csv column info to make sure we're 
+correctly extracting from what was in the original hyphy (busted) json
+```{r, busted checkin}
+
+jf<- "FMO1_BUSTED.json"
+J <- fromJSON(jf, simplifyVector = FALSE)
 csv <- read.csv("fmo1_bustedEH.csv", stringsAsFactors = FALSE)
 
-###pull 8num cols comp to csv
+##json slots as ground truth
 U <- J$fits[["Unconstrained model"]][["Rate Distributions"]][["Test"]]
-json_vals <- c(
-  lrt = J[["test results"]][["LRT"]],
-  pval = J[["test results"]][["p-value"]],
-  omega_purifying = U[["0"]]$omega,
-  omega_neutral = U[["1"]]$omega,
-  omega_positive = U[["2"]]$omega,
-  proportion_purifying = U[["0"]]$proportion,
-  proportion_neutral = U[["1"]]$proportion,
-  proportion_positive = U[["2"]]$proportion
+Cm <- J$fits[["Constrained model"]][["Rate Distributions"]][["Test"]]
+Uom <- sapply(U, `[[`, "omega")
+Upr <- sapply(U, `[[`, "proportion")
+Com <- sapply(Cm, `[[`, "omega")
+Cpr <- sapply(Cm, `[[`, "proportion")
+lrt <- J[["test results"]][["LRT"]]
+pval <- J[["test results"]][["p-value"]]
+pj <- as.integer(names(J[["data partitions"]]))
+##gene token from JSON's own input path
+gene_exp <- sub("_.*", "", basename(J[["input"]][["file name"]]))
+##float rounding unsafe for exact equality on long decimals
+tol <- 1e-8
+
+##8 gene lvl numeric cols
+num <- list(lrt = lrt, pval = pval,
+            omega_purifying = Uom[[1]], omega_neutral = Uom[[2]], omega_positive = Uom[[3]],
+            proportion_purifying = Upr[[1]], proportion_neutral = Upr[[2]], proportion_positive = Upr[[3]]
+            )
+
+##fits_*,parse embedded json in every row, match omega and prop vectors to the json model
+fits_ok <- function(col, om, pr) {
+  all(vapply(csv[[col]], function(s) {
+    P <- fromJSON(s)
+    isTRUE(all(abs(P$omega - om) < tol)) && isTRUE(all(abs(P$proportion - pr) < tol))},
+    logical(1))
+    )
+  }
+##branches, every row's set v json tested branches at that partition
+branch_ok <- all(vapply(seq_len(nrow(csv)),
+                        function(i) {
+                          p  <- as.character(csv$partition[i])
+                          tb <- unlist(J$tested[[p]])
+                          setequal(fromJSON(csv$branches[i]), names(tb)[tb == "test"])
+                          },
+                        logical(1))
+                 )
+##codon range,every rows range v json coverage min-max at that partition
+range_ok <- all(vapply(seq_len(nrow(csv)), 
+                       function(i) {
+                         p <- as.character(csv$partition[i])
+                         cov <- as.integer(unlist(J[["data partitions"]][[p]][["coverage"]]))
+                         identical(sprintf("%d-%d", min(cov), max(cov)), csv$partition_codon_range[i])
+
+                         }, 
+                       logical(1))
+                )
+
+##per-partition display values
+tb_ct <- vapply(names(J[["data partitions"]]),
+                  function(p){ 
+                    tb<-unlist(J$tested[[p]])
+                    sum(tb=="test")
+                    },
+                integer(1)
+                )
+cov_rng <- vapply(names(J[["data partitions"]]),
+                  function(p){
+                    cv<-as.integer(unlist(J[["data partitions"]][[p]][["coverage"]]))
+                    sprintf("%d-%d",min(cv),max(cv)) 
+                    },
+                  character(1)
+                  )
+
+##one does-it-match row per busted col (14), csv value v json
+cols <- c("gene", names(num), "fits_constrained_test", "fits_unconstrained_test",
+          "branches", "partition", "partition_codon_range")
+json_v <- c(gene_exp, as.character(unlist(num)),
+            paste0("w=", toString(round(Com, 4))), paste0("w=", toString(round(Uom, 4))),
+            paste0(paste(tb_ct, collapse = ", "), " tested"),
+            toString(pj), toString(cov_rng))
+csv_v <- c(csv$gene[1], vapply(names(num), function(k) as.character(csv[[k]][1]), character(1)),
+           paste0("w=", toString(round(fromJSON(csv$fits_constrained_test[1])$omega, 4))),
+           paste0("w=", toString(round(fromJSON(csv$fits_unconstrained_test[1])$omega, 4))),
+           paste0(paste(vapply(seq_len(nrow(csv)), function(i) length(fromJSON(csv$branches[i])),
+                               integer(1)), collapse = ", "), " tested"),
+           toString(csv$partition), toString(csv$partition_codon_range))
+match_v<- c(all(csv$gene == gene_exp),
+            vapply(names(num), function(k) all(abs(num[[k]] - csv[[k]]) < tol), logical(1)),
+            fits_ok("fits_constrained_test", Com, Cpr),
+            fits_ok("fits_unconstrained_test", Uom, Upr),
+            branch_ok,
+            setequal(csv$partition, pj) && length(csv$partition) == length(pj),
+            range_ok)
+
+print(data.frame(column = cols, json = json_v, csv = csv_v, match = match_v),
+      row.names = FALSE)
+
+##clear on 14 busted-eh cols
+
+```
+
+
+
+## gard checkin
+```{r, gard checkin}
+
+jf <- "FMO1_GARD.json"
+J <- fromJSON(jf, simplifyVector = FALSE)
+csv <- read.csv("fmo1_gardEH.csv", stringsAsFactors = FALSE)
+##gene token from JSON's own input path
+gene_exp <- sub("_.*", "", basename(J[["input"]][["file name"]]))
+###source json's own filename
+file_exp <- basename(jf) 
+tol <- 1e-8
+
+###Json ref vals
+jnum <- c(
+  number_of_sequences  = J$input[["number of sequences"]],
+  number_of_sites      = J$input[["number of sites"]],
+  baselineScore        = J[["baselineScore"]],
+  bestModelAICc        = J[["bestModelAICc"]],
+  singleTreeAICc       = J[["singleTreeAICc"]],
+  potentialBreakpoints = J[["potentialBreakpoints"]]
   )
+bps <- as.numeric(unlist(list(J$breakpointData[["0"]]$bps, J$breakpointData[["1"]]$bps)))
+ibp <- as.numeric(unlist(J$improvements[["0"]]$breakpoints))
+dA <- as.numeric(J$improvements[["0"]]$deltaAICc)
+sbps <- J$siteBreakPointSupport
+jp <- as.integer(names(sbps))
+nwk <- J$trees[["0"]]$newickString
+tips <- regmatches(nwk, gregexpr("[^(),:;]+(?=:)", nwk, perl = TRUE))[[1]]
+tips <- tips[grepl(paste0("^", gene_exp, "_"), tips)]
+parts <- names(J$breakpointData)
+json_rng <- vapply(parts, function(p){ bp<-as.integer(unlist(J$breakpointData[[p]]$bps)); sprintf("%d-%d",min(bp),max(bp)) }, character(1))
+ord <- match(as.integer(parts), csv$partition)
 
-csv_vals <- unlist(csv[1, names(json_vals)])
+##match rows, parse an compare
+m_num <- vapply(names(jnum), 
+                function(k)
+                  all(abs(jnum[[k]] - csv[[k]]) < tol),
+                logical(1)
+                )
+m_bps <- all(vapply(csv$partition_bps,
+                    function(s) 
+                      identical(bps, as.numeric(unlist(fromJSON(s, simplifyVector = FALSE)))),
+                    logical(1))
+             )
+m_ibp <- all(vapply(csv$improvements_breakpoints,
+                    function(s)
+                      identical(ibp, as.numeric(unlist(fromJSON(s, simplifyVector = FALSE)))),
+                    logical(1))
+             )
+m_dA <- all(vapply(csv$improvements_deltaAICc,
+                   function(s)
+                     all(abs(dA - fromJSON(s)) < tol),
+                   logical(1))
+            )
+m_spos <- all(vapply(csv$site_positions,
+                     function(s){ 
+                     p<-fromJSON(s)
+                     all(as.character(p) %in% names(sbps)) && length(p)==length(sbps) 
+                     }, logical(1))
+              )
+m_ssup <- all(vapply(seq_len(nrow(csv)), function(i){
+  p <- fromJSON(csv$site_positions[i]); s <- fromJSON(csv$site_supports[i])
+  js <- unlist(sbps[as.character(p)], use.names = FALSE)
+  ##supports 1e-6 to 1e-149 , rel tol
+  all(abs(js - s) <= 1e-9 * abs(js))          
+  },
+  logical(1))
+  )
+m_seq <- all(vapply(csv$sequence_names,
+                     function(s) setequal(fromJSON(s), tips),
+                    logical(1))
+             )
 
-###compare w/small tolerance, csv/float rounding unsafe for exact
-print(data.frame(json = json_vals, csv = csv_vals,
-                 match = abs(json_vals - csv_vals) < 1e-8))
+####row-1 vals for display only
+d_bps <- as.numeric(unlist(fromJSON(csv$partition_bps[1], simplifyVector = FALSE)))
+d_ibp <- as.numeric(unlist(fromJSON(csv$improvements_breakpoints[1], simplifyVector = FALSE)))
+d_dA <- fromJSON(csv$improvements_deltaAICc[1])
+d_sp <- as.integer(fromJSON(csv$site_positions[1])); d_ss <- fromJSON(csv$site_supports[1]); d_seq <- fromJSON(csv$sequence_names[1])
 
-####gene col is constant str
-cat("gene match =", all(csv$gene == "FMO1"), "\n")
+##one json/csv/match row per gard-eh col (16)
+cols <- c(names(jnum),
+          "gene", "file_name", "partition_bps", "improvements_breakpoints",
+          "improvements_deltaAICc", "site_positions", "site_supports", "sequence_names",
+          "partition", "partition_nt_range")
+json_v <- c(as.character(jnum),
+            gene_exp, file_exp, toString(bps), toString(ibp), toString(dA),
+            sprintf("%d sites [%d-%d]", length(sbps), min(jp), max(jp)),
+            sprintf("%d supports", length(sbps)), sprintf("%d taxa", length(tips)),
+            toString(as.integer(parts)), toString(json_rng))
+csv_v <- c(as.character(unlist(csv[1, names(jnum)])),
+           csv$gene[1], csv$file_name[1], toString(d_bps), toString(d_ibp), toString(d_dA),
+           sprintf("%d sites [%d-%d]", length(d_sp), min(d_sp), max(d_sp)),
+           sprintf("%d supports", length(d_ss)), sprintf("%d taxa", length(d_seq)),
+           toString(csv$partition[ord]), toString(csv$partition_nt_range[ord]))
+match_v<- c(m_num,
+            all(csv$gene == gene_exp),
+            all(csv$file_name == file_exp),
+            m_bps, m_ibp, m_dA, m_spos, m_ssup, m_seq,
+            setequal(csv$partition, as.integer(parts)) && length(csv$partition) == length(parts),
+            all(csv$partition_nt_range[ord] == json_rng))
 
-###the fits_* cols req parse of embedded JSON, compare omega/proportion
-##organize df of class/omega/prop
-con <- fromJSON(csv$fits_constrained_test[1])    
-unc <- fromJSON(csv$fits_unconstrained_test[1])
-C <- J$fits[["Constrained model"]][["Rate Distributions"]][["Test"]]
-cat("fits_constrained_test match =",
-    all(abs(con$omega - sapply(C, `[[`, "omega")) < 1e-8) &&
-    all(abs(con$proportion - sapply(C, `[[`, "proportion")) < 1e-8), "\n")
-cat("fits_unconstrained_test match =",
-    all(abs(unc$omega - sapply(U, `[[`, "omega")) < 1e-8) &&
-    all(abs(unc$proportion - sapply(U, `[[`, "proportion")) < 1e-8), "\n")
+print(data.frame(column = cols, json = json_v, csv = csv_v, match = match_v),
+      row.names = FALSE)
 
-####per-part cols incl branches/part idx/codon range
-for (i in seq_len(nrow(csv))) {
-  p <- as.character(csv$partition[i])
-  tb <- unlist(J$tested[[p]])
-  cov <- unlist(J[["data partitions"]][[p]][["coverage"]])
-  cat(sprintf("partition %s: index match = %s | branches match = %s | codon range match = %s\n",
-              p,
-              csv$partition[i] == as.integer(p),
-              setequal(fromJSON(csv$branches[i]), names(tb)[tb == "test"]),
-              identical(sprintf("%d-%d", min(cov), max(cov)), csv$partition_codon_range[i])))
-}
+##clear on 16 gardeh cols
 
-##clear on 14 bustedeh cols
 ```
 
 
@@ -97,9 +259,3 @@ for (i in seq_len(nrow(csv))) {
 
 
 
-## gard checkin
-```{r, gard checkin}
-
-
-
-```
