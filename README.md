@@ -18,18 +18,18 @@ I hope to push a minor release with the first few baseml/codeml models soon.
 
 ## Installation
 
-### From PyPI
-
-```bash
-pip install evolharvester
-```
-
-### From source (development)
+### From source (RECOMMENDED; dev)
 
 ```bash
 git clone https://github.com/apulvino/evolharvester.git
 cd evolharvester
 pip install -e .
+```
+
+### From PyPI
+
+```bash
+pip install evolharvester
 ```
 
 ### Requirements
