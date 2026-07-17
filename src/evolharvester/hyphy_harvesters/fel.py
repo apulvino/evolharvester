@@ -111,8 +111,8 @@ def harvest_fel(felpath):
             if not isinstance(site, list) or len(site) < 5:
                 continue
             ####accts for pos of site idx, per site stats per harvested row
-            alpha, beta, lrt, pval = site[1], site[2], site[3], site[4]
-
+            #alpha, beta, lrt, pval = site[1], site[2], site[3], site[4]
+            alpha, beta, lrt, pval = site[0], site[1], site[2], site[3]
             #####compute w at site since rates are sep posterior alpha/beta. skip when missing/0/undefine
             omega = beta / alpha if alpha is not None and alpha != 0 else None
 
