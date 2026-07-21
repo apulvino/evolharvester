@@ -4,7 +4,7 @@ output: html_document
 date: "2026-07-13"
 ---
 
-```{r, load packs}
+```{r, load any packs}
 
 library(jsonlite)
 
@@ -16,9 +16,12 @@ goal is to test busted csv column info to make sure we're
 correctly extracting from what was in the original hyphy (busted) json
 ```{r, busted checkin}
 
-jf<- "FMO1_BUSTED.json"
+# jf<- "FMO1_BUSTED.json"
+# J <- fromJSON(jf, simplifyVector = FALSE)
+# csv <- read.csv("fmo1_bustedEH.csv", stringsAsFactors = FALSE)
+jf<- "TSPO_BUSTED.json"
 J <- fromJSON(jf, simplifyVector = FALSE)
-csv <- read.csv("fmo1_bustedEH.csv", stringsAsFactors = FALSE)
+csv <- read.csv("tspo_bustedEH.csv", stringsAsFactors = FALSE)
 
 ##json slots as ground truth
 U <- J$fits[["Unconstrained model"]][["Rate Distributions"]][["Test"]]
@@ -64,25 +67,21 @@ range_ok <- all(vapply(seq_len(nrow(csv)),
                          p <- as.character(csv$partition[i])
                          cov <- as.integer(unlist(J[["data partitions"]][[p]][["coverage"]]))
                          identical(sprintf("%d-%d", min(cov), max(cov)), csv$partition_codon_range[i])
-
-                         }, 
-                       logical(1))
-                )
+              }, logical(1))
+              )
 
 ##per-partition display values
 tb_ct <- vapply(names(J[["data partitions"]]),
                   function(p){ 
                     tb<-unlist(J$tested[[p]])
                     sum(tb=="test")
-                    },
-                integer(1)
-                )
+                    }, integer(1)
+                  )
 cov_rng <- vapply(names(J[["data partitions"]]),
                   function(p){
                     cv<-as.integer(unlist(J[["data partitions"]][[p]][["coverage"]]))
                     sprintf("%d-%d",min(cv),max(cv)) 
-                    },
-                  character(1)
+                    }, character(1)
                   )
 
 ##one does-it-match row per busted col (14), csv value v json
@@ -118,22 +117,27 @@ print(data.frame(column = cols, json = json_v, csv = csv_v, match = match_v),
 ## gard checkin
 ```{r, gard checkin}
 
-jf <- "FMO1_GARD.json"
+###jf <- "FMO1_GARD.json"
+##J <- fromJSON(jf, simplifyVector = FALSE)
+###csv <- read.csv("fmo1_gardEH.csv", stringsAsFactors = FALSE)
+
+jf <- "TSPO_GARD.json"
 J <- fromJSON(jf, simplifyVector = FALSE)
-csv <- read.csv("fmo1_gardEH.csv", stringsAsFactors = FALSE)
-##gene token from JSON's own input path
+csv <- read.csv("tspo_gardEH.csv", stringsAsFactors = FALSE)
+
+##gene token from json in-path
 gene_exp <- sub("_.*", "", basename(J[["input"]][["file name"]]))
-###source json's own filename
+###src json filename
 file_exp <- basename(jf) 
 tol <- 1e-8
 
-###Json ref vals
+###indexing and organizing Json ref vals
 jnum <- c(
-  number_of_sequences  = J$input[["number of sequences"]],
-  number_of_sites      = J$input[["number of sites"]],
-  baselineScore        = J[["baselineScore"]],
-  bestModelAICc        = J[["bestModelAICc"]],
-  singleTreeAICc       = J[["singleTreeAICc"]],
+  number_of_sequences = J$input[["number of sequences"]],
+  number_of_sites = J$input[["number of sites"]],
+  baselineScore = J[["baselineScore"]],
+  bestModelAICc = J[["bestModelAICc"]],
+  singleTreeAICc = J[["singleTreeAICc"]],
   potentialBreakpoints = J[["potentialBreakpoints"]]
   )
 bps <- as.numeric(unlist(list(J$breakpointData[["0"]]$bps, J$breakpointData[["1"]]$bps)))
@@ -145,7 +149,11 @@ nwk <- J$trees[["0"]]$newickString
 tips <- regmatches(nwk, gregexpr("[^(),:;]+(?=:)", nwk, perl = TRUE))[[1]]
 tips <- tips[grepl(paste0("^", gene_exp, "_"), tips)]
 parts <- names(J$breakpointData)
-json_rng <- vapply(parts, function(p){ bp<-as.integer(unlist(J$breakpointData[[p]]$bps)); sprintf("%d-%d",min(bp),max(bp)) }, character(1))
+json_rng <- vapply(parts, function(p){ 
+  bp<-as.integer(unlist(J$breakpointData[[p]]$bps))
+  sprintf("%d-%d",min(bp),max(bp)) }, 
+  character(1)
+  )
 ord <- match(as.integer(parts), csv$partition)
 
 ##match rows, parse an compare
@@ -176,7 +184,8 @@ m_spos <- all(vapply(csv$site_positions,
                      }, logical(1))
               )
 m_ssup <- all(vapply(seq_len(nrow(csv)), function(i){
-  p <- fromJSON(csv$site_positions[i]); s <- fromJSON(csv$site_supports[i])
+  p <- fromJSON(csv$site_positions[i])
+  s <- fromJSON(csv$site_supports[i])
   js <- unlist(sbps[as.character(p)], use.names = FALSE)
   ##supports 1e-6 to 1e-149 , rel tol
   all(abs(js - s) <= 1e-9 * abs(js))          
@@ -188,11 +197,13 @@ m_seq <- all(vapply(csv$sequence_names,
                     logical(1))
              )
 
-####row-1 vals for display only
+####row-1 vals for display
 d_bps <- as.numeric(unlist(fromJSON(csv$partition_bps[1], simplifyVector = FALSE)))
 d_ibp <- as.numeric(unlist(fromJSON(csv$improvements_breakpoints[1], simplifyVector = FALSE)))
 d_dA <- fromJSON(csv$improvements_deltaAICc[1])
-d_sp <- as.integer(fromJSON(csv$site_positions[1])); d_ss <- fromJSON(csv$site_supports[1]); d_seq <- fromJSON(csv$sequence_names[1])
+d_sp <- as.integer(fromJSON(csv$site_positions[1]))
+d_ss <- fromJSON(csv$site_supports[1])
+d_seq <- fromJSON(csv$sequence_names[1])
 
 ##one json/csv/match row per gard-eh col (16)
 cols <- c(names(jnum),
@@ -227,6 +238,98 @@ print(data.frame(column = cols, json = json_v, csv = csv_v, match = match_v),
 ## fel checkin
 ```{r, fel checkin}
 
+J <- fromJSON("FMO1_FEL.json", simplifyVector = FALSE)
+csv <- read.csv("fmo1_felEH.csv", stringsAsFactors = FALSE)
+tol <- 1e-8
+
+gene_exp <- sub("_.*", "", basename(J[["input"]][["file name"]]))
+prog_exp <- sub("\\s.*", "", J[["analysis"]][["info"]])
+###colname from json
+hdr <- vapply(J$MLE$headers, `[[`, character(1), 1) 
+ia <- match("alpha", hdr)
+ib <- match("beta", hdr)
+il <- match("LRT", hdr)
+ip <- match("p-value", hdr)
+mle <- J$MLE$content
+parts <- names(mle)
+
+###re-derive sig-site harvest from json per partition
+hp <- function(p) {
+  S <- mle[[p]]
+  cov <- as.integer(unlist(J[["data partitions"]][[p]]$coverage))
+  pos <- integer(0)
+  om <- numeric(0)
+  pv <- numeric(0)
+  lr <- numeric(0)
+  cls <- character(0)
+  for (i in seq_along(S)) {
+    s <- S[[i]]
+    if (length(s) < 5) next
+    a <- s[[ia]]
+    w <- if (!is.null(a) && a!=0) s[[ib]]/a else NA_real_
+    if (is.null(s[[ip]]) || is.na(w) || s[[ip]] > 0.05) next
+    pos <- c(pos, if (length(cov) >= i) cov[i] else i)
+    om <- c(om, w)
+    pv <- c(pv, s[[ip]])
+    lr <- c(lr, s[[il]])
+    cls <- c(cls, if (w > 1) "positive" else "negative") }
+  list(pos = pos, om = om, pv = pv, lr = lr, cls = cls, n_sites = length(S), n_sig = length(pos),
+       n_pos = sum(cls == "positive"), n_neg = sum(cls == "negative"),
+       rng = if (length(cov)) sprintf("%d-%d", min(cov), max(cov)) else "NA")
+}
+H <- lapply(parts, hp)
+names(H) <- parts
+
+pof <- function(i) as.character(csv$partition[i])
+pp <- function(f) paste(vapply(parts, f, character(1)), collapse = ", ")
+###FEL_site_classes has single quote
+pclasses <- function(s) strsplit(gsub("[][' ]", "", s), ",")[[1]]     
+cell <- function(col, p) csv[[col]][csv$partition == as.integer(p)][1]
+
+## row builders -> column | json | csv | match, each checked over ALL rows
+r_const <- function(col, exp) data.frame(column = col, json = exp, csv = csv[[col]][1], match = all(csv[[col]] == exp))
+r_scalar <- function(col, key) data.frame(column = col, json = pp(function(p) as.character(H[[p]][[key]])),
+              csv = pp(function(p) as.character(cell(col,p))),
+              match = all(vapply(seq_len(nrow(csv)), 
+                               function(i) isTRUE(csv[[col]][i] == H[[pof(i)]][[key]]), logical(1))))
+###kind is int, num(abs tol), om(rel tol), cls
+r_list <- function(col, key, kind) {
+  d  <- function(v) if (!length(v)) "n0" else switch(kind,
+          cls = sprintf("%dneg/%dpos", sum(v == "negative"), sum(v == "positive")),
+          int = sprintf("n%d[%d-%d]", length(v), min(v), max(v)),
+          sprintf("n%d[%s..%s]", length(v),
+                  formatC(min(v), format = "g", digits = 3),
+                  formatC(max(v), format = "g", digits = 3)))
+  pr <- function(s) switch(kind, cls = pclasses(s),
+                           int = as.integer(fromJSON(s)),
+                           as.numeric(fromJSON(s)))
+  eq <- function(a,b) switch(kind, cls = identical(a,as.character(b)), int = identical(a,as.integer(b)),
+                             length(a) == length(b) && all(abs(a-b) <= (if (kind == "om") tol*abs(b) else tol)))
+  data.frame(column = col, json = pp(function(p) d(H[[p]][[key]])), csv=pp(function(p) d(pr(cell(col,p)))),
+             match = all(vapply(seq_len(nrow(csv)), function(i) eq(pr(csv[[col]][i]), H[[pof(i)]][[key]]), logical(1))))
+}
+###same style comparator type tables as prev 
+print(rbind(
+  r_const("gene_id", gene_exp), r_const("program", prog_exp), r_scalar("FEL_n_sites","n_sites"),
+  r_scalar("FEL_n_significant","n_sig"), r_scalar("FEL_n_positive","n_pos"), r_scalar("FEL_n_negative","n_neg"),
+  r_list("FEL_sig_sites","pos","int"), r_list("FEL_site_pvalues","pv","num"),
+  r_list("FEL_site_omegas","om","om"), r_list("FEL_omega_coord","pos","int"),
+  r_list("FEL_site_LRTs","lr","num"), r_list("FEL_LRTs_site","pos","int"),
+  r_list("FEL_site_classes","cls","cls"),
+  data.frame(column="branch_id", 
+             json = pp(function(p) as.character(length(J[["branch attributes"]][[p]]))),
+             csv = pp(function(p) as.character(sum(csv$partition == as.integer(p)))),
+             match = all(vapply(parts, function(p){ 
+               i <- csv$partition == as.integer(p)
+               setequal(csv$branch_id[i], 
+                        names(J[["branch attributes"]][[p]])) && sum(i) == length(J[["branch attributes"]][[p]]) 
+               },
+               logical(1)))
+             ),
+  data.frame(column = "partition", json = paste(as.integer(parts),collapse=", "),
+             csv = paste(sort(unique(csv$partition)),collapse=", "),
+             match = setequal(csv$partition, as.integer(parts)) && length(unique(csv$partition)) == length(parts)), r_scalar("partition_codon_range","rng")), row.names = FALSE)
+
 
 
 ```
@@ -235,7 +338,175 @@ print(data.frame(column = cols, json = json_v, csv = csv_v, match = match_v),
 ## meme checkin
 ```{r, meme checkin}
 
+##jf <- "FMO1_MEME.json"
+## J <- fromJSON(jf, simplifyVector = FALSE)
+##csv <- read.csv("fmo1_memeEH.csv", stringsAsFactors = FALSE)
 
+jf <- "TSPO_MEME.json"
+J <- fromJSON(jf, simplifyVector = FALSE)
+csv <- read.csv("tspo_memeEH.csv", stringsAsFactors = FALSE)
+
+tol <- 1e-8
+n <- nrow(csv)
+
+## header-anchored column resolution (normalize &alpha;/&beta;/markup, then match by name)
+norm <- function(s) 
+  tolower(trimws(gsub("<[^>]*>", "", gsub("&beta;" , "b", gsub("&alpha;", "a", s)))))
+hn <- vapply(J$MLE$headers, function(h) norm(h[[1]]), character(1))
+ia <- match("a",hn)
+ibp <-match("b+",hn)
+il <- match("lrt",hn)
+ip <- match("p-value",hn)
+im <- match("meme logl",hn)
+gene_exp <- sub("_.*","", basename(J[["input"]][["file name"]]))
+file_exp <- basename(jf)
+rng <- function(p){ 
+  cov <- as.integer(unlist(J[["data partitions"]][[p]]$coverage))
+  sprintf("%d-%d",min(cov),max(cov)) 
+  }
+gv <- function(rec,k) if (is.null(rec)) NULL else rec[[k]]
+
+####per (part,branch); surviving sites (0-based) is p<=0.05 & a real sub on that branch
+surv <- function(p,b){ 
+  cont <- J$MLE$content[[p]]
+  subs <- J$substitutions[[p]]
+  keep <- integer(0)
+  for (i in 0:(length(cont) - 1)){ 
+    if (as.numeric(cont[[i + 1]][[ip]]) > 0.05) 
+      next
+    sv <- subs[[as.character(i)]]
+    if (!is.null(sv) && !is.null(sv[[b]]) && sv[[b]] != "---")
+      keep <- c(keep,i)} 
+  keep
+}
+rcol <- function(p,s,idx) 
+  if (length(s))
+    vapply(s, function(i) 
+      as.numeric(J$MLE$content[[p]][[i+1]][[idx]]),
+      numeric(1))
+else 
+  numeric(0)
+subbr <- function(p){
+  o <- character(0)
+  for (sv in J$substitutions[[p]])
+    if (!is.null(sv))
+      for (br in names(sv))
+        if (!is.null(sv[[br]]) && sv[[br]] != "---")
+          o <- c(o,br)
+  unique(o)
+}
+
+###precompute every row json-side ref
+RR <- lapply(seq_len(n), function(i){
+  p <- as.character(csv$partition[i])
+  b <- csv$branch[i]
+  s <- surv(p,b)
+  rec <- J[["branch attributes"]][[p]][[b]]
+  list(p = p, b = b, pos = s + 1, pv = rcol(p, s, ip), lr = rcol(p, s, il), al = rcol(p, s, ia), be = rcol(p, s, ibp),
+       lg = rcol(p, s, im),
+       sb = if(length(s))
+         vapply(s, function(i) 
+         J$substitutions[[p]][[as.character(i)]][[b]],
+         character(1))
+       else
+         character(0),
+       gmg = gv(rec, "Global MG94xREV"), ng = gv(rec,"Nucleotide GTR"), on = gv(rec,"original name")) 
+  })
+
+## comparators, parsers, bag-summariser (json & csv summarised identically)
+neq <- function(a, b)
+  length(a) == length(b) && all(abs(a-b) <= tol*pmax(1,abs(b)))
+#### blank char read as "", treat as null
+aok <- function(cv, ref){ 
+  if (is.null(ref)) 
+    return(is.na(cv) || cv == "")
+  if (is.numeric(ref)) 
+    return(!is.na(cv) && abs(as.numeric(cv) - ref) <= tol * max(1, abs(ref)))
+  as.character(cv) == as.character(ref) }
+pc  <- function(x, k)
+  if (k == "str") 
+    strsplit(gsub("[][' ]", "", x), ",")[[1]]
+else if (k == "int")
+  as.integer(fromJSON(x)) 
+else as.numeric(fromJSON(x))
+bs  <- function(v, k){
+  v <- v[!is.na(v)]
+  if(!length(v))
+    return("n0")
+  if(k == "str"){
+    u <- sort(unique(v))
+    if(length(u) > 4) 
+      u <- c(u[1:4], "...")
+    return(sprintf("n%d{%s}", length(v), paste(substr(u, 1, 16), collapse = ","))) }
+  if(k == "int") 
+    return(sprintf("n%d[%d-%d]", length(v), min(v), max(v))) 
+  sprintf("n%d[%s..%s]", length(v), formatC(min(v), format = "g", digits = 3), formatC(max(v), format = "g", digits=3))
+  }
+
+####row builder so, col,json,csv,match, as before for all in-rows
+r_const <- function(col, val) 
+  data.frame(column = col,
+             json = as.character(val),
+             csv = as.character(csv[[col]][1]),
+             match = all(csv[[col]] == val))
+r_list <- function(col, key, kind){
+  cv <- lapply(seq_len(n),function(i) 
+    pc(csv[[col]][i], kind))
+  rf <- lapply(RR,`[[`,key)
+  eq <- if(kind == "str") function(a, b) 
+    identical(a, b) 
+  else if(kind == "int")
+    function(a, b) 
+      identical(as.integer(a), as.integer(b)) else neq
+  data.frame(column=col, json=bs(unlist(rf),kind), csv=bs(unlist(cv),kind), match=all(vapply(seq_len(n),function(i) eq(cv[[i]],rf[[i]]),logical(1)))) }
+r_srow <- function(col,key,kind){ 
+  rf<-lapply(RR,function(r){
+    x <- r[[key]]
+if(is.null(x)) NA else x})
+  cb<-csv[[col]]
+  if(kind == "str") 
+    cb[cb == ""] <- NA
+  data.frame(column = col,
+             json = bs(unlist(rf), kind),
+             csv = bs(cb, kind),
+             match = all(vapply(seq_len(n), function(i)
+               aok(csv[[col]][i],
+                   RR[[i]][[key]]),
+               logical(1))
+               )
+             ) 
+  }
+
+print(rbind(
+  r_const("gene", gene_exp), r_const("json_file", file_exp),
+  data.frame(column = "partition", json = paste(sort(as.integer(names(J$MLE$content))), collapse = ","),
+             csv = paste(sort(unique(csv$partition)), collapse = ","),
+             match = all(csv$partition %in% as.integer(names(J$MLE$content)))),
+  data.frame(column = "partition_codon_range",
+             json = paste(sort(unique(vapply(RR, function(r)
+               rng(r$p),""))), collapse = ","),
+             csv = paste(sort(unique(csv$partition_codon_range)), collapse = ","),
+             match = all(vapply(seq_len(n),
+                                function(i)
+                                  csv$partition_codon_range[i] == rng(RR[[i]]$p),
+                                logical(1)
+                                )
+                         )
+             ),
+  data.frame(column = "branch", json = sprintf("%d valid", n), csv = sprintf("%d branches", length(unique(csv$branch))),
+             match = all(vapply(seq_len(n),
+                                function(i) 
+                                  RR[[i]]$b %in% names(J[["branch attributes"]][[RR[[i]]$p]]) || RR[[i]]$b %in% subbr(RR[[i]]$p),
+                                logical(1)
+                                )
+                         )
+             ),
+  r_srow("Global_MG94xREV","gmg","num"), r_srow("Nucleotide_GTR","ng","num"), r_srow("original_name","on","str"),
+  r_list("site_positions","pos","int"), r_list("site_pval","pv","num"), r_list("site_LRT","lr","num"),
+  r_list("site_alpha","al","num"), r_list("site_beta_plus","be","num"), r_list("site_MEMElogl","lg","num"),
+  r_list("site_substitution","sb","str")), row.names = FALSE)
+
+### no pos sites in part0 so part1 is TRUE in partition col; only pos is codon 369 (tspo)
 
 ```
 
@@ -243,7 +514,130 @@ print(data.frame(column = cols, json = json_v, csv = csv_v, match = match_v),
 ## fubar checkin
 ```{r, fubar checkin}
 
+###J <- fromJSON("FMO1_FUBAR.json", simplifyVector = FALSE)
+###csv <- read.csv("fmo1_fubarEH.csv", stringsAsFactors = FALSE, check.names = FALSE)
 
+J <- fromJSON("TSPO_FUBAR.json", simplifyVector = FALSE)
+csv <- read.csv("tspo_fubarEH.csv", stringsAsFactors = FALSE, check.names = FALSE)
+
+tol <- 1e-8
+n <- nrow(csv)
+####header anchor to catch any drifting index mismatch against header (hdr)
+hdr <- vapply(J$MLE$headers, function(h) h[[1]], character(1))
+ia <- match("alpha", hdr)
+ib <- match("beta", hdr)
+iba <- match("beta-alpha", hdr)
+ipg <- match("Prob[alpha>beta]", hdr)
+ipl <- match("Prob[alpha<beta]", hdr)
+ibf <- match("BayesFactor[alpha<beta]", hdr)
+###json input sllot ref
+gene_exp <- sub("_.*", "", basename(J[["input"]][["file name"]]))
+info <- J$analysis$info
+####acronym yank from analysis.info
+prog_exp <- gsub("[()]", "", regmatches(info, regexpr("\\([A-Za-z-]+\\)", info)))  
+parts <- names(J$MLE$content)
+ba <- J[["branch attributes"]]
+rng <- function(p){
+  cov <- as.integer(unlist(J[["data partitions"]][[p]]$coverage))
+  sprintf("%d-%d", min(cov), max(cov))
+  }
+
+####per partition harvest; site lvl, identical across branches); sig site prob thresh is 0.9!
+sig  <- function(p){ 
+  M <- J$MLE$content[[p]]
+  keep <- integer(0)
+  for (i in 0:(length(M) - 1)){
+    r <- M[[i + 1]]
+    pg <- r[[ipg]]
+    pl <- r[[ipl]]
+    if ((is.numeric(pg) && pg >= 0.9) || (is.numeric(pl) && pl >= 0.9)) 
+      keep <- c(keep, i) 
+    }
+  keep
+  }
+hcol <- function(p, s, idx) 
+  if(length(s)) vapply(s, function(i) 
+    as.numeric(J$MLE$content[[p]][[i + 1]][[idx]]),
+    numeric(1))
+else 
+  numeric(0)
+H <- lapply(parts, function(p){
+  s <- sig(p)
+  list(sites = s + 1, al = hcol(p, s, ia), be = hcol(p, s, ib), ba = hcol(p, s, iba),
+     pg = hcol(p, s, ipg), pl = hcol(p, s, ipl), bf = hcol(p, s, ibf)) })
+names(H) <- parts
+
+neq <- function(a, b) length(a) == length(b) && all(abs(a - b) <= tol*pmax(1,abs(b)))
+pof <- function(i) as.character(csv$partition[i])
+pc  <- function(x, k) if(k == "int") as.integer(fromJSON(x)) else as.numeric(fromJSON(x))
+bg  <- function(v, k){ 
+  v <- v[!is.na(v)]
+  if(!length(v)) 
+    return("n0")
+  if(k == "int")
+    sprintf("n%d[%d-%d]", length(v), min(v), max(v))
+  else 
+    sprintf("n%d[%s..%s]", length(v), formatC(min(v), format = "g", digits = 3),
+            formatC(max(v), format = "g", digits = 3)
+            )
+  }
+
+####builders; col,json , csv, match, same as above....
+r_const <- function(col, val)
+  data.frame(column = col, json = as.character(val),
+             csv = as.character(csv[[col]][1]), match = all(csv[[col]] == val))
+r_pc <- function(col, key, kind){
+  ####site col per partition
+  eq <- if(kind == "int") function(a, b) identical(as.integer(a), as.integer(b)) else neq
+  cellp <- function(p)
+    pc(csv[[col]][csv$partition == as.integer(p)][1], kind)
+  data.frame(column = col, json = paste(vapply(parts, function(p) 
+    bg(H[[p]][[key]], kind), ""), collapse = ", "),
+             csv = paste(vapply(parts, function(p) 
+               bg(cellp(p), kind), ""), collapse = ", "),
+             match = all(vapply(seq_len(n),function(i) 
+               eq(pc(csv[[col]][i], kind), H[[pof(i)]][[key]]), logical(1)))) 
+  }
+branch_ok <- vapply(seq_len(n),function(i){ 
+  p <- pof(i)
+  b <- csv$branch[i]
+  b %in% names(ba[[p]]) && b == (if(!is.null(ba[[p]][[b]][["original name"]]))
+    ba[[p]][[b]][["original name"]] 
+    else b
+    ) 
+  }, logical(1))
+gtrref <- vapply(seq_len(n),function(i){
+  g <- ba[[pof(i)]][[csv$branch[i]]][["Nucleotide GTR"]]
+  if(is.null(g)) 
+    NA_real_
+  else g
+  },
+  numeric(1))
+####print out the comp/validation content
+print(rbind(r_const("gene", gene_exp), r_const("program", prog_exp),
+            data.frame(column = "partition", json = paste(sort(as.integer(parts)), collapse = ","),
+                       csv = paste(sort(unique(csv$partition)), collapse = ","),
+                       match = all(csv$partition %in% as.integer(parts))),
+            data.frame(column = "partition_codon_range", json = paste(vapply(parts, rng, ""), collapse = ", "),
+                       csv = paste(sort(unique(csv$partition_codon_range)), collapse = ", "),
+                       match = all(vapply(seq_len(n), function(i) 
+                         csv$partition_codon_range[i] == rng(pof(i)), logical(1)))),
+            data.frame(column = "branch", json = sprintf("%d rows",n), 
+                       csv = sprintf("%d valid/%d uniq",sum(branch_ok), length(unique(csv$branch))),match=all(branch_ok)),
+            data.frame(column = "GTR", json = bg(gtrref,"num"), csv = bg(csv$GTR,"num"),
+                       match = all(vapply(seq_len(n), function(i){
+                         g <- ba[[pof(i)]][[csv$branch[i]]][["Nucleotide GTR"]]
+                         !is.null(g)&&abs(as.numeric(csv$GTR[i]) - g) <= tol * max(1,abs(g))
+                         },
+                         logical(1))
+                         )
+                       ),
+            r_pc("sites", "sites", "int"), r_pc("alpha", "al", "num"), r_pc("beta", "be", "num"),
+            r_pc("beta-alpha", "ba", "num"), r_pc("Prob[alpha>beta]", "pg", "num"), r_pc("Prob[alpha<beta]", "pl", "num"),
+            r_pc("BayesFactor[alpha<beta]", "bf", "num")
+            ),
+      row.names = FALSE
+      )
 
 ```
 
@@ -253,7 +647,155 @@ print(data.frame(column = cols, json = json_v, csv = csv_v, match = match_v),
 ## absrel checkin
 ```{r, absrel checkin}
 
+####jf <- "FMO1part1_aBSREL.json"
+###J <- fromJSON("FMO1part1_aBSREL.json", simplifyVector = FALSE)
+###csv <- read.csv("fmo1_absrelp1EH.csv", stringsAsFactors = FALSE)
 
+jf <- "TSPOpart1_aBSREL.json"
+J <- fromJSON(jf, simplifyVector = FALSE)
+csv <- read.csv("tspopart1_absrelEH.csv", stringsAsFactors = FALSE)
+
+tol <- 1e-8
+n <- nrow(csv)
+###filename carve out (this is also how the harvester takes it)
+gene_exp <- sub("_aBSREL\\.json$", "", basename(jf)) 
+###first token of analysis.info, aBSREL, altho harvester actually takes this from fname too
+prog_exp <- sub("\\s.*", "", J$analysis$info) 
+####single partition key w/in split file
+ba <- J[["branch attributes"]][["0"]]                               
+species <- function(bid){
+  p <- strsplit(bid,"_")[[1]]
+  if (length(p) > 1) p[2]
+  else
+    "NA" 
+  }
+maxo <- function(bs){
+  rd <- bs[["Rate Distributions"]]
+  if(!length(rd))
+    return(NA_real_)
+  max(vapply(rd, function(x)
+    as.numeric(x[[1]]), numeric(1))
+  )}
+
+####branches to be kept; has lrt, p at 0.05 thresh, max omega class > 1
+kept <- Filter(
+  function(bid){
+    bs <- ba[[bid]]
+    pc <- bs[["Corrected P-value"]]
+    pu <- bs[["Uncorrected P-value"]]
+    pv <- if(!is.null(pc)) pc else pu
+    mo <- maxo(bs) 
+    !is.null(bs[["LRT"]]) && !is.null(pv) && pv <= 0.05 && !is.na(mo) && mo > 1 
+    }, 
+  names(ba)
+  )
+
+## per selected-branch references
+RR <- lapply(seq_len(n), function(i){
+  bid <- csv$branch_id[i]
+  bs <- ba[[bid]]
+  rd <- bs[["Rate Distributions"]]
+  oms <- vapply(rd, function(x) as.numeric(x[[1]]), numeric(1))
+  wts <- vapply(rd, function(x) as.numeric(x[[2]]), numeric(1))
+  dN <- bs[["Full adaptive model (non-synonymous subs/site)"]]
+  dS <- bs[["Full adaptive model (synonymous subs/site)"]]
+  pc <- bs[["Corrected P-value"]]
+  pu <- bs[["Uncorrected P-value"]]
+  list(bid = bid, LRT = bs[["LRT"]], pv = if(!is.null(pc)) pc else pu,
+       pc = pc, pu = pu, dN = dN, dS = dS,
+       bo = if(!is.null(dN) && !is.null(dS) && dS != 0) dN/dS else NULL,
+       bom = bs[["Baseline MG94xREV omega ratio"]], blnl = bs[["Baseline MG94xREV"]],
+       gtr = bs[["Nucleotide GTR"]], rc = bs[["Rate classes"]], oms = oms,
+       wts = wts, po = oms[oms > 1], pw = wts[oms > 1], 
+       mo = if(length(oms)) max(oms) else NA_real_) 
+  })
+
+neq <- function(a, b) length(a) == length(b) && all(abs(a - b) <= tol * pmax(1, abs(b)))
+sc  <- function(cv, ref){ 
+  if(is.null(ref))
+    return(is.na(cv) || cv == "")
+  !is.na(cv) && abs(as.numeric(cv) - as.numeric(ref)) <= tol * max(1, abs(as.numeric(ref))) 
+  }
+pl <- function(x){
+  v <- fromJSON(x)
+  if(length(v) == 0) 
+    numeric(0) 
+  else as.numeric(v)
+  }
+bg <- function(v, k){
+  v <- v[!is.na(v)]
+  if(!length(v))
+    return("n0")
+  if(k == "str")
+    return(paste(sort(unique(v)), collapse = ","))
+  sprintf("n%d[%s..%s]", length(v), 
+          formatC(min(v), format = "g", digits = 3),
+          formatC(max(v), format = "g", digits = 3)
+          ) 
+  }
+
+#### as in prev blocks... col, json, csv, match
+r_const <- function(col, val) data.frame(column = col, json = as.character(val),
+                                        csv = as.character(csv[[col]][1]), 
+                                        match = all(csv[[col]] == val))
+###per branchh scalar
+r_sb <- function(col, key){
+  bag <- vapply(RR, function(r){
+    x <- r[[key]]
+    if(is.null(x)) 
+      NA_real_ 
+    else as.numeric(x)},
+    numeric(1)
+    )
+  data.frame(column = col, json = bg(bag, "num"),
+             csv = bg(csv[[col]], "num"), 
+             match = all(vapply(seq_len(n),
+                                function(i) 
+                                  sc(csv[[col]][i],
+                                     RR[[i]][[key]]),
+                                logical(1)
+                                ))
+  ) 
+}
+#### per branch rate class list
+r_lb <- function(col, key) data.frame(column = col, 
+                                      json = bg(unlist(lapply(RR, `[[`, key)), "num"),
+                                      csv = bg(unlist(lapply(seq_len(n),
+                                                             function(i)
+                                                               pl(csv[[col]][i]))),"num"),
+                                      match = all(vapply(seq_len(n),
+                                                         function(i) 
+                                                           neq(pl(csv[[col]][i]),
+                                                               RR[[i]][[key]]), 
+                                                         logical(1)
+                                                         )
+                                                  )
+                                      )
+#####and now the print out ( col, json, csv, match)..
+print(rbind(r_const("gene_id", gene_exp), r_const("program", prog_exp),
+            data.frame(column = "branch_id", json = sprintf("%d selected", length(kept)),
+                       csv = sprintf("%d rows", n), match = setequal(csv$branch_id, kept)),
+            data.frame(column = "species", json = bg(vapply(RR, function(r) species(r$bid), ""), "str"),
+                       csv = paste(sort(unique(ifelse(is.na(csv$species), "NA", csv$species))), collapse = ","),
+                       match = all(vapply
+                                   (seq_len(n), function(i){
+                                    e <- species(csv$branch_id[i])
+                                    if(e == "NA") 
+                                      is.na(csv$species[i]) || csv$species[i] == "NA"
+                                    else !is.na(csv$species[i]) && csv$species[i] == e },
+                                     logical(1)
+                                     )
+                                   )
+                       ),
+            r_sb("aBSREL_LRT", "LRT"), r_sb("aBSREL_pvalue", "pv"), r_sb("aBSREL_pvalue_corrected", "pc"),
+            r_sb("aBSREL_pvalue_uncorrected", "pu"), r_sb("aBSREL_branch_dN", "dN"), r_sb("aBSREL_branch_dS", "dS"),
+            r_sb("aBSREL_branch_omega", "bo"), r_sb("aBSREL_baseline_omega", "bom"), r_sb("aBSREL_baseline_lnL", "blnl"),
+            r_sb("aBSREL_nucleotide_GTR", "gtr"), r_sb("aBSREL_rate_classes", "rc"), r_lb("aBSREL_omega_classes", "oms"),
+            r_lb("aBSREL_omega_weights", "wts"), r_lb("aBSREL_positive_omega_classes", "po"), r_lb("aBSREL_positive_omega_weights", "pw"),
+            r_sb("aBSREL_max_omega", "mo")
+            ),
+      row.names = FALSE
+      )
 
 ```
 
