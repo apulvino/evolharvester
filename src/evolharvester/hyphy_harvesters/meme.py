@@ -113,8 +113,21 @@ def get_partition_codon_range(meme_json, partition_key):
     flat = [int(x) for block in cov if isinstance(block, list) for x in block]
     if not flat:
         return None
-    #### min/max is written as range from flattened pos vector
-    return f"{min(flat)}-{max(flat)}"
+    return f"{min(flat) + 1}-{max(flat) + 1}"
+
+
+def get_partition_coverage(meme_json, partition_key):
+    """Flattened coverage for one partition: 0-based alignment-wide codon indices, one per MLE.content row."""
+    dp = meme_json.get("data partitions", {}) or meme_json.get("data_partitions", {})
+    part = lookup_partition(dp, partition_key)
+    if not isinstance(part, dict):
+        return []
+    cov = part.get("coverage")
+    if not isinstance(cov, list):
+        return []
+    if cov and not isinstance(cov[0], list):
+        cov = [cov]
+    return [int(x) for block in cov if isinstance(block, list) for x in block]
 
 def site_fields_serializer(x):
     """
@@ -202,6 +215,7 @@ def harvest_meme(memepath, pval_threshold):
             continue
         ##### codon range + per-part substitution and branch attr dicts.
         partition_codon_range = get_partition_codon_range(meme_json, partkey)
+        coverage = get_partition_coverage(meme_json, partkey)
         subs_block = lookup_partition(subs_top, partkey)
         branch_attrs = lookup_partition(ba_top, partkey)
 
@@ -271,7 +285,7 @@ def harvest_meme(memepath, pval_threshold):
                 if subs_val == '---':
                     continue
                 #### append evolharvested data to all 7 lists convert to 1-base for eh-CSV outss/None if none/cant-find
-                sig_sites.append(siteidx + 1)
+                sig_sites.append(coverage[siteidx] + 1 if coverage and siteidx < len(coverage) else siteidx + 1)
                 sig_pvals.append(site_pval)
                 sig_lrt.append(float(siterow[lrt_idx]) if lrt_idx is not None else None)
                 sig_alpha.append(float(siterow[alpha_idx]) if alpha_idx is not None else None)
