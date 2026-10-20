@@ -70,7 +70,23 @@ def harvest_partition_covrange(fubar_json, partkey):
     codonpos = flatten_coverage_slot(covslot)
     if not codonpos:
         return None
-    return f"{min(codonpos)}-{max(codonpos)}"
+    return f"{min(codonpos) + 1}-{max(codonpos) + 1}"
+
+
+def harvest_partition_coverage(fubar_json, partkey):
+    """Flattened coverage for one partition: 0-based alignment-wide codon indices, one per MLE.content row."""
+    fubarparts = fubar_json.get("data partitions", {}) or fubar_json.get("data_partitions", {})
+    if not isinstance(fubarparts, dict):
+        return []
+    partyrecord = fubarparts.get(str(partkey))
+    if partyrecord is None and str(partkey).isdigit():
+        partyrecord = fubarparts.get(int(partkey))
+    if not isinstance(partyrecord, dict):
+        return []
+    covslot = partyrecord.get("coverage") or partyrecord.get("coverageList")
+    if not covslot:
+        return []
+    return flatten_coverage_slot(covslot)
 
 ######### homebase/integration for fubar harvesting
 def harvest_fubarjson(fubar_path, significance_threshold=0.9):
@@ -142,6 +158,7 @@ def harvest_fubarjson(fubar_path, significance_threshold=0.9):
         partition_range = harvest_partition_covrange(fubar_json, partition_key_str)
         if partition_range is None:
             partition_range = "NA"
+        coverage = harvest_partition_coverage(fubar_json, partition_key_str)
 
         ####branch attrs is part-keyed, w/ea branch having(modelfit/est,etc)
          ####.get() w/"or" fallback for both str/int and empty/missing cases
@@ -189,7 +206,7 @@ def harvest_fubarjson(fubar_path, significance_threshold=0.9):
                 ##### isinstance defense against None/empties..
                 if (isinstance(prob_gt, (int, float)) and prob_gt >= significance_threshold) or \
                    (isinstance(prob_lt, (int, float)) and prob_lt >= significance_threshold):
-                    sig_sites.append(site_idx + 1)  #####WE PRESERVE 1base IDXing
+                    sig_sites.append(coverage[site_idx] + 1 if coverage and site_idx < len(coverage) else site_idx + 1)
                     alpha_vec.append(site_values[0] if len(site_values) > 0 else None)
                     beta_vec.append(site_values[1] if len(site_values) > 1 else None)
                     beta_minus_alpha_vec.append(site_values[2] if len(site_values) > 2 else None)

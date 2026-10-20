@@ -100,7 +100,7 @@ def harvest_fel(felpath):
         sites = partitions.get(partkey, []) or []
         ##### cov gives codon-pos range for part; compute min-max for col; empties/unks are placeheld w/NA
         coverage = get_perpartition_coverage(fel_json, partkey)
-        partition_range_value = f"{min(coverage)}-{max(coverage)}" if coverage else "NA"
+        partition_range_value = f"{min(coverage) + 1}-{max(coverage) + 1}" if coverage else "NA"
 
         ####### init parallel list for ea per-site data/metrics evolharvested after filter in partition; for future per-branch row
         sig_sites, sig_pvalues, sig_omegas, omega_coord, sig_lrt, lrt_coord, site_classes = [], [], [], [], [], [], []
@@ -119,7 +119,7 @@ def harvest_fel(felpath):
 
             ### absolute codon position: use coverage if available, otherwise partition-local index
              ##### per part site idx != aln-wide pos  
-            abs_pos = coverage[idx - 1] if coverage and len(coverage) >= idx else idx
+            abs_pos = coverage[idx - 1] + 1 if coverage and len(coverage) >= idx else idx
 
             ### write ONLY the stat sig sites and pos/neg omega. crash on non-num pvals.
             if pval is None or omega is None or float(pval) > 0.05:
